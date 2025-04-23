@@ -18,27 +18,28 @@ img#flag {
   text-wrap: nowrap;
   margin: 0.5em 1em;
 }
-
+.passport-info::first-letter {
+  font-weight: bold;
+}
 #passport-heading {
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
 }
 
+/* Template 2 */
 #passport-card.template-2 > #passport-data {
   display: flex;
   justify-content: space-between;
 }
 
-.passport-info::first-letter {
-  font-weight: bold;
+/* Template 3 */
+#passport-card.template-3 > #passport-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.sheet {
-  display: block;
-  width: 100%;
-  aspect-ratio: 210/297;
-  border: 1px solid black;
-}
+
+/* Print */
 /* 
 @media print {
   form {

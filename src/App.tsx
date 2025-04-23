@@ -11,7 +11,7 @@ export default function App() {
   const passportInfo = { a: a, b: b, c: c, d: d };
 
   const [template, setTemplate] = useState(1);
-  const templates = [1, 2];
+  const templates = [1, 2, 3];
 
   const handleOnClick = (
     e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>
@@ -51,7 +51,7 @@ function TemplateRadio({
 }) {
   return (
     <p>
-      <label htmlFor="template1">Template {num}</label>
+      <label htmlFor={"template-" + num}>Template {num}</label>
       <input
         type="radio"
         name="template"
