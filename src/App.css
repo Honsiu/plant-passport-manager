@@ -1,42 +1,34 @@
 body {
   background-color: #f0f0f0;
 }
-input {
-  width: 6em;
-}
 
 #passport-card {
   background-color: white;
   border: 2px solid black;
-  width: fit-content;
-  min-width: 32em;
+  width: min-content;
 }
 img#flag {
-  width: 50%;
+  width: 12em;
 }
 #passport-label {
-  float: right;
-  margin: 1em;
+  min-width: 8em;
+  text-wrap-style: balance;
 }
-/* #passport-card.template-1 {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-areas:
-    "flag flag passport passport"
-    "A    B    C        D";
+.passport-info {
+  text-wrap: nowrap;
+  margin: 0.5em 1em;
 }
-#passport-card.template-1 > img#flag {
-  grid-area: flag;
-  width: 50%;
+
+#passport-heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 }
-#passport-card.template-1 > #passport-label {
-  grid-area: passport;
-  justify-self: end;
+
+#passport-card.template-2 > #passport-data {
+  display: flex;
+  justify-content: space-between;
 }
-#passport-card.template-1 > p {
-  padding: 1em;
-} */
 
 .passport-info::first-letter {
   font-weight: bold;
