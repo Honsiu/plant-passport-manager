@@ -1,44 +1,41 @@
 import { MouseEvent, useState } from "react";
 import "./App.css";
-import { PassportCard } from "./PassportCard";
+import PassportCard from "./PassportCard";
+import PassportInput from "./PassportInput";
 
 export default function App() {
+  const [a, setA] = useState("");
+  const [b, setB] = useState("");
+  const [c, setC] = useState("");
+  const [d, setD] = useState("");
+  const passportInfo = { a: a, b: b, c: c, d: d };
+
   const [template, setTemplate] = useState(1);
+  const templates = [1, 2, 3];
+
   const handleOnClick = (
     e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>
   ) => {
     setTemplate(parseInt(e.target.id.split("-")[1]));
   };
-  const templates = [1, 2, 3, 4];
   return (
     <main>
-      <TemplateRadio
-        handleOnClick={handleOnClick}
-        template={template}
-        num={1}
-        key={1}
-      />
-      <TemplateRadio
-        handleOnClick={handleOnClick}
-        template={template}
-        num={2}
-        key={2}
-      />
-      <TemplateRadio
-        handleOnClick={handleOnClick}
-        template={template}
-        num={3}
-        key={3}
-      />
-      <TemplateRadio
-        handleOnClick={handleOnClick}
-        template={template}
-        num={4}
-        key={4}
-      />
-      <section>
-        <PassportCard template={template} />
-      </section>
+      <PassportInput info={a} setInfo={setA} letter="A" />
+      <PassportInput info={b} setInfo={setB} letter="B" />
+      <PassportInput info={c} setInfo={setC} letter="C" />
+      <PassportInput info={d} setInfo={setD} letter="D" />
+
+      {templates.map((value) => {
+        return (
+          <TemplateRadio
+            key={value}
+            template={template}
+            num={value}
+            handleOnClick={handleOnClick}
+          />
+        );
+      })}
+      <PassportCard template={template} passportInfo={passportInfo} />
     </main>
   );
 }
@@ -54,7 +51,7 @@ function TemplateRadio({
 }) {
   return (
     <p>
-      <label htmlFor="template1">Template {num}</label>
+      <label htmlFor={"template-" + num}>Template {num}</label>
       <input
         type="radio"
         name="template"

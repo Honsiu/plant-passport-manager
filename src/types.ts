@@ -4,8 +4,12 @@ export type passportInfoType = {
   c: string;
   d: string;
 };
-export type passportInputType = {
+export type PassportInputType = {
   letter: "A" | "B" | "C" | "D";
   info: React.SetStateAction<string>;
   setInfo: React.Dispatch<React.SetStateAction<string>>;
+};
+type passportDataType = {
+  info: passportInfoType;
+  template: number;
 };
