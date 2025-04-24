@@ -26,6 +26,9 @@ img#flag {
   justify-content: space-between;
   flex-wrap: nowrap;
 }
+.passport-barcode {
+  max-height: 2em;
+}
 
 /* Template 2 */
 #passport-card.template-2 > #passport-data {

@@ -9,10 +9,9 @@ export default function App() {
   const [c, setC] = useState("");
   const [d, setD] = useState("");
   const passportInfo = { a: a, b: b, c: c, d: d };
-
   const [template, setTemplate] = useState(1);
   const templates = [1, 2, 3];
-
+  const [barcode, setBarcode] = useState<string>("");
   const handleOnClick = (
     e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>
   ) => {
@@ -22,7 +21,12 @@ export default function App() {
     <main>
       <PassportInput info={a} setInfo={setA} letter="A" />
       <PassportInput info={b} setInfo={setB} letter="B" />
-      <PassportInput info={c} setInfo={setC} letter="C" />
+      <PassportInput
+        info={c}
+        setInfo={setC}
+        letter="C"
+        setBarcode={setBarcode}
+      />
       <PassportInput info={d} setInfo={setD} letter="D" />
 
       {templates.map((value) => {
@@ -35,7 +39,11 @@ export default function App() {
           />
         );
       })}
-      <PassportCard template={template} passportInfo={passportInfo} />
+      <PassportCard
+        template={template}
+        passportInfo={passportInfo}
+        barcode={barcode}
+      />
     </main>
   );
 }

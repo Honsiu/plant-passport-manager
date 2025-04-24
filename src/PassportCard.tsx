@@ -4,9 +4,11 @@ import splitB from "./splitB";
 export default function PassportCard({
   passportInfo,
   template,
+  barcode,
 }: {
   passportInfo: passportInfoType;
   template: number;
+  barcode: string;
 }) {
   const emptyInfo: Array<string> = [];
   passportInfo.a === "" ? emptyInfo.push("A, ") : emptyInfo;
@@ -15,7 +17,6 @@ export default function PassportCard({
     : emptyInfo;
   passportInfo.c === "" ? emptyInfo.push("C, ") : emptyInfo;
   passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
-
   return (
     <>
       {emptyInfo[0] && <p>Please insert data for {...emptyInfo.sort()}</p>}
@@ -27,7 +28,12 @@ export default function PassportCard({
         <div id="passport-data">
           <p className="passport-info">{"A " + passportInfo.a}</p>
           <p className="passport-info">{"B " + passportInfo.b}</p>
-          <p className="passport-info">{"C " + passportInfo.c}</p>
+          <p className="passport-info">
+            {"C " + passportInfo.c}
+            {barcode !== "" && (
+              <img src={barcode} className="passport-barcode" />
+            )}
+          </p>
           <p className="passport-info">{"D " + passportInfo.d}</p>
         </div>
       </div>
