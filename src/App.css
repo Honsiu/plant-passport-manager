@@ -1,58 +1,74 @@
 body {
   background-color: #f0f0f0;
 }
-
-#passport-card {
+main {
+  display: flex;
+}
+.passport-card {
   background-color: white;
-  border: 2px solid black;
-  width: min-content;
+  border: 1px solid #aaa;
+  min-width: min-content;
+  height: min-content;
 }
-img#flag {
-  width: 12em;
+.passport-heading {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 }
-#passport-label {
+img.flag {
+  width: 33%;
+}
+.passport-label {
   min-width: 8em;
   text-wrap-style: balance;
 }
 .passport-info {
-  text-wrap: nowrap;
   margin: 0.5em 1em;
 }
 .passport-info::first-letter {
   font-weight: bold;
 }
-#passport-heading {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-}
+
 .passport-barcode {
   max-height: 2em;
 }
 
 /* Template 2 */
-#passport-card.template-2 > #passport-data {
+.passport-card.template-2 > .passport-data {
   display: flex;
   justify-content: space-between;
 }
 
 /* Template 3 */
-#passport-card.template-3 > #passport-data {
+.passport-card.template-3 > .passport-data {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
 /* Print */
-/* 
+.print-sheet {
+  background-color: white;
+  aspect-ratio: 210/297;
+  width: 32em;
+  border: 1px solid #aaa;
+  display: grid;
+  overflow: hidden;
+  margin: 0px;
+}
+.print-sheet > * {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
 @media print {
-  form {
-    display: none;
-  }
-  #card {
-    display: none;
-  }
-  .sheet {
+  .print-sheet {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 210mm;
-    border: 1px solid black;
+    z-index: 1000;
+    border: none;
   }
-} */
+}

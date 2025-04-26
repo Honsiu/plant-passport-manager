@@ -1,7 +1,9 @@
-import { MouseEvent, useState } from "react";
+import { JSX, MouseEvent, useState } from "react";
 import "./App.css";
 import PassportCard from "./PassportCard";
 import PassportInput from "./PassportInput";
+import splitB from "./splitB";
+import PrintPreview from "./PrintPreview";
 
 export default function App() {
   const [a, setA] = useState("");
@@ -17,29 +19,46 @@ export default function App() {
   ) => {
     setTemplate(parseInt(e.target.id.split("-")[1]));
   };
+
+  const emptyInfo: string[] = [];
+  passportInfo.a === "" ? emptyInfo.push("A, ") : emptyInfo;
+  splitB(passportInfo.b)[0] === "" || splitB(passportInfo.b)[0][1] === ""
+    ? emptyInfo.push("B, ")
+    : emptyInfo;
+  passportInfo.c === "" ? emptyInfo.push("C, ") : emptyInfo;
+  passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
+
   return (
     <main>
-      <PassportInput info={a} setInfo={setA} letter="A" />
-      <PassportInput info={b} setInfo={setB} letter="B" />
-      <PassportInput
-        info={c}
-        setInfo={setC}
-        letter="C"
-        setBarcode={setBarcode}
-      />
-      <PassportInput info={d} setInfo={setD} letter="D" />
+      <section>
+        <PassportInput info={a} setInfo={setA} letter="A" />
+        <PassportInput info={b} setInfo={setB} letter="B" />
+        <PassportInput
+          info={c}
+          setInfo={setC}
+          letter="C"
+          setBarcode={setBarcode}
+        />
+        <PassportInput info={d} setInfo={setD} letter="D" />
+        {templates.map((value) => {
+          return (
+            <TemplateRadio
+              key={value}
+              template={template}
+              num={value}
+              handleOnClick={handleOnClick}
+            />
+          );
+        })}
+        {emptyInfo[0] && <p>Please insert data for {...emptyInfo.sort()}</p>}
 
-      {templates.map((value) => {
-        return (
-          <TemplateRadio
-            key={value}
-            template={template}
-            num={value}
-            handleOnClick={handleOnClick}
-          />
-        );
-      })}
-      <PassportCard
+        <PassportCard
+          template={template}
+          passportInfo={passportInfo}
+          barcode={barcode}
+        />
+      </section>
+      <PrintPreview
         template={template}
         passportInfo={passportInfo}
         barcode={barcode}
