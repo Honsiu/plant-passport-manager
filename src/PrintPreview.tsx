@@ -26,39 +26,43 @@ export default function PrintPreview({
           <label htmlFor="passport-column-count">How many in one row? </label>
           <input
             type="number"
+            max="50"
             id="passport-column-count"
             onChange={(e) => {
-              setPassportColumns(parseInt(e.target.value) || 1);
+              setPassportColumns(parseInt(e.target.value) % 50 || 1);
             }}
           />
         </p>
         <p>
           <label htmlFor="passport-row-count">How many rows? </label>
           <input
+            max="50"
             type="number"
             id="passport-row-count"
             onChange={(e) => {
-              setPassportRows(parseInt(e.target.value) || 1);
+              setPassportRows(parseInt(e.target.value) % 50 || 1);
             }}
           />
         </p>
         <p>
-          <label htmlFor="passport-gap">Gap [mm] </label>
+          <label htmlFor="passport-gap">Gap horizontally [mm] </label>
           <input
+            max={210}
             type="number"
             id="passport-gap"
             onChange={(e) => {
-              setPassportGapHorizontal(parseInt(e.target.value) || 0);
+              setPassportGapHorizontal(parseInt(e.target.value) % 210 || 0);
             }}
           />
         </p>{" "}
         <p>
-          <label htmlFor="passport-gap">Gap [mm] </label>
+          <label htmlFor="passport-gap">Gap vertically [mm] </label>
           <input
+            max={297}
             type="number"
             id="passport-gap"
             onChange={(e) => {
-              setPassportGapVertical(parseInt(e.target.value) || 0);
+              setPassportGapVertical(parseInt(e.target.value) % 297 || 0);
             }}
           />
         </p>
@@ -66,8 +70,8 @@ export default function PrintPreview({
       <div
         className="print-sheet"
         style={{
-          columnGap: (passportGapHorizontal || 0) + "mm",
-          rowGap: (passportGapVertical || 0) + "mm",
+          columnGap: passportGapHorizontal + "mm",
+          rowGap: passportGapVertical + "mm",
           gridTemplateColumns: "repeat(" + passportColumns + ", 1fr)",
         }}
       >

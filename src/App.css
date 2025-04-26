@@ -69,5 +69,6 @@ img.flag {
     left: 0;
     width: 210mm;
     z-index: 1000;
+    border: none;
   }
 }
