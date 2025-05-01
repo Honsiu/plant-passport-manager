@@ -45,7 +45,6 @@ img.flag {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-
 /* Print */
 .print-sheet {
   background-color: white;
@@ -56,18 +55,46 @@ img.flag {
   overflow: hidden;
   margin: 0px;
 }
+
 .print-sheet > * {
   width: 100%;
   height: 100%;
   margin: 0px;
 }
-
+.print-form {
+  position: relative;
+}
+#print-sheet-info-mark {
+  font-size: 0.7em;
+  position: absolute;
+  right: 0.5em;
+  bottom: 0.5em;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+#print-sheet-info-mark #print-sheet-info-text {
+  position: absolute;
+  visibility: hidden;
+  background-color: white;
+  width: fit-content;
+  min-width: 8em;
+}
+#print-sheet-info-mark:hover #print-sheet-info-text {
+  visibility: visible;
+  background-color: #aaa;
+}
 @media print {
   .print-sheet {
     position: absolute;
     top: 0;
     left: 0;
     width: 210mm;
+    height: 297mm;
     z-index: 1000;
     border: none;
   }

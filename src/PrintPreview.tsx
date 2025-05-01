@@ -1,6 +1,7 @@
-import { JSX, useState } from "react";
+import { JSX, useReducer, useState } from "react";
 import PassportCard from "./PassportCard";
 import { passportInfoType } from "./types";
+import PrintForm from "./PrintForm";
 
 export default function PrintPreview({
   template,
@@ -11,68 +12,71 @@ export default function PrintPreview({
   passportInfo: passportInfoType;
   barcode: string;
 }) {
-  const sheetDimentions = { width: 210, height: 297 };
-  const [passportColumns, setPassportColumns] = useState(1);
-  const [passportRows, setPassportRows] = useState(1);
-  const [passportGapHorizontal, setPassportGapHorizontal] = useState(0);
-  const [passportGapVertical, setPassportGapVertical] = useState(0);
-  const passportCards: JSX.Element[][] = [
-    ...Array(passportRows * passportColumns),
-  ];
+  type printType = {
+    rows: number;
+    cols: number;
+    gapHorizontal: number;
+    gapVertical: number;
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+
+  const printReducer = (
+    state: printType,
+    { type, value }: { type: string; value: number }
+  ) => {
+    switch (type) {
+      case "setCols": {
+        return { ...state, cols: value };
+      }
+      case "setRows": {
+        return { ...state, rows: value };
+      }
+      case "setGapHorizontal": {
+        return { ...state, gapHorizontal: value };
+      }
+      case "setGapVertical": {
+        return { ...state, gapVertical: value };
+      }
+      case "setMarginTop": {
+        return { ...state, top: value };
+      }
+      case "setMarginBottom": {
+        return { ...state, bottom: value };
+      }
+      case "setMarginLeft": {
+        return { ...state, left: value };
+      }
+      case "setMarginRight": {
+        return { ...state, right: value };
+      }
+      default: {
+        throw Error("Unknown action");
+      }
+    }
+  };
+  const [print, dispatchPrint] = useReducer(printReducer, {
+    rows: 1,
+    cols: 1,
+    gapHorizontal: 0,
+    gapVertical: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  });
+  const passportCards: JSX.Element[][] = [...Array(print.cols * print.rows)];
   return (
     <section>
-      <div className="print-form">
-        <p>
-          <label htmlFor="passport-column-count">How many in one row? </label>
-          <input
-            type="number"
-            max="50"
-            id="passport-column-count"
-            onChange={(e) => {
-              setPassportColumns(parseInt(e.target.value) % 50 || 1);
-            }}
-          />
-        </p>
-        <p>
-          <label htmlFor="passport-row-count">How many rows? </label>
-          <input
-            max="50"
-            type="number"
-            id="passport-row-count"
-            onChange={(e) => {
-              setPassportRows(parseInt(e.target.value) % 50 || 1);
-            }}
-          />
-        </p>
-        <p>
-          <label htmlFor="passport-gap">Gap horizontally [mm] </label>
-          <input
-            max={210}
-            type="number"
-            id="passport-gap"
-            onChange={(e) => {
-              setPassportGapHorizontal(parseInt(e.target.value) % 210 || 0);
-            }}
-          />
-        </p>{" "}
-        <p>
-          <label htmlFor="passport-gap">Gap vertically [mm] </label>
-          <input
-            max={297}
-            type="number"
-            id="passport-gap"
-            onChange={(e) => {
-              setPassportGapVertical(parseInt(e.target.value) % 297 || 0);
-            }}
-          />
-        </p>
-      </div>
+      <PrintForm dispatchPrint={dispatchPrint} />
       <div
         className="print-sheet"
         style={{
-          columnGap: passportGapHorizontal + "mm",
-          rowGap: passportGapVertical + "mm",
-          gridTemplateColumns: "repeat(" + passportColumns + ", 1fr)",
+          columnGap: print.gapHorizontal + "mm",
+          rowGap: print.gapVertical + "mm",
+          gridTemplateColumns: "repeat(" + print.cols + ", 1fr)",
         }}
       >
         {passportCards.map((row, index) => (
@@ -82,7 +86,7 @@ export default function PrintPreview({
             barcode={barcode}
             key={index}
             style={{
-              fontSize: 1 / (passportColumns || 1) + "em",
+              fontSize: 1 / (print.cols || 1) + "em",
             }}
           />
         ))}
