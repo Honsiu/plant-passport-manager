@@ -14,3 +14,13 @@ type passportDataType = {
   info: passportInfoType;
   template: number;
 };
+export type printType = {
+  rows: number;
+  columns: number;
+  gapHorizontal: number;
+  gapVertical: number;
+  marginTop: number;
+  marginBottom: number;
+  marginLeft: number;
+  marginRight: number;
+};
