@@ -16,35 +16,25 @@ export default function PrintPreview({
     state: printType,
     { type, value }: { type: string; value: number }
   ) => {
-    switch (type) {
-      case "setGridColumns": {
-        return { ...state, grid: { ...state.grid, columns: value } };
-      }
-      case "setGridRows": {
-        return { ...state, grid: { ...state.grid, rows: value } };
-      }
-      case "setGapHorizontal": {
-        return { ...state, gap: { ...state.gap, horizontal: value } };
-      }
-      case "setGapVertical": {
-        return { ...state, gap: { ...state.gap, vertical: value } };
-      }
-      case "setMarginTop": {
-        return { ...state, margin: { ...state.margin, top: value } };
-      }
-      case "setMarginBottom": {
-        return { ...state, margin: { ...state.margin, bottom: value } };
-      }
-      case "setMarginLeft": {
-        return { ...state, margin: { ...state.margin, left: value } };
-      }
-      case "setMarginRight": {
-        return { ...state, margin: { ...state.margin, right: value } };
-      }
-      default: {
-        throw Error("Unknown action: " + type);
-      }
+    if (type.startsWith("setGrid")) {
+      return {
+        ...state,
+        grid: { ...state.grid, [type.slice(7).toLowerCase()]: value },
+      };
     }
+    if (type.startsWith("setGap")) {
+      return {
+        ...state,
+        gap: { ...state.gap, [type.slice(6).toLowerCase()]: value },
+      };
+    }
+    if (type.startsWith("setMargin")) {
+      return {
+        ...state,
+        margin: { ...state.margin, [type.slice(9).toLowerCase()]: value },
+      };
+    }
+    throw Error("Unknown action: " + type);
   };
   const [print, dispatchPrint] = useReducer(printReducer, {
     grid: { rows: 1, columns: 1 },
