@@ -1,5 +1,7 @@
 import { printType } from "./types";
 
+import "./PrintForm.css";
+
 export default function PrintForm({
   print,
   dispatchPrint,
@@ -17,9 +19,49 @@ export default function PrintForm({
   return (
     <div className="print-form">
       {Object.keys(print).map((key) => {
+        if (key === "orientation") {
+          return (
+            <fieldset>
+              <p>
+                <label htmlFor={"passport-orientation-landscape"}>
+                  Landscape{" "}
+                </label>
+                <input
+                  defaultChecked={true}
+                  type="radio"
+                  id={"passport-orientation-landscape"}
+                  name="radio-orientation"
+                  onChange={() => {
+                    dispatchPrint({
+                      type: "set" + capitalizeString(key),
+                      value: 1,
+                    });
+                  }}
+                />
+              </p>
+              <p>
+                <label htmlFor={"passport-orientation-portrait"}>
+                  Portrait{" "}
+                </label>
+                <input
+                  type="radio"
+                  id={"passport-orientation-portrait"}
+                  name="radio-orientation"
+                  onChange={() => {
+                    dispatchPrint({
+                      type: "set" + capitalizeString(key),
+                      value: 0,
+                    });
+                  }}
+                />
+              </p>
+              <legend>{capitalizeString(key)} </legend>
+            </fieldset>
+          );
+        }
         return (
           <fieldset>
-            <legend>{capitalizeString(key)}</legend>
+            <legend>{capitalizeString(key)} </legend>
             {Object.keys(
               print[key as keyof printType] as Record<string, number>
             ).map((subKey: string) => {

@@ -6,10 +6,10 @@ import splitB from "./splitB";
 import PrintPreview from "./PrintPreview";
 
 export default function App() {
-  const [a, setA] = useState("");
-  const [b, setB] = useState("");
-  const [c, setC] = useState("");
-  const [d, setD] = useState("");
+  const [a, setA] = useState("1234567890123456");
+  const [b, setB] = useState("PL-1234567890123456");
+  const [c, setC] = useState("1234567890123456");
+  const [d, setD] = useState("PL");
   const passportInfo = { a: a, b: b, c: c, d: d };
   const [template, setTemplate] = useState(1);
   const templates = [1, 2, 3];

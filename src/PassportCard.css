@@ -27,3 +27,14 @@ img.flag {
 .passport-barcode {
   max-height: 2em;
 }
+/* Template 2 */
+.passport-card.template-2 > .passport-data {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Template 3 */
+.passport-card.template-3 > .passport-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
