@@ -2,6 +2,7 @@ import { JSX, useReducer } from "react";
 import PassportCard from "./PassportCard";
 import { passportInfoType, printType } from "./types";
 import PrintForm from "./PrintForm";
+import "./PrintPreview.css";
 
 export default function PrintPreview({
   template,

@@ -1,0 +1,29 @@
+.passport-card {
+  background-color: white;
+  border: 1px solid #aaa;
+  min-width: min-content;
+  height: min-content;
+}
+.passport-heading {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+img.flag {
+  width: 33%;
+}
+.passport-label {
+  min-width: 8em;
+  text-wrap-style: balance;
+}
+.passport-info {
+  margin: 0.5em 1em;
+}
+.passport-info::first-letter {
+  font-weight: bold;
+}
+
+.passport-barcode {
+  max-height: 2em;
+}

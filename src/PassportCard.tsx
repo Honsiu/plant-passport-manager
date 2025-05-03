@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { passportInfoType } from "./types";
+import "./PassportCard.css";
 
 export default function PassportCard({
   passportInfo,
