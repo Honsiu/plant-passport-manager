@@ -49,7 +49,7 @@ export default function PrintForm({
         );
       })}
       <div id="print-info-mark">
-        ? <p id="print-info-text">Set margins in printer dialog</p>
+        i <p id="print-info-text">Set margins in printer dialog to none</p>
       </div>
     </div>
   );
