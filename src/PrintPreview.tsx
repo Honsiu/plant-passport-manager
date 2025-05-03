@@ -63,6 +63,12 @@ export default function PrintPreview({
       <div
         className="print-sheet"
         style={{
+          padding: [
+            print.marginTop,
+            print.marginRight,
+            print.marginBottom,
+            print.marginLeft,
+          ].join("mm "),
           columnGap: print.gapHorizontal + "mm",
           rowGap: print.gapVertical + "mm",
           gridTemplateColumns: "repeat(" + print.columns + ", 1fr)",
