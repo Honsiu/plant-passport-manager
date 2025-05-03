@@ -45,26 +45,21 @@ img.flag {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-/* Print */
-.print-sheet {
-  background-color: white;
-  aspect-ratio: 210/297;
-  width: 32em;
-  border: 1px solid #aaa;
-  display: grid;
-  overflow: hidden;
-  margin: 0px;
-}
 
-.print-sheet > * {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-}
+/* Print */
 .print-form {
   position: relative;
 }
-#print-sheet-info-mark {
+.print-form fieldset {
+  display: flex;
+}
+.print-form fieldset > * {
+  margin: 10px;
+}
+.print-form input {
+  width: 6em;
+}
+#print-info-mark {
   font-size: 0.7em;
   position: absolute;
   right: 0.5em;
@@ -77,24 +72,47 @@ img.flag {
   align-self: flex-end;
   justify-self: flex-end;
 }
-#print-sheet-info-mark #print-sheet-info-text {
+#print-info-mark #print-info-text {
   position: absolute;
   visibility: hidden;
   background-color: white;
   width: fit-content;
   min-width: 8em;
 }
-#print-sheet-info-mark:hover #print-sheet-info-text {
+#print-info-mark:hover #print-info-text {
   visibility: visible;
   background-color: #aaa;
 }
+
+.print-sheet {
+  background-color: white;
+  aspect-ratio: 210/297;
+  box-sizing: border-box;
+  width: 32em;
+  overflow: hidden;
+
+  border: 1px solid #aaa;
+  margin: 0px;
+}
+.print-grid-box {
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+
+.print-grid-box > * {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
 @media print {
   .print-sheet {
+    width: 100vw;
+    height: 1000vh;
     position: absolute;
     top: 0;
     left: 0;
-    width: 210mm;
-    height: 297mm;
     z-index: 1000;
     border: none;
   }

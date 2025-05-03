@@ -15,12 +15,18 @@ type passportDataType = {
   template: number;
 };
 export type printType = {
-  rows: number;
-  columns: number;
-  gapHorizontal: number;
-  gapVertical: number;
-  marginTop: number;
-  marginBottom: number;
-  marginLeft: number;
-  marginRight: number;
+  grid: {
+    rows: number;
+    columns: number;
+  };
+  gap: {
+    horizontal: number;
+    vertical: number;
+  };
+  margin: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
 };

@@ -17,29 +17,29 @@ export default function PrintPreview({
     { type, value }: { type: string; value: number }
   ) => {
     switch (type) {
-      case "setColumns": {
-        return { ...state, columns: value };
+      case "setGridColumns": {
+        return { ...state, grid: { ...state.grid, columns: value } };
       }
-      case "setRows": {
-        return { ...state, rows: value };
+      case "setGridRows": {
+        return { ...state, grid: { ...state.grid, rows: value } };
       }
       case "setGapHorizontal": {
-        return { ...state, gapHorizontal: value };
+        return { ...state, gap: { ...state.gap, horizontal: value } };
       }
       case "setGapVertical": {
-        return { ...state, gapVertical: value };
+        return { ...state, gap: { ...state.gap, vertical: value } };
       }
       case "setMarginTop": {
-        return { ...state, marginTop: value };
+        return { ...state, margin: { ...state.margin, top: value } };
       }
       case "setMarginBottom": {
-        return { ...state, marginBottom: value };
+        return { ...state, margin: { ...state.margin, bottom: value } };
       }
       case "setMarginLeft": {
-        return { ...state, marginLeft: value };
+        return { ...state, margin: { ...state.margin, left: value } };
       }
       case "setMarginRight": {
-        return { ...state, marginRight: value };
+        return { ...state, margin: { ...state.margin, right: value } };
       }
       default: {
         throw Error("Unknown action: " + type);
@@ -47,16 +47,14 @@ export default function PrintPreview({
     }
   };
   const [print, dispatchPrint] = useReducer(printReducer, {
-    rows: 1,
-    columns: 1,
-    gapHorizontal: 0,
-    gapVertical: 0,
-    marginTop: 0,
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0,
+    grid: { rows: 1, columns: 1 },
+    gap: { horizontal: 0, vertical: 0 },
+    margin: { top: 0, bottom: 0, left: 0, right: 0 },
   });
-  const passportCards: JSX.Element[][] = [...Array(print.columns * print.rows)];
+  const passportCards: JSX.Element[][] = [
+    ...Array(print.grid.columns * print.grid.rows),
+  ];
+
   return (
     <section>
       <PrintForm print={print} dispatchPrint={dispatchPrint} />
@@ -64,27 +62,34 @@ export default function PrintPreview({
         className="print-sheet"
         style={{
           padding: [
-            print.marginTop,
-            print.marginRight,
-            print.marginBottom,
-            print.marginLeft,
+            print.margin.top % 200,
+            print.margin.right % 200,
+            print.margin.bottom % 200,
+            print.margin.left % 200,
+            " ",
           ].join("mm "),
-          columnGap: print.gapHorizontal + "mm",
-          rowGap: print.gapVertical + "mm",
-          gridTemplateColumns: "repeat(" + print.columns + ", 1fr)",
         }}
       >
-        {passportCards.map((row, index) => (
-          <PassportCard
-            template={template}
-            passportInfo={passportInfo}
-            barcode={barcode}
-            key={index}
-            style={{
-              fontSize: 1 / (print.columns || 1) + "em",
-            }}
-          />
-        ))}
+        <div
+          className="print-grid-box"
+          style={{
+            columnGap: print.gap.horizontal + "mm",
+            rowGap: print.gap.vertical + "mm",
+            gridTemplateColumns: "repeat(" + print.grid.columns + ", 1fr)",
+          }}
+        >
+          {passportCards.map((row, index) => (
+            <PassportCard
+              template={template}
+              passportInfo={passportInfo}
+              barcode={barcode}
+              key={index}
+              style={{
+                fontSize: 1 / (print.grid.columns || 1) + "em",
+              }}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

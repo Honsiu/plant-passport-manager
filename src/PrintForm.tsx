@@ -16,29 +16,40 @@ export default function PrintForm({
 }) {
   return (
     <div className="print-form">
-      <fieldset>
-        <legend>Print dimensions</legend>
-        {Object.keys(print).map((key: string) => {
-          return (
-            <p>
-              <label htmlFor={"passport-" + key}>{capitalizeString(key)}</label>
-              <input
-                type="number"
-                max={50}
-                id={"passport-" + key}
-                onChange={(e) => {
-                  dispatchPrint({
-                    type: "set" + capitalizeString(key),
-                    value: parseInt(e.target.value) || 0,
-                  });
-                }}
-              />
-            </p>
-          );
-        })}
-      </fieldset>
-      <div id="print-sheet-info-mark">
-        ? <p id="print-sheet-info-text">Set margins in printer dialog</p>
+      {Object.keys(print).map((key) => {
+        return (
+          <fieldset>
+            <legend>{key}</legend>
+            {Object.keys(
+              print[key as keyof printType] as Record<string, number>
+            ).map((subKey: string) => {
+              return (
+                <p>
+                  <label htmlFor={"passport-" + subKey}>
+                    {capitalizeString(subKey)}
+                  </label>
+                  <input
+                    type="number"
+                    max={50}
+                    id={"passport-" + subKey}
+                    onChange={(e) => {
+                      dispatchPrint({
+                        type:
+                          "set" +
+                          capitalizeString(key) +
+                          capitalizeString(subKey),
+                        value: parseInt(e.target.value) || 0,
+                      });
+                    }}
+                  />
+                </p>
+              );
+            })}
+          </fieldset>
+        );
+      })}
+      <div id="print-info-mark">
+        ? <p id="print-info-text">Set margins in printer dialog</p>
       </div>
     </div>
   );
