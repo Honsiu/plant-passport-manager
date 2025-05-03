@@ -19,7 +19,7 @@ export default function PrintForm({
       {Object.keys(print).map((key) => {
         return (
           <fieldset>
-            <legend>{key}</legend>
+            <legend>{capitalizeString(key)}</legend>
             {Object.keys(
               print[key as keyof printType] as Record<string, number>
             ).map((subKey: string) => {
