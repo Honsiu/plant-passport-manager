@@ -14,7 +14,7 @@ type passportDataType = {
   info: passportInfoType;
   template: number;
 };
-export type printType = {
+export type printInfoType = {
   // 0 means horizontal
   rotated: number;
   grid: {
