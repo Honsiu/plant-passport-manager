@@ -1,6 +1,8 @@
-import { JSX, useState } from "react";
+import { JSX, useReducer } from "react";
 import PassportCard from "./PassportCard";
-import { passportInfoType } from "./types";
+import { passportInfoType, printType } from "./types";
+import PrintForm from "./PrintForm";
+import "./PrintPreview.css";
 
 export default function PrintPreview({
   template,
@@ -11,81 +13,82 @@ export default function PrintPreview({
   passportInfo: passportInfoType;
   barcode: string;
 }) {
-  const sheetDimentions = { width: 210, height: 297 };
-  const [passportColumns, setPassportColumns] = useState(1);
-  const [passportRows, setPassportRows] = useState(1);
-  const [passportGapHorizontal, setPassportGapHorizontal] = useState(0);
-  const [passportGapVertical, setPassportGapVertical] = useState(0);
+  const printReducer = (
+    state: printType,
+    { type, value }: { type: string; value: number }
+  ) => {
+    if (type.startsWith("setRotated")) {
+      return {
+        ...state,
+        rotated: value,
+      };
+    }
+    if (type.startsWith("setGrid")) {
+      return {
+        ...state,
+        grid: { ...state.grid, [type.slice(7).toLowerCase()]: value },
+      };
+    }
+    if (type.startsWith("setGap")) {
+      return {
+        ...state,
+        gap: { ...state.gap, [type.slice(6).toLowerCase()]: value },
+      };
+    }
+    if (type.startsWith("setMargin")) {
+      return {
+        ...state,
+        margin: { ...state.margin, [type.slice(9).toLowerCase()]: value },
+      };
+    }
+    throw Error("Unknown action: " + type);
+  };
+  const [print, dispatchPrint] = useReducer(printReducer, {
+    rotated: 0,
+    grid: { rows: 1, columns: 1 },
+    gap: { horizontal: 0, vertical: 0 },
+    margin: { top: 0, bottom: 0, left: 0, right: 0 },
+  });
   const passportCards: JSX.Element[][] = [
-    ...Array(passportRows * passportColumns),
+    ...Array(print.grid.columns * print.grid.rows),
   ];
+
   return (
     <section>
-      <div className="print-form">
-        <p>
-          <label htmlFor="passport-column-count">How many in one row? </label>
-          <input
-            type="number"
-            max="50"
-            id="passport-column-count"
-            onChange={(e) => {
-              setPassportColumns(parseInt(e.target.value) % 50 || 1);
-            }}
-          />
-        </p>
-        <p>
-          <label htmlFor="passport-row-count">How many rows? </label>
-          <input
-            max="50"
-            type="number"
-            id="passport-row-count"
-            onChange={(e) => {
-              setPassportRows(parseInt(e.target.value) % 50 || 1);
-            }}
-          />
-        </p>
-        <p>
-          <label htmlFor="passport-gap">Gap horizontally [mm] </label>
-          <input
-            max={210}
-            type="number"
-            id="passport-gap"
-            onChange={(e) => {
-              setPassportGapHorizontal(parseInt(e.target.value) % 210 || 0);
-            }}
-          />
-        </p>{" "}
-        <p>
-          <label htmlFor="passport-gap">Gap vertically [mm] </label>
-          <input
-            max={297}
-            type="number"
-            id="passport-gap"
-            onChange={(e) => {
-              setPassportGapVertical(parseInt(e.target.value) % 297 || 0);
-            }}
-          />
-        </p>
-      </div>
+      <PrintForm print={print} dispatchPrint={dispatchPrint} />
       <div
         className="print-sheet"
         style={{
-          columnGap: passportGapHorizontal + "mm",
-          rowGap: passportGapVertical + "mm",
-          gridTemplateColumns: "repeat(" + passportColumns + ", 1fr)",
+          padding: [
+            print.margin.top % 200,
+            print.margin.right % 200,
+            print.margin.bottom % 200,
+            print.margin.left % 200,
+            " ",
+          ].join("mm "),
         }}
       >
-        {passportCards.map((row, index) => (
-          <PassportCard
-            template={template}
-            passportInfo={passportInfo}
-            barcode={barcode}
-            key={index}
-            style={{
-              fontSize: 1 / (passportColumns || 1) + "em",
-            }}
-          />
-        ))}
+        <div
+          className="print-grid-box"
+          style={{
+            columnGap: print.gap.horizontal + "mm",
+            rowGap: print.gap.vertical + "mm",
+            gridTemplateColumns: "repeat(" + print.grid.columns + ", 1fr)",
+          }}
+        >
+          {passportCards.map((row, index) => (
+            <PassportCard
+              rotated={print.rotated}
+              template={template}
+              passportInfo={passportInfo}
+              barcode={barcode}
+              key={index}
+              style={{
+                fontSize: 1 / (print.grid.columns || 1) + "em",
+              }}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

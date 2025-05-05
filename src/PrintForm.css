@@ -1,0 +1,42 @@
+.print-form {
+  position: relative;
+}
+.print-form fieldset {
+  display: flex;
+}
+.print-form fieldset > * {
+  margin: 10px;
+}
+.print-form input[type="number"] {
+  width: 6em;
+}
+.radio-print-rotated {
+  width: min-content;
+  margin-left: 2em;
+}
+
+/* Info mark */
+#print-info-mark {
+  font-size: 0.7em;
+  position: absolute;
+  right: 0.5em;
+  bottom: 0.5em;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+#print-info-mark #print-info-text {
+  position: absolute;
+  visibility: hidden;
+  background-color: white;
+  width: fit-content;
+  min-width: 8em;
+}
+#print-info-mark:hover #print-info-text {
+  visibility: visible;
+  background-color: #aaa;
+}
