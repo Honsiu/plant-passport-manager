@@ -3,11 +3,9 @@ import { printInfoType } from "./types";
 import "./PrintForm.css";
 
 export default function PrintForm({
-  handlePrint,
   printInfo,
   dispatchPrintInfo,
 }: {
-  handlePrint: any;
   printInfo: printInfoType;
   dispatchPrintInfo: React.ActionDispatch<
     [
@@ -90,7 +88,7 @@ export default function PrintForm({
           </>
         );
       })}
-      <button onClick={handlePrint}>Print</button>
+      <button onClick={print}>Print</button>
       <div id="print-info-mark">
         i{" "}
         <p id="print-info-text">

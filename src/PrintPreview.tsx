@@ -1,8 +1,9 @@
-import { JSX, useReducer, useRef } from "react";
+import { JSX, useEffect, useReducer, useRef, useState } from "react";
 import PassportCard from "./PassportCard";
 import { passportInfoType, printInfoType } from "./types";
 import PrintForm from "./PrintForm";
 import "./PrintPreview.css";
+import PrintOverflowWarning from "./PrintOverflowWarning";
 
 export default function PrintPreview({
   template,
@@ -52,19 +53,14 @@ export default function PrintPreview({
   const passportCards: JSX.Element[][] = [
     ...Array(printInfo.grid.columns * printInfo.grid.rows),
   ];
-  const printSheetRef = useRef<HTMLDivElement>(null);
-  const handlePrint = () => {
-    print();
-  };
+
+  const previewRef = useRef<HTMLDivElement>(null);
+
   return (
     <section className="printable">
-      <PrintForm
-        handlePrint={handlePrint}
-        printInfo={printInfo}
-        dispatchPrintInfo={dispatchPrintInfo}
-      />
+      <PrintForm printInfo={printInfo} dispatchPrintInfo={dispatchPrintInfo} />
+      <PrintOverflowWarning previewRef={previewRef} printInfo={printInfo} />
       <div
-        ref={printSheetRef}
         className="print-sheet"
         style={{
           padding: [
@@ -77,6 +73,7 @@ export default function PrintPreview({
         }}
       >
         <div
+          ref={previewRef}
           className="print-grid-box"
           style={{
             columnGap: printInfo.gap.horizontal + "mm",
