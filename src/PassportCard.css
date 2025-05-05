@@ -1,8 +1,6 @@
 .passport-card {
   background-color: white;
   border: 1px solid #aaa;
-  min-width: min-content;
-  height: min-content;
 }
 .passport-heading {
   width: 100%;
@@ -11,7 +9,7 @@
   flex-wrap: nowrap;
 }
 img.flag {
-  width: 33%;
+  width: 10em;
 }
 .passport-label {
   min-width: 8em;
@@ -28,13 +26,23 @@ img.flag {
   max-height: 2em;
 }
 /* Template 2 */
-.passport-card.template-2 > .passport-data {
+.passport-card.template-2 .passport-data {
   display: flex;
   justify-content: space-between;
 }
 
 /* Template 3 */
-.passport-card.template-3 > .passport-data {
+.passport-card.template-3 .passport-data {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+/* rotated */
+.passport-card.rotated {
+  writing-mode: vertical-rl;
+}
+.passport-card.rotated > .passport-heading {
+  width: min-content;
+  display: flex;
+  justify-content: space-between;
 }

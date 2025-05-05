@@ -3,11 +3,13 @@ import { passportInfoType } from "./types";
 import "./PassportCard.css";
 
 export default function PassportCard({
+  rotated,
   passportInfo,
   template,
   barcode,
   style,
 }: {
+  rotated?: number;
   passportInfo: passportInfoType;
   template: number;
   barcode: string;
@@ -17,10 +19,18 @@ export default function PassportCard({
     <>
       <div
         style={style || {}}
-        className={"passport-card template-" + template.toString()}
+        className={
+          (rotated ? "rotated " : " ") +
+          "passport-card template-" +
+          template.toString()
+        }
       >
         <div className="passport-heading">
-          <img src="./flag_black_white.svg" className="flag" alt="Flaga UE" />
+          <img
+            src={"./flag_black_white" + (rotated ? "_rotated" : "") + ".svg"}
+            className="flag"
+            alt="Flaga UE"
+          />
           <p className="passport-label">Paszport roślin / Plant Passport</p>
         </div>
         <div className="passport-data">

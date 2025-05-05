@@ -15,8 +15,8 @@ type passportDataType = {
   template: number;
 };
 export type printType = {
-  // 1 means landscape
-  orientation: number;
+  // 0 means horizontal
+  rotated: number;
   grid: {
     rows: number;
     columns: number;

@@ -19,38 +19,34 @@ export default function PrintForm({
   return (
     <div className="print-form">
       {Object.keys(print).map((key) => {
-        if (key === "orientation") {
+        if (key === "rotated") {
           return (
             <fieldset>
               <p>
-                <label htmlFor={"passport-orientation-landscape"}>
-                  Landscape{" "}
-                </label>
+                <label htmlFor={"passport-rotated-landscape"}>Landscape</label>
                 <input
                   defaultChecked={true}
                   type="radio"
-                  id={"passport-orientation-landscape"}
-                  name="radio-orientation"
+                  id={"passport-rotated-landscape"}
+                  name="radio-rotated"
                   onChange={() => {
                     dispatchPrint({
                       type: "set" + capitalizeString(key),
-                      value: 1,
+                      value: 0,
                     });
                   }}
                 />
               </p>
               <p>
-                <label htmlFor={"passport-orientation-portrait"}>
-                  Portrait{" "}
-                </label>
+                <label htmlFor={"passport-rotated-portrait"}>Portrait</label>
                 <input
                   type="radio"
-                  id={"passport-orientation-portrait"}
-                  name="radio-orientation"
+                  id={"passport-rotated-portrait"}
+                  name="radio-rotated"
                   onChange={() => {
                     dispatchPrint({
                       type: "set" + capitalizeString(key),
-                      value: 0,
+                      value: 1,
                     });
                   }}
                 />
@@ -91,7 +87,10 @@ export default function PrintForm({
         );
       })}
       <div id="print-info-mark">
-        i <p id="print-info-text">Set margins in printer dialog to none</p>
+        i{" "}
+        <p id="print-info-text">
+          Set print scale to 100% and margins to none in printer dialog
+        </p>
       </div>
     </div>
   );

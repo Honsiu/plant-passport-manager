@@ -10,7 +10,7 @@
 .print-form input[type="number"] {
   width: 6em;
 }
-.radio-print-orientation {
+.radio-print-rotated {
   width: min-content;
   margin-left: 2em;
 }

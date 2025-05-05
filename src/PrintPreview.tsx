@@ -17,10 +17,10 @@ export default function PrintPreview({
     state: printType,
     { type, value }: { type: string; value: number }
   ) => {
-    if (type.startsWith("setOrientation")) {
+    if (type.startsWith("setRotated")) {
       return {
         ...state,
-        orientation: value,
+        rotated: value,
       };
     }
     if (type.startsWith("setGrid")) {
@@ -44,7 +44,7 @@ export default function PrintPreview({
     throw Error("Unknown action: " + type);
   };
   const [print, dispatchPrint] = useReducer(printReducer, {
-    orientation: 1,
+    rotated: 0,
     grid: { rows: 1, columns: 1 },
     gap: { horizontal: 0, vertical: 0 },
     margin: { top: 0, bottom: 0, left: 0, right: 0 },
@@ -78,6 +78,7 @@ export default function PrintPreview({
         >
           {passportCards.map((row, index) => (
             <PassportCard
+              rotated={print.rotated}
               template={template}
               passportInfo={passportInfo}
               barcode={barcode}
