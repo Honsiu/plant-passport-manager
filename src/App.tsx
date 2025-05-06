@@ -1,57 +1,21 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./App.css";
 import PassportCard from "./PassportCard";
-import PassportInput from "./PassportInput";
 import splitB from "./splitB";
 import PrintPreview from "./PrintPreview";
 import { passportInfoType } from "./types";
+import { useLocalStorage } from "./useLocalStorage";
+import PassportForm from "./PassportForm";
 
 export default function App() {
-  const [a, setA] = useState<string>(() => {
-    const saved = localStorage.getItem("passportInfo");
-    if (saved) {
-      return JSON.parse(saved).a;
-    }
-    return "";
-  });
-  const [b, setB] = useState<string>(() => {
-    const saved = localStorage.getItem("passportInfo");
-    if (saved) {
-      return JSON.parse(saved).b;
-    }
-    return "";
-  });
-  const [c, setC] = useState<string>(() => {
-    const saved = localStorage.getItem("passportInfo");
-    if (saved) {
-      return JSON.parse(saved).c;
-    }
-    return "";
-  });
-  const [d, setD] = useState<string>(() => {
-    const saved = localStorage.getItem("passportInfo");
-    if (saved) {
-      return JSON.parse(saved).d;
-    }
-    return "";
-  });
-  const [barcode, setBarcode] = useState<string>(() => {
-    const saved = localStorage.getItem("passportInfo");
-    if (saved) {
-      return JSON.parse(saved).d;
-    }
-    return "";
-  });
-  const passportInfo: passportInfoType = {
-    a: a,
-    b: b,
-    c: c,
+  const [passportInfo, setPassportInfo] = useLocalStorage("passportInfo", {
+    a: "",
+    b: "",
+    c: "",
     barcode: "To be developed",
-    d: d,
-  };
-  useEffect(() => {
-    localStorage.getItem("passportInfo");
-  }, [passportInfo]);
+    d: "",
+  });
+
   const handleSavePassportInfo = () => {
     localStorage.setItem("passportInfo", JSON.stringify(passportInfo));
   };
@@ -62,15 +26,10 @@ export default function App() {
   return (
     <main>
       <section>
-        <PassportInput info={a} setInfo={setA} letter="A" />
-        <PassportInput info={b} setInfo={setB} letter="B" />
-        <PassportInput
-          info={c}
-          setInfo={setC}
-          letter="C"
-          setBarcode={setBarcode}
+        <PassportForm
+          passportInfo={passportInfo}
+          setPassportInfo={setPassportInfo}
         />
-        <PassportInput info={d} setInfo={setD} letter="D" />
         {templates.map((value) => {
           return (
             <TemplateRadio
@@ -88,13 +47,13 @@ export default function App() {
         <PassportCard
           template={template}
           passportInfo={passportInfo}
-          barcode={barcode}
+          barcode={passportInfo.barcode || ""}
         />
       </section>
       <PrintPreview
         template={template}
         passportInfo={passportInfo}
-        barcode={barcode}
+        barcode={passportInfo.barcode || ""}
       />
     </main>
   );
