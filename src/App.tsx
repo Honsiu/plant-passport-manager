@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import "./App.css";
 import PassportCard from "./PassportCard";
 import splitB from "./splitB";

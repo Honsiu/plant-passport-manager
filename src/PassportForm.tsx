@@ -19,7 +19,12 @@ export default function PassportForm({
       });
     }
   };
-
+  function handleOnChange(
+    letter: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setPassportInfo({ ...passportInfo, [letter]: e.target.value });
+  }
   return (
     <>
       <p>
@@ -28,7 +33,7 @@ export default function PassportForm({
           maxLength={32}
           defaultValue={passportInfo.a}
           onChange={(e) => {
-            setPassportInfo({ ...passportInfo, a: e.target.value });
+            handleOnChange("a", e);
           }}
         />
       </p>
@@ -64,7 +69,7 @@ export default function PassportForm({
           maxLength={32}
           defaultValue={passportInfo.c}
           onChange={(e) => {
-            setPassportInfo({ ...passportInfo, c: e.target.value });
+            handleOnChange("c", e);
           }}
         />{" "}
         Or{" "}
@@ -76,7 +81,7 @@ export default function PassportForm({
           maxLength={2}
           defaultValue={passportInfo.d}
           onChange={(e) => {
-            setPassportInfo({ ...passportInfo, d: e.target.value });
+            handleOnChange("d", e);
           }}
         />
       </p>

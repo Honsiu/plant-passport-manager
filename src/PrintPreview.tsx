@@ -1,4 +1,4 @@
-import { JSX, useEffect, useReducer, useRef, useState } from "react";
+import { JSX, useReducer, useRef } from "react";
 import PassportCard from "./PassportCard";
 import { passportInfoType, printInfoType } from "./types";
 import PrintForm from "./PrintForm";
@@ -18,30 +18,34 @@ export default function PrintPreview({
     state: printInfoType,
     { type, value }: { type: string; value: number }
   ) => {
-    if (type.startsWith("setRotated")) {
+    const key = type
+      .replace(/^(setRotated|setGrid|setGap|setMargin)/, "")
+      .toLowerCase();
+
+    if (type.startsWith("setRotated"))
       return {
         ...state,
         rotated: value,
       };
-    }
-    if (type.startsWith("setGrid")) {
+
+    if (type.startsWith("setGrid"))
       return {
         ...state,
-        grid: { ...state.grid, [type.slice(7).toLowerCase()]: value },
+        grid: { ...state.grid, [key]: value },
       };
-    }
-    if (type.startsWith("setGap")) {
+
+    if (type.startsWith("setGap"))
       return {
         ...state,
-        gap: { ...state.gap, [type.slice(6).toLowerCase()]: value },
+        gap: { ...state.gap, [key]: value },
       };
-    }
-    if (type.startsWith("setMargin")) {
+
+    if (type.startsWith("setMargin"))
       return {
         ...state,
-        margin: { ...state.margin, [type.slice(9).toLowerCase()]: value },
+        margin: { ...state.margin, [key]: value },
       };
-    }
+
     throw Error("Unknown action: " + type);
   };
   const [printInfo, dispatchPrintInfo] = useReducer(printReducer, {
@@ -81,7 +85,7 @@ export default function PrintPreview({
             gridTemplateColumns: "repeat(" + printInfo.grid.columns + ", 1fr)",
           }}
         >
-          {passportCards.map((row, index) => (
+          {passportCards.map((_, index) => (
             <PassportCard
               rotated={printInfo.rotated}
               template={template}
