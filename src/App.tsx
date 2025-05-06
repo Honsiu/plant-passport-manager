@@ -1,4 +1,4 @@
-import { JSX, MouseEvent, useState } from "react";
+import { JSX, MouseEvent, useEffect, useState } from "react";
 import "./App.css";
 import PassportCard from "./PassportCard";
 import PassportInput from "./PassportInput";
@@ -6,10 +6,37 @@ import splitB from "./splitB";
 import PrintPreview from "./PrintPreview";
 
 export default function App() {
-  const [a, setA] = useState("1234567890123456");
-  const [b, setB] = useState("PL-1234567890123456");
-  const [c, setC] = useState("1234567890123456");
-  const [d, setD] = useState("PL");
+  const [a, setA] = useState(() => {
+    const saved = localStorage.getItem("passportInfo");
+    if (saved) {
+      return JSON.parse(saved).a;
+    }
+    return "";
+  });
+  const [b, setB] = useState(() => {
+    const saved = localStorage.getItem("passportInfo");
+    if (saved) {
+      return JSON.parse(saved).b;
+    }
+    return "";
+  });
+  const [c, setC] = useState(() => {
+    const saved = localStorage.getItem("passportInfo");
+    if (saved) {
+      return JSON.parse(saved).c;
+    }
+    return "";
+  });
+  const [d, setD] = useState(() => {
+    const saved = localStorage.getItem("passportInfo");
+    if (saved) {
+      return JSON.parse(saved).d;
+    }
+    return "";
+  });
+  useEffect(() => {
+    localStorage.getItem("passportInfo");
+  });
   const passportInfo = { a: a, b: b, c: c, d: d };
   const [template, setTemplate] = useState(1);
   const templates = [1, 2, 3];
@@ -28,6 +55,9 @@ export default function App() {
   passportInfo.c === "" ? emptyInfo.push("C, ") : emptyInfo;
   passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
 
+  const handleSavePassport = () => {
+    localStorage.setItem("passportInfo", JSON.stringify(passportInfo));
+  };
   return (
     <main>
       <section>
@@ -51,7 +81,9 @@ export default function App() {
           );
         })}
         {emptyInfo[0] && <p>Please insert data for {...emptyInfo.sort()}</p>}
-
+        <button type="submit" onClick={handleSavePassport}>
+          Save
+        </button>
         <PassportCard
           template={template}
           passportInfo={passportInfo}
