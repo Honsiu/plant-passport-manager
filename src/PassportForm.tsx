@@ -1,5 +1,5 @@
 import { SetStateAction } from "react";
-import { passportInfoType, PassportInputType } from "./types";
+import { passportInfoType } from "./types";
 import splitB from "./splitB";
 
 export default function PassportForm({

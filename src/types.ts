@@ -28,10 +28,3 @@ export type printInfoType = {
     right: number;
   };
 };
-
-export type PassportInputType = {
-  letter: "A" | "B" | "C" | "D";
-  info: string;
-  setInfo: React.Dispatch<React.SetStateAction<passportInfoType>>;
-  setBarcode?: React.Dispatch<React.SetStateAction<passportInfoType>>;
-};
