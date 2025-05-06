@@ -2,7 +2,8 @@ import { useState, useEffect, SetStateAction } from "react";
 import { passportInfoType } from "./types";
 
 function getStorageValue(key: string, defaultValue: Object) {
-  return JSON.parse(localStorage.getItem(key) || "") || defaultValue;
+  const storedValue = localStorage.getItem(key);
+  return storedValue ? JSON.parse(storedValue) : defaultValue;
 }
 export const useLocalStorage = (
   key: string,
