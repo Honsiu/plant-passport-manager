@@ -8,11 +8,6 @@ export default function PassportInput({
   setInfo,
   setBarcode,
 }: PassportInputType) {
-  const [inputValue, setInputValue] = useState(info.valueOf().toString());
-  const handleSubmit = () => {
-    setInfo(inputValue);
-  };
-
   let maxLength = 16;
   switch (letter) {
     case "D":
@@ -23,20 +18,17 @@ export default function PassportInput({
           {letter}
           <input
             maxLength={maxLength}
-            defaultValue={inputValue}
+            defaultValue={info}
             onChange={(e) => {
-              setInputValue(e.target.value);
+              setInfo(e.target.value);
             }}
           />
-          <button type="submit" onClick={handleSubmit}>
-            Submit
-          </button>
         </p>
       );
     case "B":
       maxLength = 2;
-      const b1 = splitB(inputValue.valueOf())[0];
-      const b2 = splitB(inputValue.valueOf())[1];
+      const b1 = splitB(info)[0];
+      const b2 = splitB(info)[1];
       return (
         <>
           <p>
@@ -45,7 +37,7 @@ export default function PassportInput({
               maxLength={maxLength}
               defaultValue={b1}
               onChange={(e) => {
-                setInputValue(e.target.value + "-" + b2);
+                setInfo(e.target.value + "-" + b2);
               }}
             />
             {" - "}
@@ -53,10 +45,9 @@ export default function PassportInput({
               maxLength={16}
               defaultValue={b2}
               onChange={(e) => {
-                setInputValue(b1 + "-" + e.target.value);
+                setInfo(b1 + "-" + e.target.value);
               }}
             />
-            <button onClick={handleSubmit}>Submit</button>
           </p>
         </>
       );
@@ -73,16 +64,13 @@ export default function PassportInput({
           {letter}
           <input
             maxLength={maxLength}
-            defaultValue={inputValue}
+            defaultValue={info}
             onChange={(e) => {
-              setInputValue(e.target.value);
+              setInfo(e.target.value);
             }}
           />{" "}
           Or{" "}
           <input type="file" name="barcode-input" onChange={handleFileChange} />
-          <button type="submit" onClick={handleSubmit}>
-            Submit
-          </button>
         </p>
       );
   }

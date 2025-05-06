@@ -6,7 +6,7 @@ export type passportInfoType = {
 };
 export type PassportInputType = {
   letter: "A" | "B" | "C" | "D";
-  info: React.SetStateAction<string>;
+  info: string;
   setInfo: React.Dispatch<React.SetStateAction<string>>;
   setBarcode?: React.Dispatch<React.SetStateAction<string>>;
 };
