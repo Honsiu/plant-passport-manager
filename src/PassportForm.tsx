@@ -9,8 +9,7 @@ export default function PassportForm({
   passportInfo: passportInfoType;
   setPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
 }) {
-  const b1 = splitB(passportInfo.b)[0];
-  const b2 = splitB(passportInfo.b)[1];
+  const [b1, b2] = splitB(passportInfo.b);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files) {
@@ -20,6 +19,7 @@ export default function PassportForm({
       });
     }
   };
+
   return (
     <>
       <p>
