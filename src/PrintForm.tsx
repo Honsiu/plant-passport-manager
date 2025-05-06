@@ -21,7 +21,7 @@ export default function PrintForm({
       {Object.keys(printInfo).map((key) => {
         if (key === "rotated") {
           return (
-            <fieldset>
+            <fieldset key={key}>
               <p>
                 <label htmlFor={"passport-rotated-landscape"}>Landscape</label>
                 <input
@@ -56,36 +56,34 @@ export default function PrintForm({
           );
         }
         return (
-          <>
-            <fieldset>
-              <legend>{capitalizeString(key)} </legend>
-              {Object.keys(
-                printInfo[key as keyof printInfoType] as Record<string, number>
-              ).map((subKey: string) => {
-                return (
-                  <p>
-                    <label htmlFor={"passport-" + subKey}>
-                      {capitalizeString(subKey)}
-                    </label>
-                    <input
-                      type="number"
-                      max={50}
-                      id={"passport-" + subKey}
-                      onChange={(e) => {
-                        dispatchPrintInfo({
-                          type:
-                            "set" +
-                            capitalizeString(key) +
-                            capitalizeString(subKey),
-                          value: parseInt(e.target.value) || 0,
-                        });
-                      }}
-                    />
-                  </p>
-                );
-              })}
-            </fieldset>
-          </>
+          <fieldset key={key}>
+            <legend>{capitalizeString(key)} </legend>
+            {Object.keys(
+              printInfo[key as keyof printInfoType] as Record<string, number>
+            ).map((subKey: string) => {
+              return (
+                <p key={subKey}>
+                  <label htmlFor={"passport-" + subKey}>
+                    {capitalizeString(subKey)}
+                  </label>
+                  <input
+                    type="number"
+                    max={50}
+                    id={"passport-" + subKey}
+                    onChange={(e) => {
+                      dispatchPrintInfo({
+                        type:
+                          "set" +
+                          capitalizeString(key) +
+                          capitalizeString(subKey),
+                        value: parseInt(e.target.value) || 0,
+                      });
+                    }}
+                  />
+                </p>
+              );
+            })}
+          </fieldset>
         );
       })}
       <button onClick={print}>Print</button>
