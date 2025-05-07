@@ -12,6 +12,7 @@ export default function PassportForm({
   setTempPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
   handleSave: () => void;
   handleCancel: () => void;
+  handleDelete: () => void;
 }) {
   const [b1, b2] = splitB(tempPassportInfo.b || "");
   const templates = [1, 2, 3];

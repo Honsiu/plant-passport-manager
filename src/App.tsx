@@ -3,7 +3,7 @@ import PrintPreview from "./PrintPreview";
 import { passportInfoType, passports } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 import PassportPreview from "./PassportPreview";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 export default function App() {
   const defaultPassportInfo: passportInfoType = {
@@ -20,29 +20,31 @@ export default function App() {
     defaultPassportInfo,
   ] as passports);
 
-  const [currPassport, setCurrPassport] = useState<passportInfoType>(
+  const [displayedPassport, setDisplayedPassport] = useState<passportInfoType>(
     passports[passportId]
   );
   useEffect(() => {
-    setCurrPassport(passports[passportId] || defaultPassportInfo);
+    setDisplayedPassport(passports[passportId] || defaultPassportInfo);
   }, [passportId, passports]);
-
+  const addPassport = (passport: passportInfoType) => {
+    setPassports([...passports, passport]);
+    setPassportId(passports.length);
+  };
   const handleSetPassportInfo = (value: passportInfoType) => {
     if (passportId === 0) {
-      setPassports([...passports, { ...value }]);
-      setPassportId(passports.length);
+      addPassport(value);
     } else {
       setPassports([
-        ...[...passports]
-          .map((p, i) => {
-            if (i !== 0) return p;
-            return undefined;
-          })
-          .filter((p): p is passportInfoType => p !== undefined),
-        { ...value },
+        ...[...passports].filter((_, i) => i !== passportId),
+        value,
       ]);
-      setPassportId(passports.length - 1);
     }
+    setPassportId(passports.length - 1);
+  };
+  const removePassport = (x: passportInfoType) => {
+    const index = passports.indexOf(x);
+    setPassports([...[...passports].filter((_, i) => i !== index)]);
+    setPassportId(passports.length);
   };
   return (
     <main>
@@ -72,10 +74,11 @@ export default function App() {
         </select>
       </p>
       <PassportPreview
-        passportInfo={currPassport}
+        passportInfo={displayedPassport}
         handleSetPassportInfo={handleSetPassportInfo}
+        removePassport={removePassport}
       />
-      <PrintPreview passportInfo={currPassport} />
+      <PrintPreview passportInfo={displayedPassport} />
       <button
         onClick={() => {
           setPassports([defaultPassportInfo]);

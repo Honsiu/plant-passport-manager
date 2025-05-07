@@ -6,9 +6,11 @@ import { passportInfoType } from "./types";
 export default function PassportPreview({
   passportInfo,
   handleSetPassportInfo,
+  removePassport,
 }: {
   passportInfo: passportInfoType;
   handleSetPassportInfo: (arg0: passportInfoType) => void;
+  removePassport: (arg0: passportInfoType) => void;
 }) {
   const [tempPassportInfo, setTempPassportInfo] = useState<passportInfoType>({
     ...passportInfo,
@@ -23,6 +25,9 @@ export default function PassportPreview({
   const handleCancel = () => {
     setTempPassportInfo(passportInfo);
   };
+  const handleDelete = () => {
+    removePassport(passportInfo);
+  };
 
   return (
     <section>
@@ -31,6 +36,7 @@ export default function PassportPreview({
         setTempPassportInfo={setTempPassportInfo}
         handleSave={handleSave}
         handleCancel={handleCancel}
+        handleDelete={handleDelete}
       />
       <PassportCard passportInfo={tempPassportInfo} />
     </section>
