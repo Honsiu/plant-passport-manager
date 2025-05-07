@@ -34,6 +34,16 @@ export default function PassportForm({
   return (
     <>
       <p>
+        Label
+        <input
+          maxLength={32}
+          value={tempPassportInfo.label}
+          onChange={(e) => {
+            handleInputOnChange("label", e);
+          }}
+        />
+      </p>
+      <p>
         A
         <input
           maxLength={32}
