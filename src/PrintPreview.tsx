@@ -6,11 +6,9 @@ import "./PrintPreview.css";
 import PrintOverflowWarning from "./PrintOverflowWarning";
 
 export default function PrintPreview({
-  template,
   passportInfo,
   barcode,
 }: {
-  template: number;
   passportInfo: passportInfoType;
   barcode: string;
 }) {
@@ -88,7 +86,6 @@ export default function PrintPreview({
           {passportCards.map((_, index) => (
             <PassportCard
               rotated={printInfo.rotated}
-              template={template}
               passportInfo={passportInfo}
               barcode={barcode}
               key={index}

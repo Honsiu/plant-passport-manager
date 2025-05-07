@@ -5,13 +5,11 @@ import "./PassportCard.css";
 export default function PassportCard({
   rotated,
   passportInfo,
-  template,
   barcode,
   style,
 }: {
   rotated?: number;
   passportInfo: passportInfoType;
-  template: number;
   barcode: string;
   style?: CSSProperties;
 }) {
@@ -22,7 +20,7 @@ export default function PassportCard({
         className={
           (rotated ? "rotated " : " ") +
           "passport-card template-" +
-          template.toString()
+          passportInfo.template.toString()
         }
       >
         <div className="passport-heading">

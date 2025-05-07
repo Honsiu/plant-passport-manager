@@ -1,13 +1,10 @@
-export type passportDataType = {
-  info: passportInfoType;
-  template: number;
-};
 export type passportInfoType = {
   a: string;
   b: string;
   c: string;
   barcode?: string;
   d: string;
+  template: number;
 };
 
 export type printInfoType = {
