@@ -3,44 +3,65 @@ import PrintPreview from "./PrintPreview";
 import { passportInfoType, passports } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 import PassportPreview from "./PassportPreview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const defaultPassportInfo: passportInfoType = {
-    label: "Default passport",
-    a: "Default",
-    b: "De-fault",
-    c: "Default",
-    barcode: "To be developed",
-    d: "Default",
+    label: "New Plant Passport",
+    a: "",
+    b: "",
+    c: "",
+    barcode: "",
+    d: "",
     template: 1,
   };
-
+  const [passportId, setPassportId] = useState<number>(0);
   const [passports, setPassports] = useLocalStorage<passports>("passports", [
     defaultPassportInfo,
   ] as passports);
-
-  const [passportInfo, setPassportInfo] = useState<passportInfoType>(
-    passports[0] || defaultPassportInfo
+  const [currPassport, setCurrPassport] = useState<passportInfoType>(
+    passports[passportId]
   );
-
   const handleSetPassportInfo = (value: passportInfoType) => {
-    setPassportInfo(value);
-    setPassports([...passports, { ...value }]);
+    if (passportId === 0) {
+      setPassports([...passports, { ...value }]);
+      setPassportId(passports.length);
+    } else {
+      setPassports([
+        ...[...passports]
+          .map((p, i) => {
+            if (i !== 0) return p;
+            return undefined;
+          })
+          .filter((p): p is passportInfoType => p !== undefined),
+        { ...value },
+      ]);
+      setPassportId(passports.length - 1);
+    }
   };
 
+  useEffect(() => {
+    setCurrPassport(passports[passportId]);
+  }, [passportId, passports]);
   return (
     <main>
       <p>
-        <label htmlFor="select-passport">Select Existing passport</label>
         <select
           name="select-passport"
           id="select-passport"
+          value={passportId}
           onChange={(e) => {
-            setPassportInfo(passports[parseInt(e.target.value) || 0]);
+            setPassportId(parseInt(e.target.value) || 0);
           }}
         >
           {passports.map((passportInfo, i) => {
+            if (i === 0) {
+              return (
+                <option key={i} value={i}>
+                  Add new
+                </option>
+              );
+            }
             return (
               <option key={i} value={i}>
                 {passportInfo.label}
@@ -50,10 +71,10 @@ export default function App() {
         </select>
       </p>
       <PassportPreview
-        passportInfo={passportInfo}
+        passportInfo={currPassport}
         handleSetPassportInfo={handleSetPassportInfo}
       />
-      <PrintPreview passportInfo={passportInfo} />
+      <PrintPreview passportInfo={currPassport} />
       <button
         onClick={() => {
           setPassports([defaultPassportInfo]);
