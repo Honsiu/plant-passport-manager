@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction } from "react";
 import { passportInfoType } from "./types";
 import splitB from "./splitB";
 
@@ -29,7 +29,6 @@ export default function PassportForm({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setTempPassportInfo({ ...tempPassportInfo, [name]: e.target.value });
-    console.log(tempPassportInfo);
   };
 
   return (

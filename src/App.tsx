@@ -7,6 +7,7 @@ import { useState } from "react";
 
 export default function App() {
   const defaultPassportInfo: passportInfoType = {
+    label: "Default passport",
     a: "Default",
     b: "De-fault",
     c: "Default",
@@ -23,15 +24,31 @@ export default function App() {
     passports[0] || defaultPassportInfo
   );
 
-  const handleSetPassportInfo = (
-    value: React.SetStateAction<passportInfoType>
-  ) => {
+  const handleSetPassportInfo = (value: passportInfoType) => {
     setPassportInfo(value);
-    setPassports([...passports, { ...passportInfo }]);
+    setPassports([...passports, { ...value }]);
   };
 
   return (
     <main>
+      <p>
+        <label htmlFor="select-passport">Select Existing passport</label>
+        <select
+          name="select-passport"
+          id="select-passport"
+          onChange={(e) => {
+            setPassportInfo(passports[parseInt(e.target.value) || 0]);
+          }}
+        >
+          {passports.map((passportInfo, i) => {
+            return (
+              <option key={i} value={i}>
+                {passportInfo.label}
+              </option>
+            );
+          })}
+        </select>
+      </p>
       <PassportPreview
         passportInfo={passportInfo}
         handleSetPassportInfo={handleSetPassportInfo}
@@ -44,7 +61,6 @@ export default function App() {
       >
         clear useLocalStorage
       </button>
-      {JSON.stringify([passports])}
     </main>
   );
 }

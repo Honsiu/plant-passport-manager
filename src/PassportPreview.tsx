@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PassportCard from "./PassportCard";
 import PassportForm from "./PassportForm";
 import { passportInfoType } from "./types";
@@ -8,14 +8,17 @@ export default function PassportPreview({
   handleSetPassportInfo,
 }: {
   passportInfo: passportInfoType;
-  handleSetPassportInfo: React.Dispatch<React.SetStateAction<passportInfoType>>;
+  handleSetPassportInfo: (arg0: passportInfoType) => void;
 }) {
   const [tempPassportInfo, setTempPassportInfo] = useState<passportInfoType>({
     ...passportInfo,
   });
+  useEffect(() => {
+    setTempPassportInfo(passportInfo);
+  }, [passportInfo]);
 
   const handleSave = () => {
-    handleSetPassportInfo(tempPassportInfo);
+    handleSetPassportInfo({ ...tempPassportInfo });
   };
   const handleCancel = () => {
     setTempPassportInfo(passportInfo);
