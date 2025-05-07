@@ -24,7 +24,7 @@ export default function App() {
     passports[passportId]
   );
   useEffect(() => {
-    setCurrPassport(passports[passportId]);
+    setCurrPassport(passports[passportId] || defaultPassportInfo);
   }, [passportId, passports]);
 
   const handleSetPassportInfo = (value: passportInfoType) => {
