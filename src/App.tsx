@@ -3,7 +3,7 @@ import PrintPreview from "./PrintPreview";
 import { passportInfoType, passports } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 import PassportPreview from "./PassportPreview";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const defaultPassportInfo: passportInfoType = {
@@ -26,25 +26,34 @@ export default function App() {
   useEffect(() => {
     setDisplayedPassport(passports[passportId] || defaultPassportInfo);
   }, [passportId, passports]);
-  const addPassport = (passport: passportInfoType) => {
-    setPassports([...passports, passport]);
-    setPassportId(passports.length);
-  };
-  const handleSetPassportInfo = (value: passportInfoType) => {
-    if (passportId === 0) {
-      addPassport(value);
-    } else {
-      setPassports([
-        ...[...passports].filter((_, i) => i !== passportId),
-        value,
-      ]);
+
+  const handleSetPassportInfo = (
+    action: string,
+    newPassp?: passportInfoType
+  ) => {
+    switch (action) {
+      case "update":
+        if (newPassp) {
+          if (passportId === 0) {
+            setPassports([...passports, newPassp]);
+            setPassportId(passports.length);
+          } else {
+            setPassports([
+              ...[...passports].filter((_, i) => i !== passportId),
+              newPassp,
+            ]);
+            setPassportId(passports.length - 1);
+          }
+        } else throw Error("Missing argument");
+        break;
+
+      case "remove":
+        if (passportId !== 0) {
+          setPassports([...[...passports].filter((_, i) => i !== passportId)]);
+          setPassportId(passports.length - 1);
+        }
+        break;
     }
-    setPassportId(passports.length - 1);
-  };
-  const removePassport = (x: passportInfoType) => {
-    const index = passports.indexOf(x);
-    setPassports([...[...passports].filter((_, i) => i !== index)]);
-    setPassportId(passports.length);
   };
   return (
     <main>
@@ -76,7 +85,6 @@ export default function App() {
       <PassportPreview
         passportInfo={displayedPassport}
         handleSetPassportInfo={handleSetPassportInfo}
-        removePassport={removePassport}
       />
       <PrintPreview passportInfo={displayedPassport} />
       <button

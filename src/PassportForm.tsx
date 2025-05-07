@@ -7,12 +7,13 @@ export default function PassportForm({
   setTempPassportInfo,
   handleSave,
   handleCancel,
+  handleRemove,
 }: {
   tempPassportInfo: passportInfoType;
   setTempPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
   handleSave: () => void;
   handleCancel: () => void;
-  handleDelete: () => void;
+  handleRemove: () => void;
 }) {
   const [b1, b2] = splitB(tempPassportInfo.b || "");
   const templates = [1, 2, 3];
@@ -117,6 +118,9 @@ export default function PassportForm({
       </button>
       <button type="submit" onClick={handleCancel}>
         Cancel
+      </button>
+      <button type="submit" onClick={handleRemove}>
+        Remove
       </button>
     </>
   );
