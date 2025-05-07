@@ -19,9 +19,14 @@ export default function App() {
   const [passports, setPassports] = useLocalStorage<passports>("passports", [
     defaultPassportInfo,
   ] as passports);
+
   const [currPassport, setCurrPassport] = useState<passportInfoType>(
     passports[passportId]
   );
+  useEffect(() => {
+    setCurrPassport(passports[passportId]);
+  }, [passportId, passports]);
+
   const handleSetPassportInfo = (value: passportInfoType) => {
     if (passportId === 0) {
       setPassports([...passports, { ...value }]);
@@ -39,10 +44,6 @@ export default function App() {
       setPassportId(passports.length - 1);
     }
   };
-
-  useEffect(() => {
-    setCurrPassport(passports[passportId]);
-  }, [passportId, passports]);
   return (
     <main>
       <p>
