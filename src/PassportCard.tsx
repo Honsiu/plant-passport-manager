@@ -5,12 +5,10 @@ import "./PassportCard.css";
 export default function PassportCard({
   rotated,
   passportInfo,
-  barcode,
   style,
 }: {
   rotated?: number;
   passportInfo: passportInfoType;
-  barcode: string;
   style?: CSSProperties;
 }) {
   return (
@@ -36,8 +34,8 @@ export default function PassportCard({
           <p className="passport-info">{"B " + passportInfo.b}</p>
           <p className="passport-info">
             {"C " + passportInfo.c}
-            {barcode !== "" && (
-              <img src={barcode} className="passport-barcode" />
+            {passportInfo.barcode && (
+              <img src={passportInfo.barcode} className="passport-barcode" />
             )}
           </p>
           <p className="passport-info">{"D " + passportInfo.d}</p>

@@ -7,10 +7,8 @@ import PrintOverflowWarning from "./PrintOverflowWarning";
 
 export default function PrintPreview({
   passportInfo,
-  barcode,
 }: {
   passportInfo: passportInfoType;
-  barcode: string;
 }) {
   const printReducer = (
     state: printInfoType,
@@ -87,7 +85,6 @@ export default function PrintPreview({
             <PassportCard
               rotated={printInfo.rotated}
               passportInfo={passportInfo}
-              barcode={barcode}
               key={index}
               style={{
                 fontSize: 1 / (printInfo.grid.columns || 1) + "em",

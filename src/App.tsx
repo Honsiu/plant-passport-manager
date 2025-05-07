@@ -26,15 +26,9 @@ export default function App() {
           setPassportInfo={setPassportInfo}
         />
 
-        <PassportCard
-          passportInfo={passportInfo}
-          barcode={passportInfo.barcode || ""}
-        />
+        <PassportCard passportInfo={passportInfo} />
       </section>
-      <PrintPreview
-        passportInfo={passportInfo}
-        barcode={passportInfo.barcode || ""}
-      />
+      <PrintPreview passportInfo={passportInfo} />
     </main>
   );
 }
