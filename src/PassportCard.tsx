@@ -19,8 +19,8 @@ export default function PassportCard({
         style={style || {}}
         className={
           (rotated ? "rotated " : " ") +
-          "passport-card template-" +
-          passportInfo.template.toString()
+            "passport-card template-" +
+            passportInfo.template?.toString() || "1"
         }
       >
         <div className="passport-heading">
