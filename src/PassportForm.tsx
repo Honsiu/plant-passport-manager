@@ -138,7 +138,9 @@ function EmptyInfoWarning({
 }) {
   const emptyInfo: string[] = [];
   passportInfo.a === "" ? emptyInfo.push("A") : emptyInfo;
-  splitB(passportInfo.b).includes("") ? emptyInfo.push("B") : emptyInfo;
+  !passportInfo.b || splitB(passportInfo.b).includes("")
+    ? emptyInfo.push("B")
+    : emptyInfo;
   passportInfo.c === "" ? emptyInfo.push("C") : emptyInfo;
   passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
   if (emptyInfo[0]) {
