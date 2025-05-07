@@ -1,16 +1,21 @@
 import { useState, useEffect, SetStateAction } from "react";
-import { passportInfoType } from "./types";
 
-function getStorageValue(key: string, defaultValue: Object) {
+function getStorageValue<defaultValueType>(
+  key: string,
+  defaultValue: defaultValueType
+) {
   const storedValue = localStorage.getItem(key);
   return storedValue ? JSON.parse(storedValue) : defaultValue;
 }
-export const useLocalStorage = (
+export const useLocalStorage = <defaultValueType>(
   key: string,
-  defaultValue: Object
-): [passportInfoType, React.Dispatch<SetStateAction<passportInfoType>>] => {
-  const [value, setValue] = useState<passportInfoType>(() => {
-    return getStorageValue(key, defaultValue) as passportInfoType;
+  defaultValue: defaultValueType
+): [defaultValueType, React.Dispatch<SetStateAction<defaultValueType>>] => {
+  const [value, setValue] = useState<typeof defaultValue>(() => {
+    return getStorageValue<defaultValueType>(
+      key,
+      defaultValue
+    ) as typeof defaultValue;
   });
 
   useEffect(() => {
