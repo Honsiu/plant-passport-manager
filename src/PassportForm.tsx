@@ -9,15 +9,15 @@ export default function PassportForm({
   passportInfo: passportInfoType;
   setPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
 }) {
-  const [b1, b2] = splitB(passportInfo.b || "");
-  const templates = [1, 2, 3];
-  const [changedPassportInfo, setChangedPassportInfo] = useState({
+  const [tempPassportInfo, setTempPassportInfo] = useState({
     ...passportInfo,
   });
+  const [b1, b2] = splitB(tempPassportInfo.b || "");
+  const templates = [1, 2, 3];
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files) {
-      setPassportInfo({
-        ...passportInfo,
+      setTempPassportInfo({
+        ...tempPassportInfo,
         barcode: URL.createObjectURL(e.target.files[0]),
       });
     }
@@ -27,12 +27,12 @@ export default function PassportForm({
     name: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setChangedPassportInfo({ ...passportInfo, [name]: e.target.value });
-    console.log(changedPassportInfo);
+    setTempPassportInfo({ ...passportInfo, [name]: e.target.value });
+    console.log(tempPassportInfo);
   };
 
   const handleSavePassportInfo = () => {
-    setPassportInfo(changedPassportInfo);
+    setPassportInfo(tempPassportInfo);
   };
 
   return (
@@ -41,7 +41,7 @@ export default function PassportForm({
         A
         <input
           maxLength={32}
-          defaultValue={changedPassportInfo.a}
+          defaultValue={tempPassportInfo.a}
           onChange={(e) => {
             handleInputOnChange("a", e);
           }}
@@ -54,8 +54,8 @@ export default function PassportForm({
           maxLength={2}
           defaultValue={b1}
           onChange={(e) => {
-            setChangedPassportInfo({
-              ...changedPassportInfo,
+            setTempPassportInfo({
+              ...tempPassportInfo,
               b: e.target.value + "-" + b2,
             });
           }}
@@ -66,8 +66,8 @@ export default function PassportForm({
           defaultValue={b2}
           onChange={(e) => {
             b: b1 + "-" + e.target.value,
-              setChangedPassportInfo({
-                ...changedPassportInfo,
+              setTempPassportInfo({
+                ...tempPassportInfo,
                 b: b1 + "-" + e.target.value,
               });
           }}
@@ -77,7 +77,7 @@ export default function PassportForm({
         C
         <input
           maxLength={32}
-          defaultValue={changedPassportInfo.c}
+          defaultValue={tempPassportInfo.c}
           onChange={(e) => {
             handleInputOnChange("c", e);
           }}
@@ -89,7 +89,7 @@ export default function PassportForm({
         D
         <input
           maxLength={2}
-          defaultValue={changedPassportInfo.d}
+          defaultValue={tempPassportInfo.d}
           onChange={(e) => {
             handleInputOnChange("d", e);
           }}
@@ -99,12 +99,12 @@ export default function PassportForm({
         return (
           <TemplateRadio
             key={value}
-            template={changedPassportInfo.template}
+            template={tempPassportInfo.template}
             num={value}
           />
         );
       })}
-      <EmptyInfoWarning passportInfo={changedPassportInfo} />
+      <EmptyInfoWarning passportInfo={tempPassportInfo} />
       <button type="submit" onClick={handleSavePassportInfo}>
         Save
       </button>
@@ -127,7 +127,7 @@ export default function PassportForm({
           id={"template-" + num}
           checked={template === num}
           onChange={() => {
-            setChangedPassportInfo({ ...changedPassportInfo, template: num });
+            setTempPassportInfo({ ...tempPassportInfo, template: num });
           }}
         />
       </p>
