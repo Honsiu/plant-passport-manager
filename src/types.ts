@@ -1,5 +1,5 @@
 export type passportInfoType = {
-  label?: string;
+  label: string;
   a: string;
   b: string;
   c: string;
