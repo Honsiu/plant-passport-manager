@@ -3,15 +3,16 @@ import { passportInfoType } from "./types";
 import splitB from "./splitB";
 
 export default function PassportForm({
-  passportInfo,
-  setPassportInfo,
+  tempPassportInfo,
+  setTempPassportInfo,
+  handleSave,
+  handleCancel,
 }: {
-  passportInfo: passportInfoType;
-  setPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
+  tempPassportInfo: passportInfoType;
+  setTempPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
+  handleSave: () => void;
+  handleCancel: () => void;
 }) {
-  const [tempPassportInfo, setTempPassportInfo] = useState({
-    ...passportInfo,
-  });
   const [b1, b2] = splitB(tempPassportInfo.b || "");
   const templates = [1, 2, 3];
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,12 +28,8 @@ export default function PassportForm({
     name: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setTempPassportInfo({ ...passportInfo, [name]: e.target.value });
+    setTempPassportInfo({ ...tempPassportInfo, [name]: e.target.value });
     console.log(tempPassportInfo);
-  };
-
-  const handleSavePassportInfo = () => {
-    setPassportInfo(tempPassportInfo);
   };
 
   return (
@@ -41,7 +38,7 @@ export default function PassportForm({
         A
         <input
           maxLength={32}
-          defaultValue={tempPassportInfo.a}
+          value={tempPassportInfo.a}
           onChange={(e) => {
             handleInputOnChange("a", e);
           }}
@@ -52,7 +49,7 @@ export default function PassportForm({
         B{" "}
         <input
           maxLength={2}
-          defaultValue={b1}
+          value={b1}
           onChange={(e) => {
             setTempPassportInfo({
               ...tempPassportInfo,
@@ -63,7 +60,7 @@ export default function PassportForm({
         {" - "}
         <input
           maxLength={30}
-          defaultValue={b2}
+          value={b2}
           onChange={(e) => {
             b: b1 + "-" + e.target.value,
               setTempPassportInfo({
@@ -77,7 +74,7 @@ export default function PassportForm({
         C
         <input
           maxLength={32}
-          defaultValue={tempPassportInfo.c}
+          value={tempPassportInfo.c}
           onChange={(e) => {
             handleInputOnChange("c", e);
           }}
@@ -89,7 +86,7 @@ export default function PassportForm({
         D
         <input
           maxLength={2}
-          defaultValue={tempPassportInfo.d}
+          value={tempPassportInfo.d}
           onChange={(e) => {
             handleInputOnChange("d", e);
           }}
@@ -105,8 +102,11 @@ export default function PassportForm({
         );
       })}
       <EmptyInfoWarning passportInfo={tempPassportInfo} />
-      <button type="submit" onClick={handleSavePassportInfo}>
+      <button type="submit" onClick={handleSave}>
         Save
+      </button>
+      <button type="submit" onClick={handleCancel}>
+        Cancel
       </button>
     </>
   );

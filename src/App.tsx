@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function App() {
   const defaultPassportInfo: passportInfoType = {
     a: "Default",
-    b: "Default",
+    b: "De-fault",
     c: "Default",
     barcode: "To be developed",
     d: "Default",
@@ -27,10 +27,7 @@ export default function App() {
     value: React.SetStateAction<passportInfoType>
   ) => {
     setPassportInfo(value);
-    setPassports([
-      ...passports,
-      { ...passportInfo, label: passports.length.toString() },
-    ]);
+    setPassports([...passports, { ...passportInfo }]);
   };
 
   return (
@@ -40,6 +37,13 @@ export default function App() {
         handleSetPassportInfo={handleSetPassportInfo}
       />
       <PrintPreview passportInfo={passportInfo} />
+      <button
+        onClick={() => {
+          setPassports([defaultPassportInfo]);
+        }}
+      >
+        clear useLocalStorage
+      </button>
       {JSON.stringify([passports])}
     </main>
   );
