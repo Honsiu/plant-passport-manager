@@ -1,34 +1,46 @@
 import "./App.css";
-import PassportCard from "./PassportCard";
 import PrintPreview from "./PrintPreview";
-import { passportInfoType } from "./types";
+import { passportInfoType, passports } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
-import PassportForm from "./PassportForm";
+import PassportPreview from "./PassportPreview";
+import { useState } from "react";
 
 export default function App() {
   const defaultPassportInfo: passportInfoType = {
-    a: "",
-    b: "",
-    c: "",
+    a: "Default",
+    b: "Default",
+    c: "Default",
     barcode: "To be developed",
-    d: "",
+    d: "Default",
     template: 1,
   };
-  const [passportInfo, setPassportInfo] = useLocalStorage("passportInfo", [
+
+  const [passports, setPassports] = useLocalStorage<passports>("passports", [
     defaultPassportInfo,
-  ]);
+  ] as passports);
+
+  const [passportInfo, setPassportInfo] = useState<passportInfoType>(
+    passports[0] || defaultPassportInfo
+  );
+
+  const handleSetPassportInfo = (
+    value: React.SetStateAction<passportInfoType>
+  ) => {
+    setPassportInfo(value);
+    setPassports([
+      ...passports,
+      { ...passportInfo, label: passports.length.toString() },
+    ]);
+  };
 
   return (
     <main>
-      <section>
-        <PassportForm
-          passportInfo={passportInfo}
-          setPassportInfo={setPassportInfo}
-        />
-
-        <PassportCard passportInfo={passportInfo} />
-      </section>
+      <PassportPreview
+        passportInfo={passportInfo}
+        handleSetPassportInfo={handleSetPassportInfo}
+      />
       <PrintPreview passportInfo={passportInfo} />
+      {JSON.stringify([passports])}
     </main>
   );
 }
