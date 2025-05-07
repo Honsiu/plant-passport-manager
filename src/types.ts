@@ -1,4 +1,5 @@
 export type passportInfoType = {
+  label?: string;
   a: string;
   b: string;
   c: string;
@@ -6,6 +7,7 @@ export type passportInfoType = {
   d: string;
   template: number;
 };
+export type passports = passportInfoType[];
 
 export type printInfoType = {
   // 0 means horizontal
