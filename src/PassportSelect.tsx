@@ -22,7 +22,7 @@ export const PassportSelect = ({
                 editPassport(i);
               }}
             >
-              <img src="plus-sign.png" alt="+" />
+              <img src="more.png" alt="+" />
             </button>
           );
         }
