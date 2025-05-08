@@ -1,6 +1,36 @@
+:root {
+  --bg-color: #e5f5ea;
+  --primary-light: #b0d9b1;
+  --primary-dark: #79ac78;
+
+  --brown-8: #572f17ff;
+  --brown-7: #794b2eff;
+  --brown-6: #9b6645ff;
+  --brown-5: #bc815bff;
+  --brown-4: #de9d72ff;
+  --brown-3: #e5b18eff;
+  --brown-2: #eac1a5ff;
+  --brown-1: #eecdb7ff;
+  --brown-0: #f1d7c5ff;
+}
 body {
-  background-color: #f0f0f0;
+  font-family: "Lexend";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: var(--bg-color);
+}
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 main {
-  display: flex;
+  margin: 1em 5em;
+  padding: 5em;
+  border-radius: 2.5em;
+  width: fit-content;
+  color: var(--bg-color);
+  background-color: var(--primary-light);
 }

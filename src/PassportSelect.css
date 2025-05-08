@@ -1,0 +1,126 @@
+.passport-select {
+  display: flex;
+  flex-flow: wrap row;
+  width: fit-content;
+  height: 100%;
+}
+
+.passport-box {
+  margin: 1em;
+}
+.passport-select .passport-card {
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+}
+
+.passport-label {
+  display: block;
+  width: 100%;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  background-color: var(--bg-color);
+  text-align: center;
+  color: black;
+}
+
+.buttons-background {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  background-color: transparent;
+  transition: 0.5s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.passport-card:hover .buttons-background {
+  background-color: #0007;
+  opacity: 1;
+  visibility: visible;
+}
+
+.add-passport-button {
+  align-self: center;
+  width: 9em;
+  height: 9em;
+  margin: 3em;
+  border: solid 0.6em black;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+}
+
+.add-passport-button:hover {
+  animation: spin-bounce 0.5s;
+}
+
+.add-passport-button > * {
+  height: 60%;
+}
+
+.buttons-container {
+  position: absolute;
+  top: 42%;
+  height: 2em;
+  animation: slide-up 0.5s alternate;
+  box-sizing: border-box;
+}
+
+.passport-card:hover .buttons-container {
+  animation: slide-down 0.5s;
+}
+
+.buttons-container button {
+  height: 100%;
+  padding: 0 1em;
+  text-align: center;
+  box-sizing: content-box;
+  vertical-align: middle;
+}
+
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    top: 35%;
+  }
+
+  100% {
+    opacity: 1;
+    top: 42%;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 1;
+    top: 42%;
+  }
+
+  to {
+    opacity: 0;
+    top: 25%;
+  }
+}
+
+@keyframes spin-bounce {
+  0% {
+    transform-origin: 0deg;
+  }
+
+  50% {
+    transform: rotate(20deg);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}

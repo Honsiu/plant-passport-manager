@@ -1,6 +1,6 @@
 import PassportCard from "./PassportCard";
 import { passportsType } from "./types";
-
+import "./PassportSelect.css";
 export const PassportSelect = ({
   editPassport,
   printPassport,
@@ -11,43 +11,45 @@ export const PassportSelect = ({
   passports: passportsType;
 }) => {
   return (
-    <p>
+    <div className="passport-select">
       {passports.map((passport, i) => {
         if (i === 0) {
           return (
-            <>
-              <button
-                onClick={() => {
-                  editPassport(i);
-                }}
-              >
-                Add new
-              </button>
-              <PassportCard passport={passport} key={i} />
-            </>
-          );
-        }
-        return (
-          <span>
-            {passport.label}
             <button
+              className="add-passport-button"
+              key={i}
               onClick={() => {
                 editPassport(i);
               }}
             >
-              Edit
+              <img src="plus-sign.png" alt="+" />
             </button>
-            <button
-              onClick={() => {
-                printPassport(i);
-              }}
-            >
-              Print
-            </button>
-            <PassportCard passport={passport} key={i} />
-          </span>
+          );
+        }
+        return (
+          <div className="passport-box" key={i}>
+            <span className="passport-label">{passport.label}</span>
+            <PassportCard passport={passport} key={i}>
+              <div className="buttons-container">
+                <button
+                  onClick={() => {
+                    editPassport(i);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => {
+                    printPassport(i);
+                  }}
+                >
+                  Print
+                </button>
+              </div>
+            </PassportCard>
+          </div>
         );
       })}
-    </p>
+    </div>
   );
 };

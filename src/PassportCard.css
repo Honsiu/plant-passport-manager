@@ -1,48 +1,82 @@
+/* Root Variables */
+:root {
+  --bg-color: #e5f5ea;
+  --brown-0: #f1d7c5ff;
+  --brown-1: #eecdb7ff;
+  --brown-2: #eac1a5ff;
+  --brown-3: #e5b18eff;
+  --brown-4: #de9d72ff;
+  --brown-5: #bc815bff;
+  --brown-6: #9b6645ff;
+  --brown-7: #794b2eff;
+  --brown-8: #572f17ff;
+  --primary-dark: #79ac78;
+  --primary-light: #b0d9b1;
+}
+
+/* Passport Card Styles */
 .passport-card {
+  font-size: 0.75em;
+  position: relative;
+  min-height: 8em;
+  min-width: 10em;
+  padding: 1em;
   background-color: white;
-  border: 1px solid #aaa;
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
 }
+
+/* Passport Heading */
 .passport-heading {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
   flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
 }
-img.flag {
-  width: 10em;
-}
-.passport-label {
+
+.passport-heading p {
   min-width: 8em;
+  margin-left: 1em;
   text-wrap-style: balance;
 }
-.passport-info {
-  margin: 0.5em 1em;
+
+/* Flag */
+.passport-heading .flag {
+  width: 10em;
 }
+
+/* Passport Info */
+.passport-info {
+  margin: 0.5em;
+}
+
 .passport-info::first-letter {
   font-weight: bold;
 }
 
-.passport-barcode {
+/* Passport Barcode */
+.passport-info .passport-barcode {
   max-height: 2em;
 }
-/* Template 2 */
-.passport-card.template-2 .passport-data {
+
+/* Template-Specific Styles */
+.template-2 .passport-data {
   display: flex;
   justify-content: space-between;
 }
 
-/* Template 3 */
-.passport-card.template-3 .passport-data {
+.template-3 .passport-data {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-/* rotated */
+/* Rotated Styles */
 .passport-card.rotated {
   writing-mode: vertical-rl;
 }
+
 .passport-card.rotated > .passport-heading {
-  width: min-content;
   display: flex;
   justify-content: space-between;
+  width: min-content;
 }
