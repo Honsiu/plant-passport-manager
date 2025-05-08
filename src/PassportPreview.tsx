@@ -7,6 +7,7 @@ export default function PassportPreview({
   selectedPassport,
   setPassports,
   passpId,
+  cancelActivity,
 }: {
   selectedPassport: passportType;
   setPassports: React.ActionDispatch<
@@ -20,6 +21,7 @@ export default function PassportPreview({
   >;
   passpId: number;
   setPassportId: React.Dispatch<React.SetStateAction<number>>;
+  cancelActivity: () => void;
 }) {
   const [tempPassportInfo, setTempPassportInfo] =
     useState<passportType>(selectedPassport);
@@ -29,6 +31,7 @@ export default function PassportPreview({
 
   const handleCancel = () => {
     setTempPassportInfo(selectedPassport);
+    cancelActivity();
   };
   const handleUpdate = () => {
     if (passpId === 0) {
