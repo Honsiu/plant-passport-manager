@@ -7,8 +7,10 @@ import PrintOverflowWarning from "./PrintOverflowWarning";
 
 export default function PrintPreview({
   selectedPassport,
+  cancelPrint,
 }: {
   selectedPassport: passportType;
+  cancelPrint: () => void;
 }) {
   const printReducer = (
     state: printInfoType,
@@ -58,7 +60,11 @@ export default function PrintPreview({
 
   return (
     <section className="printable">
-      <PrintForm printInfo={printInfo} dispatchPrintInfo={dispatchPrintInfo} />
+      <PrintForm
+        printInfo={printInfo}
+        dispatchPrintInfo={dispatchPrintInfo}
+        cancelPrint={cancelPrint}
+      />
       <PrintOverflowWarning previewRef={previewRef} printInfo={printInfo} />
       <div
         className="print-sheet"

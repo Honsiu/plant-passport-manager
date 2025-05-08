@@ -1,39 +1,53 @@
+import PassportCard from "./PassportCard";
 import { passportsType } from "./types";
 
 export const PassportSelect = ({
-  passpId,
-  setPasspId,
+  editPassport,
+  printPassport,
   passports,
 }: {
-  passpId: number;
-  setPasspId: React.Dispatch<React.SetStateAction<number>>;
+  editPassport: (i: number) => void;
+  printPassport: (i: number) => void;
   passports: passportsType;
 }) => {
   return (
     <p>
-      <select
-        name="select-passport"
-        id="select-passport"
-        value={passpId}
-        onChange={(e) => {
-          setPasspId(parseInt(e.target.value) || 0);
-        }}
-      >
-        {passports.map((passportInfo, i) => {
-          if (i === 0) {
-            return (
-              <option key={i} value={i}>
-                Add new
-              </option>
-            );
-          }
+      {passports.map((passport, i) => {
+        if (i === 0) {
           return (
-            <option key={i} value={i}>
-              {passportInfo.label}
-            </option>
+            <>
+              <button
+                onClick={() => {
+                  editPassport(i);
+                }}
+              >
+                Add new
+              </button>
+              <PassportCard passport={passport} key={i} />
+            </>
           );
-        })}
-      </select>
+        }
+        return (
+          <span>
+            {passport.label}
+            <button
+              onClick={() => {
+                editPassport(i);
+              }}
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => {
+                printPassport(i);
+              }}
+            >
+              Print
+            </button>
+            <PassportCard passport={passport} key={i} />
+          </span>
+        );
+      })}
     </p>
   );
 };

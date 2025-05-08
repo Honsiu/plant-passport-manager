@@ -5,6 +5,7 @@ import "./PrintForm.css";
 export default function PrintForm({
   printInfo,
   dispatchPrintInfo,
+  cancelPrint,
 }: {
   printInfo: printInfoType;
   dispatchPrintInfo: React.ActionDispatch<
@@ -15,6 +16,7 @@ export default function PrintForm({
       }
     ]
   >;
+  cancelPrint: () => void;
 }) {
   return (
     <div className="print-form">
@@ -87,6 +89,7 @@ export default function PrintForm({
         );
       })}
       <button onClick={print}>Print</button>
+      <button onClick={cancelPrint}>Cancel</button>
       <div id="print-info-mark">
         i{" "}
         <p id="print-info-text">

@@ -20,21 +20,60 @@ export default function App() {
       setDisplayedPassport(passports[passportId]);
     }
   }, [passportId, passports, passports.length]);
+  const [activity, setActivity] = useState<string>("select");
 
-  return (
-    <main>
-      <PassportSelect
-        passports={passports}
-        passpId={passportId}
-        setPasspId={setPassportId}
-      />
-      <PassportPreview
-        selectedPassport={selectedPassport}
-        setPassportId={setPassportId}
-        setPassports={dispatchPassports}
-        passpId={passportId}
-      />
-      <PrintPreview selectedPassport={selectedPassport} />
-    </main>
-  );
+  const handleEditPassport = (action: {
+    type: string;
+    passpId?: number;
+    newPassp?: passportType;
+  }) => {
+    dispatchPassports(action);
+    setActivity("select");
+  };
+
+  const editPassport = (i: number) => {
+    setPassportId(i);
+    setActivity("edit");
+  };
+  const printPassport = (i: number) => {
+    setPassportId(i);
+    setActivity("print");
+  };
+  const cancelActivity = () => {
+    setActivity("select");
+  };
+  switch (activity) {
+    case "select":
+      return (
+        <main>
+          <PassportSelect
+            passports={passports}
+            editPassport={editPassport}
+            printPassport={printPassport}
+          />
+        </main>
+      );
+    case "edit":
+      return (
+        <main>
+          <PassportPreview
+            selectedPassport={selectedPassport}
+            setPassportId={setPassportId}
+            setPassports={handleEditPassport}
+            passpId={passportId}
+            cancelActivity={cancelActivity}
+          />
+        </main>
+      );
+    case "print":
+      return (
+        <main>
+          <PrintPreview
+            selectedPassport={selectedPassport}
+            cancelPrint={cancelActivity}
+          />
+          ;
+        </main>
+      );
+  }
 }
