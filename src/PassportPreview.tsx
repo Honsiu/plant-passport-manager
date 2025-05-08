@@ -1,29 +1,53 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PassportCard from "./PassportCard";
 import PassportForm from "./PassportForm";
 import { passportInfoType } from "./types";
 
 export default function PassportPreview({
-  passportInfo,
-  handleSetPassportInfo,
+  selectedPassport,
+  dispatchPassports,
+  passpId,
 }: {
-  passportInfo: passportInfoType;
-  handleSetPassportInfo: (action: string, newPassp?: passportInfoType) => void;
+  selectedPassport: passportInfoType;
+  dispatchPassports: React.ActionDispatch<
+    [
+      action: {
+        type: string;
+        passpId?: number;
+        newPassp?: passportInfoType;
+      }
+    ]
+  >;
+  passpId: number;
 }) {
   const [tempPassportInfo, setTempPassportInfo] =
-    useState<passportInfoType>(passportInfo);
+    useState<passportInfoType>(selectedPassport);
   useEffect(() => {
-    setTempPassportInfo(passportInfo);
-  }, [passportInfo]);
+    setTempPassportInfo(selectedPassport);
+  }, [selectedPassport]);
 
-  const handleSave = () => {
-    handleSetPassportInfo("update", { ...tempPassportInfo });
-  };
   const handleCancel = () => {
-    setTempPassportInfo(passportInfo);
+    setTempPassportInfo(selectedPassport);
+  };
+  const handleUpdate = () => {
+    if (passpId === 0) {
+      dispatchPassports({
+        type: "add",
+        newPassp: tempPassportInfo,
+      });
+    } else {
+      dispatchPassports({
+        type: "update",
+        passpId: passpId,
+        newPassp: tempPassportInfo,
+      });
+    }
   };
   const handleRemove = () => {
-    handleSetPassportInfo("remove", passportInfo);
+    dispatchPassports({
+      type: "remove",
+      passpId: passpId,
+    });
   };
 
   return (
@@ -31,7 +55,7 @@ export default function PassportPreview({
       <PassportForm
         tempPassportInfo={tempPassportInfo}
         setTempPassportInfo={setTempPassportInfo}
-        handleSave={handleSave}
+        handleUpdate={handleUpdate}
         handleCancel={handleCancel}
         handleRemove={handleRemove}
       />

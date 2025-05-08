@@ -5,13 +5,13 @@ import splitB from "./splitB";
 export default function PassportForm({
   tempPassportInfo,
   setTempPassportInfo,
-  handleSave,
+  handleUpdate,
   handleCancel,
   handleRemove,
 }: {
   tempPassportInfo: passportInfoType;
   setTempPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
-  handleSave: () => void;
+  handleUpdate: () => void;
   handleCancel: () => void;
   handleRemove: () => void;
 }) {
@@ -113,7 +113,7 @@ export default function PassportForm({
         );
       })}
       <EmptyInfoWarning passportInfo={tempPassportInfo} />
-      <button type="submit" onClick={handleSave}>
+      <button type="submit" onClick={handleUpdate}>
         Save
       </button>
       <button type="submit" onClick={handleCancel}>
