@@ -1,39 +1,57 @@
 import { SetStateAction } from "react";
-import { passportInfoType } from "./types";
+import { passportType } from "./types";
 import splitB from "./splitB";
 
 export default function PassportForm({
-  passportInfo,
-  setPassportInfo,
+  tempPassportInfo,
+  setTempPassportInfo,
+  handleUpdate,
+  handleCancel,
+  handleRemove,
 }: {
-  passportInfo: passportInfoType;
-  setPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
+  tempPassportInfo: passportType;
+  setTempPassportInfo: React.Dispatch<SetStateAction<passportType>>;
+  handleUpdate: () => void;
+  handleCancel: () => void;
+  handleRemove: () => void;
 }) {
-  const [b1, b2] = splitB(passportInfo.b);
-
+  const [b1, b2] = splitB(tempPassportInfo.b || "");
+  const templates = [1, 2, 3];
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files) {
-      setPassportInfo({
-        ...passportInfo,
+      setTempPassportInfo({
+        ...tempPassportInfo,
         barcode: URL.createObjectURL(e.target.files[0]),
       });
     }
   };
-  function handleOnChange(
-    letter: string,
+
+  const handleInputOnChange = (
+    name: string,
     e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setPassportInfo({ ...passportInfo, [letter]: e.target.value });
-  }
+  ) => {
+    setTempPassportInfo({ ...tempPassportInfo, [name]: e.target.value });
+  };
+
   return (
     <>
+      <p>
+        Label
+        <input
+          maxLength={32}
+          value={tempPassportInfo.label}
+          onChange={(e) => {
+            handleInputOnChange("label", e);
+          }}
+        />
+      </p>
       <p>
         A
         <input
           maxLength={32}
-          defaultValue={passportInfo.a}
+          value={tempPassportInfo.a}
           onChange={(e) => {
-            handleOnChange("a", e);
+            handleInputOnChange("a", e);
           }}
         />
       </p>
@@ -42,10 +60,10 @@ export default function PassportForm({
         B{" "}
         <input
           maxLength={2}
-          defaultValue={b1}
+          value={b1}
           onChange={(e) => {
-            setPassportInfo({
-              ...passportInfo,
+            setTempPassportInfo({
+              ...tempPassportInfo,
               b: e.target.value + "-" + b2,
             });
           }}
@@ -53,11 +71,11 @@ export default function PassportForm({
         {" - "}
         <input
           maxLength={30}
-          defaultValue={b2}
+          value={b2}
           onChange={(e) => {
             b: b1 + "-" + e.target.value,
-              setPassportInfo({
-                ...passportInfo,
+              setTempPassportInfo({
+                ...tempPassportInfo,
                 b: b1 + "-" + e.target.value,
               });
           }}
@@ -67,9 +85,9 @@ export default function PassportForm({
         C
         <input
           maxLength={32}
-          defaultValue={passportInfo.c}
+          value={tempPassportInfo.c}
           onChange={(e) => {
-            handleOnChange("c", e);
+            handleInputOnChange("c", e);
           }}
         />{" "}
         Or{" "}
@@ -79,12 +97,67 @@ export default function PassportForm({
         D
         <input
           maxLength={2}
-          defaultValue={passportInfo.d}
+          value={tempPassportInfo.d}
           onChange={(e) => {
-            handleOnChange("d", e);
+            handleInputOnChange("d", e);
           }}
         />
       </p>
+      {templates.map((value) => {
+        return (
+          <TemplateRadio
+            key={value}
+            template={tempPassportInfo.template}
+            num={value}
+          />
+        );
+      })}
+      <EmptyInfoWarning passportInfo={tempPassportInfo} />
+      <button type="submit" onClick={handleUpdate}>
+        Save
+      </button>
+      <button type="submit" onClick={handleCancel}>
+        Cancel
+      </button>
+      <button type="submit" onClick={handleRemove}>
+        Remove
+      </button>
     </>
   );
+
+  function TemplateRadio({
+    template = 1,
+    num,
+  }: {
+    template: number;
+    num: number;
+  }) {
+    return (
+      <p>
+        <label htmlFor={"template-" + num}>Template {num}</label>
+        <input
+          type="radio"
+          name="template"
+          id={"template-" + num}
+          checked={template === num}
+          onChange={() => {
+            setTempPassportInfo({ ...tempPassportInfo, template: num });
+          }}
+        />
+      </p>
+    );
+  }
+}
+
+function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
+  const emptyInfo: string[] = [];
+  passportInfo.a === "" ? emptyInfo.push("A") : emptyInfo;
+  !passportInfo.b || splitB(passportInfo.b).includes("")
+    ? emptyInfo.push("B")
+    : emptyInfo;
+  passportInfo.c === "" ? emptyInfo.push("C") : emptyInfo;
+  passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
+  if (emptyInfo[0]) {
+    return <p>Please insert data for {emptyInfo.sort().join(", ")}</p>;
+  }
 }

@@ -1,18 +1,14 @@
 import { CSSProperties } from "react";
-import { passportInfoType } from "./types";
+import { passportType } from "./types";
 import "./PassportCard.css";
 
 export default function PassportCard({
   rotated,
-  passportInfo,
-  template,
-  barcode,
+  passport,
   style,
 }: {
   rotated?: number;
-  passportInfo: passportInfoType;
-  template: number;
-  barcode: string;
+  passport: passportType;
   style?: CSSProperties;
 }) {
   return (
@@ -21,8 +17,8 @@ export default function PassportCard({
         style={style || {}}
         className={
           (rotated ? "rotated " : " ") +
-          "passport-card template-" +
-          template.toString()
+            "passport-card template-" +
+            passport.template?.toString() || "1"
         }
       >
         <div className="passport-heading">
@@ -34,15 +30,15 @@ export default function PassportCard({
           <p className="passport-label">Paszport roślin / Plant Passport</p>
         </div>
         <div className="passport-data">
-          <p className="passport-info">{"A " + passportInfo.a}</p>
-          <p className="passport-info">{"B " + passportInfo.b}</p>
+          <p className="passport-info">{"A " + passport.a}</p>
+          <p className="passport-info">{"B " + passport.b}</p>
           <p className="passport-info">
-            {"C " + passportInfo.c}
-            {barcode !== "" && (
-              <img src={barcode} className="passport-barcode" />
+            {"C " + passport.c}
+            {passport.barcode && (
+              <img src={passport.barcode} className="passport-barcode" />
             )}
           </p>
-          <p className="passport-info">{"D " + passportInfo.d}</p>
+          <p className="passport-info">{"D " + passport.d}</p>
         </div>
       </div>
     </>

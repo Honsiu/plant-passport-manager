@@ -1,14 +1,13 @@
-export type passportDataType = {
-  info: passportInfoType;
-  template: number;
-};
-export type passportInfoType = {
+export type passportType = {
+  label: string;
   a: string;
   b: string;
   c: string;
   barcode?: string;
   d: string;
+  template: number;
 };
+export type passportsType = passportType[];
 
 export type printInfoType = {
   // 0 means horizontal
