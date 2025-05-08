@@ -1,6 +1,6 @@
 import "./App.css";
 import PrintPreview from "./PrintPreview";
-import { passportInfoType } from "./types";
+import { passportType } from "./types";
 import PassportPreview from "./PassportPreview";
 import { useEffect, useState } from "react";
 import { useStoredPassports } from "./useStoredPassports";
@@ -9,7 +9,7 @@ import { PassportSelect } from "./PassportSelect";
 export default function App() {
   const [passportId, setPassportId] = useState<number>(0);
   const [passports, dispatchPassports] = useStoredPassports();
-  const [displayedPassport, setDisplayedPassport] = useState<passportInfoType>(
+  const [selectedPassport, setDisplayedPassport] = useState<passportType>(
     passports[passportId]
   );
   useEffect(() => {
@@ -19,21 +19,22 @@ export default function App() {
     } else {
       setDisplayedPassport(passports[passportId]);
     }
-  }, [passportId, passports]);
+  }, [passportId, passports, passports.length]);
 
   return (
     <main>
       <PassportSelect
-        passpId={passportId}
         passports={passports}
+        passpId={passportId}
         setPasspId={setPassportId}
       />
       <PassportPreview
-        selectedPassport={displayedPassport}
-        dispatchPassports={dispatchPassports}
+        selectedPassport={selectedPassport}
+        setPassportId={setPassportId}
+        setPassports={dispatchPassports}
         passpId={passportId}
       />
-      <PrintPreview passportInfo={displayedPassport} />
+      <PrintPreview selectedPassport={selectedPassport} />
     </main>
   );
 }

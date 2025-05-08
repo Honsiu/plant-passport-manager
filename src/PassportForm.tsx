@@ -1,5 +1,5 @@
 import { SetStateAction } from "react";
-import { passportInfoType } from "./types";
+import { passportType } from "./types";
 import splitB from "./splitB";
 
 export default function PassportForm({
@@ -9,8 +9,8 @@ export default function PassportForm({
   handleCancel,
   handleRemove,
 }: {
-  tempPassportInfo: passportInfoType;
-  setTempPassportInfo: React.Dispatch<SetStateAction<passportInfoType>>;
+  tempPassportInfo: passportType;
+  setTempPassportInfo: React.Dispatch<SetStateAction<passportType>>;
   handleUpdate: () => void;
   handleCancel: () => void;
   handleRemove: () => void;
@@ -149,11 +149,7 @@ export default function PassportForm({
   }
 }
 
-function EmptyInfoWarning({
-  passportInfo,
-}: {
-  passportInfo: passportInfoType;
-}) {
+function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
   const emptyInfo: string[] = [];
   passportInfo.a === "" ? emptyInfo.push("A") : emptyInfo;
   !passportInfo.b || splitB(passportInfo.b).includes("")

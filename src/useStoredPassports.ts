@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { passportInfoType, passportsType } from "./types";
+import { passportType, passportsType } from "./types";
 
 function getStorageValue<defaultValueType>(
   key: string,
@@ -9,7 +9,7 @@ function getStorageValue<defaultValueType>(
   return storedValue ? JSON.parse(storedValue) : defaultValue;
 }
 
-const defaultPassport: passportInfoType = {
+const defaultPassport: passportType = {
   label: "New Plant Passport",
   a: "",
   b: "",
@@ -34,7 +34,7 @@ export const useStoredPassports = () => {
 const usePassports = (defaultPassports: passportsType = [defaultPassport]) => {
   const reducePassports = (
     passports: passportsType,
-    action: { type: string; passpId?: number; newPassp?: passportInfoType }
+    action: { type: string; passpId?: number; newPassp?: passportType }
   ) => {
     switch (action.type) {
       case "add": {

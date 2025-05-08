@@ -1,14 +1,14 @@
 import { JSX, useReducer, useRef } from "react";
 import PassportCard from "./PassportCard";
-import { passportInfoType, printInfoType } from "./types";
+import { passportType, printInfoType } from "./types";
 import PrintForm from "./PrintForm";
 import "./PrintPreview.css";
 import PrintOverflowWarning from "./PrintOverflowWarning";
 
 export default function PrintPreview({
-  passportInfo,
+  selectedPassport,
 }: {
-  passportInfo: passportInfoType;
+  selectedPassport: passportType;
 }) {
   const printReducer = (
     state: printInfoType,
@@ -50,7 +50,7 @@ export default function PrintPreview({
     gap: { horizontal: 0, vertical: 0 },
     margin: { top: 0, bottom: 0, left: 0, right: 0 },
   });
-  const passportCards: JSX.Element[][] = [
+  const passportGrid: JSX.Element[][] = [
     ...Array(printInfo.grid.columns * printInfo.grid.rows),
   ];
 
@@ -81,10 +81,10 @@ export default function PrintPreview({
             gridTemplateColumns: "repeat(" + printInfo.grid.columns + ", 1fr)",
           }}
         >
-          {passportCards.map((_, index) => (
+          {passportGrid.map((_, index) => (
             <PassportCard
               rotated={printInfo.rotated}
-              passportInfo={passportInfo}
+              passport={selectedPassport}
               key={index}
               style={{
                 fontSize: 1 / (printInfo.grid.columns || 1) + "em",

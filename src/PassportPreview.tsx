@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
 import PassportCard from "./PassportCard";
 import PassportForm from "./PassportForm";
-import { passportInfoType } from "./types";
+import { passportType } from "./types";
 
 export default function PassportPreview({
   selectedPassport,
-  dispatchPassports,
+  setPassports,
   passpId,
 }: {
-  selectedPassport: passportInfoType;
-  dispatchPassports: React.ActionDispatch<
+  selectedPassport: passportType;
+  setPassports: React.ActionDispatch<
     [
       action: {
         type: string;
         passpId?: number;
-        newPassp?: passportInfoType;
+        newPassp?: passportType;
       }
     ]
   >;
   passpId: number;
+  setPassportId: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [tempPassportInfo, setTempPassportInfo] =
-    useState<passportInfoType>(selectedPassport);
+    useState<passportType>(selectedPassport);
   useEffect(() => {
     setTempPassportInfo(selectedPassport);
   }, [selectedPassport]);
@@ -31,12 +32,12 @@ export default function PassportPreview({
   };
   const handleUpdate = () => {
     if (passpId === 0) {
-      dispatchPassports({
+      setPassports({
         type: "add",
         newPassp: tempPassportInfo,
       });
     } else {
-      dispatchPassports({
+      setPassports({
         type: "update",
         passpId: passpId,
         newPassp: tempPassportInfo,
@@ -44,7 +45,7 @@ export default function PassportPreview({
     }
   };
   const handleRemove = () => {
-    dispatchPassports({
+    setPassports({
       type: "remove",
       passpId: passpId,
     });
@@ -55,11 +56,11 @@ export default function PassportPreview({
       <PassportForm
         tempPassportInfo={tempPassportInfo}
         setTempPassportInfo={setTempPassportInfo}
-        handleUpdate={handleUpdate}
         handleCancel={handleCancel}
+        handleUpdate={handleUpdate}
         handleRemove={handleRemove}
       />
-      <PassportCard passportInfo={tempPassportInfo} />
+      <PassportCard passport={tempPassportInfo} />
     </section>
   );
 }
