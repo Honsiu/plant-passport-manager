@@ -1,6 +1,5 @@
 import React, { JSX, useEffect, useState } from "react";
 import PassportCard from "./PassportCard";
-import PassportForm from "./PassportForm";
 import { passportType } from "./types";
 import "./PassportPreview.css";
 import splitB from "./splitB";
@@ -169,6 +168,9 @@ export default function PassportPreview({
               }}
             />
           </p>
+          <p className="warning-box">
+            <EmptyInfoWarning passportInfo={tempPassportInfo} />
+          </p>
         </fieldset>
 
         <fieldset>
@@ -187,17 +189,19 @@ export default function PassportPreview({
             })}
           </div>
         </fieldset>
-        <div className="pasport-box">
-          <button type="submit" onClick={handleUpdate}>
-            Save
-          </button>
-          <button type="submit" onClick={handleCancel}>
-            Cancel
-          </button>
-          <button type="submit" onClick={handleRemove}>
-            Remove
-          </button>
-          <EmptyInfoWarning passportInfo={tempPassportInfo} />
+
+        <div className="passport-box">
+          <div className="buttons">
+            <button type="submit" onClick={handleUpdate}>
+              Save
+            </button>
+            <button type="submit" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button type="submit" onClick={handleRemove}>
+              Remove
+            </button>
+          </div>
           <PassportCard passport={tempPassportInfo} />
         </div>
       </form>

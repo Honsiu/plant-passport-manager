@@ -21,16 +21,11 @@ body {
   box-sizing: border-box;
   background-color: var(--bg-color);
 }
-.root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 main {
-  margin: 1em 5em;
+  margin: 1em auto;
+}
+main > * {
+  background-color: var(--primary-light);
   padding: 5em;
   border-radius: 2.5em;
-  width: fit-content;
-  color: #333;
-  background-color: var(--primary-light);
 }
