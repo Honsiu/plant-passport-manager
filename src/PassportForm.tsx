@@ -1,6 +1,7 @@
-import { SetStateAction } from "react";
+import { JSX, SetStateAction } from "react";
 import { passportType } from "./types";
 import splitB from "./splitB";
+import PassportCard from "./PassportCard";
 
 export default function PassportForm({
   tempPassportInfo,
@@ -15,8 +16,16 @@ export default function PassportForm({
   handleCancel: () => void;
   handleRemove: () => void;
 }) {
+  const placeholders = {
+    label: "Passport Label",
+    a: "Botanical Name",
+    b1: "Company ISO",
+    b2: "Registration Number",
+    c: "Traceability Code",
+    d: "Origin ISO",
+  };
   const [b1, b2] = splitB(tempPassportInfo.b || "");
-  const templates = [1, 2, 3];
+  const templates = ["Narrow", "Wide", "Compact"];
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files) {
       setTempPassportInfo({
@@ -35,106 +44,138 @@ export default function PassportForm({
 
   return (
     <>
-      <p>
-        Label
-        <input
-          maxLength={32}
-          value={tempPassportInfo.label}
-          onChange={(e) => {
-            handleInputOnChange("label", e);
-          }}
-        />
-      </p>
-      <p>
-        A
-        <input
-          maxLength={32}
-          value={tempPassportInfo.a}
-          onChange={(e) => {
-            handleInputOnChange("a", e);
-          }}
-        />
-      </p>
-
-      <p>
-        B{" "}
-        <input
-          maxLength={2}
-          value={b1}
-          onChange={(e) => {
-            setTempPassportInfo({
-              ...tempPassportInfo,
-              b: e.target.value + "-" + b2,
-            });
-          }}
-        />
-        {" - "}
-        <input
-          maxLength={30}
-          value={b2}
-          onChange={(e) => {
-            b: b1 + "-" + e.target.value,
-              setTempPassportInfo({
-                ...tempPassportInfo,
+      <form>
+        <fieldset>
+          <legend>Passport Info</legend>
+          <p className="passport-info-input label">
+            Label
+            <input
+              required={true}
+              placeholder={placeholders.label}
+              maxLength={32}
+              value={tempPassportInfo.label}
+              onChange={(e) => {
+                handleInputOnChange("label", e);
+              }}
+            />
+          </p>
+          <p className="passport-info-input a">
+            A
+            <input
+              required={true}
+              placeholder={placeholders.a}
+              maxLength={32}
+              value={tempPassportInfo.a}
+              onChange={(e) => {
+                handleInputOnChange("a", e);
+              }}
+            />
+          </p>
+          <p className="passport-info-input b">
+            B
+            <input
+              required={true}
+              placeholder={placeholders.b1}
+              maxLength={2}
+              value={b1}
+              onChange={(e) => {
+                setTempPassportInfo({
+                  ...tempPassportInfo,
+                  b: e.target.value + "-" + b2,
+                });
+              }}
+            />
+            -
+            <input
+              required={true}
+              placeholder={placeholders.b2}
+              maxLength={30}
+              value={b2}
+              onChange={(e) => {
                 b: b1 + "-" + e.target.value,
-              });
-          }}
-        />
-      </p>
-      <p>
-        C
-        <input
-          maxLength={32}
-          value={tempPassportInfo.c}
-          onChange={(e) => {
-            handleInputOnChange("c", e);
-          }}
-        />{" "}
-        Or{" "}
-        <input type="file" name="barcode-input" onChange={handleFileChange} />
-      </p>
-      <p>
-        D
-        <input
-          maxLength={2}
-          value={tempPassportInfo.d}
-          onChange={(e) => {
-            handleInputOnChange("d", e);
-          }}
-        />
-      </p>
-      {templates.map((value) => {
-        return (
-          <TemplateRadio
-            key={value}
-            template={tempPassportInfo.template}
-            num={value}
-          />
-        );
-      })}
-      <EmptyInfoWarning passportInfo={tempPassportInfo} />
-      <button type="submit" onClick={handleUpdate}>
-        Save
-      </button>
-      <button type="submit" onClick={handleCancel}>
-        Cancel
-      </button>
-      <button type="submit" onClick={handleRemove}>
-        Remove
-      </button>
+                  setTempPassportInfo({
+                    ...tempPassportInfo,
+                    b: b1 + "-" + e.target.value,
+                  });
+              }}
+            />
+          </p>
+          <p className="passport-info-input c">
+            C
+            <input
+              placeholder={placeholders.c}
+              maxLength={32}
+              value={tempPassportInfo.c}
+              onChange={(e) => {
+                handleInputOnChange("c", e);
+              }}
+            />
+            Or
+            <input
+              type="file"
+              name="barcode-input"
+              onChange={handleFileChange}
+            />
+          </p>
+          <p className="passport-info-input d">
+            D
+            <input
+              required={true}
+              placeholder={placeholders.d}
+              maxLength={2}
+              value={tempPassportInfo.d}
+              onChange={(e) => {
+                handleInputOnChange("d", e);
+              }}
+            />
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Template</legend>
+          <div className="templates">
+            {templates.map((value, i) => {
+              return (
+                <TemplateRadio
+                  key={i}
+                  template={tempPassportInfo.template}
+                  num={i + 1}
+                >
+                  <>{value}</>
+                </TemplateRadio>
+              );
+            })}
+          </div>
+        </fieldset>
+        <div className="pasport-box">
+          <button type="submit" onClick={handleUpdate}>
+            Save
+          </button>
+          <button type="submit" onClick={handleCancel}>
+            Cancel
+          </button>
+          <button type="submit" onClick={handleRemove}>
+            Remove
+          </button>
+          <EmptyInfoWarning passportInfo={tempPassportInfo} />
+          <PassportCard passport={tempPassportInfo} />
+        </div>
+      </form>
     </>
   );
 
   function TemplateRadio({
     template = 1,
     num,
+    children,
   }: {
     template: number;
     num: number;
+    children: JSX.Element;
   }) {
     return (
-      <p>
-        <label htmlFor={"template-" + num}>Template {num}</label>
+      <p className="passport-info-input">
+        <label htmlFor={" template-" + num}>{children}</label>
         <input
           type="radio"
           name="template"
