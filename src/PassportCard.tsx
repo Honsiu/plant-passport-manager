@@ -28,18 +28,18 @@ export default function PassportCard({
           className="flag"
           alt="Flaga UE"
         />
-        <p>Paszport roślin / Plant Passport</p>
+        <span>Paszport roślin / Plant Passport</span>
       </div>
       <div className="passport-data">
-        <p className="passport-info">{"A " + passport.a}</p>
-        <p className="passport-info">{"B " + passport.b}</p>
-        <p className="passport-info">
+        <span className="passport-info">{"A " + passport.a}</span>
+        <span className="passport-info">{"B " + passport.b}</span>
+        <span className="passport-info">
           {"C " + passport.c}
           {passport.barcode && (
             <img src={passport.barcode} className="passport-barcode" />
           )}
-        </p>
-        <p className="passport-info">{"D " + passport.d}</p>
+        </span>
+        <span className="passport-info">{"D " + passport.d}</span>
       </div>
       <div className="buttons-background">{children}</div>
     </div>

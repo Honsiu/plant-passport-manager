@@ -31,6 +31,6 @@ main {
   padding: 5em;
   border-radius: 2.5em;
   width: fit-content;
-  color: var(--bg-color);
+  color: #333;
   background-color: var(--primary-light);
 }

@@ -22,7 +22,8 @@ export const PassportSelect = ({
                 editPassport(i);
               }}
             >
-              <img src="more.png" alt="+" />
+              <div className="v-pipe"></div>
+              <div className="h-pipe"></div>
             </button>
           );
         }

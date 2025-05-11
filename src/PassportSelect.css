@@ -1,14 +1,12 @@
 .passport-select {
   display: flex;
+  gap: 2em;
   flex-flow: wrap row;
   justify-content: space-around;
   width: fit-content;
   height: 100%;
 }
 
-.passport-box {
-  margin: 1em;
-}
 .passport-select .passport-card {
   border-bottom-left-radius: 1em;
   border-bottom-right-radius: 1em;
@@ -25,14 +23,43 @@
 }
 
 .add-passport-button {
-  align-self: flex-start;
-  justify-self: flex-start;
-  width: 9em;
-  height: 9em;
-  margin-left: 2em;
-  margin-top: 4em;
-  background-color: transparent;
-  border: none;
+  position: relative;
+  font-size: 1em;
+  width: 10em;
+  height: 10em;
+  background-color: var(--bg-color);
+
+  border: black 0.4em solid;
+  border-radius: 2em;
+  padding: 0em;
+}
+
+.add-passport-button:hover {
+  box-sizing: border-box;
+  animation: spin-bounce 0.3s;
+}
+.add-passport-button .v-pipe {
+  position: absolute;
+  left: calc(50% - 0.2em);
+  top: 0;
+  height: 80%;
+  width: 0.4em;
+  background-color: black;
+
+  margin: 10% 0;
+  border-radius: 1em;
+}
+.add-passport-button .h-pipe {
+  position: absolute;
+  left: 0;
+  top: calc(50% - 0.2em);
+
+  height: 0.4em;
+  width: 80%;
+  background-color: black;
+
+  margin: 0 10%;
+  border-radius: 1em;
 }
 
 .buttons-background {
@@ -46,68 +73,63 @@
   border-bottom-left-radius: 1em;
   border-bottom-right-radius: 1em;
   background-color: transparent;
-  transition: 0.5s;
+  transition: 0.3s;
   opacity: 0;
   visibility: hidden;
 }
 
-.passport-card:hover .buttons-background {
+.passport-select .passport-card:hover .buttons-background {
   background-color: #0007;
   opacity: 1;
   visibility: visible;
 }
 
-.add-passport-button:hover {
-  animation: spin-bounce 0.5s;
-}
-
-.add-passport-button > * {
-  height: 100%;
-  background-color: var(--bg-color);
-  border-radius: 2em;
-}
-
 .buttons-container {
   position: absolute;
-  top: 42%;
+  top: 30%;
   height: 2em;
   animation: slide-up 0.5s alternate;
   box-sizing: border-box;
 }
 
-.passport-card:hover .buttons-container {
+.passport-select .passport-card:hover .buttons-container {
   animation: slide-down 0.5s;
 }
 
 .buttons-container button {
-  height: 100%;
-  padding: 0 1em;
-  text-align: center;
   box-sizing: content-box;
+  padding: 1em 2em;
+  border: none;
+  margin: 0.5em;
+
+  height: 100%;
+  background-color: var(--primary-light);
+
+  text-align: center;
   vertical-align: middle;
 }
 
 @keyframes slide-down {
   0% {
     opacity: 0;
-    top: 35%;
+    top: 20%;
   }
 
   100% {
     opacity: 1;
-    top: 42%;
+    top: 30%;
   }
 }
 
 @keyframes slide-up {
   from {
     opacity: 1;
-    top: 42%;
+    top: 30%;
   }
 
   to {
     opacity: 0;
-    top: 25%;
+    top: 10%;
   }
 }
 
@@ -117,11 +139,11 @@
   }
 
   50% {
-    transform: rotate(30deg);
+    transform: rotate(20deg);
   }
 
   75% {
-    transform: rotate(-10deg);
+    transform: rotate(-7.5deg);
   }
 
   100% {
