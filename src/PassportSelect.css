@@ -15,6 +15,7 @@
 .passport-label {
   display: block;
   width: 100%;
+  margin: 0px;
   border-top-left-radius: 1em;
   border-top-right-radius: 1em;
   background-color: var(--bg-color);

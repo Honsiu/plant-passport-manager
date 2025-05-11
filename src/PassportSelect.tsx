@@ -29,7 +29,7 @@ export const PassportSelect = ({
         }
         return (
           <div className="passport-box" key={i}>
-            <span className="passport-label">{passport.label}</span>
+            <p className="passport-label">{passport.label || "Passport"}</p>
             <PassportCard passport={passport} key={i}>
               <div className="buttons-container">
                 <button
