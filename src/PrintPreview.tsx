@@ -59,7 +59,7 @@ export default function PrintPreview({
   const previewRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="printable">
+    <section className="print-preview printable">
       <form className="flex gap-5em">
         <div className="print-form">
           {Object.keys(printInfo).map((key) => {
@@ -147,45 +147,38 @@ export default function PrintPreview({
             </p>
           </div>
         </div>
-
         <div className="preview-window">
           <div className="buttons">
             <button onClick={print}>Print</button>
             <button onClick={cancelPrint}>Cancel</button>
           </div>
           <div
-            className="print-sheet"
+            className="print-sheet print-grid-box"
+            ref={previewRef}
             style={{
               padding: [
-                printInfo.margin.top % 200,
-                printInfo.margin.right % 200,
-                printInfo.margin.bottom % 200,
-                printInfo.margin.left % 200,
+                printInfo.margin.top % 297,
+                printInfo.margin.right % 210,
+                printInfo.margin.bottom % 297,
+                printInfo.margin.left % 210,
                 " ",
               ].join("mm "),
+              columnGap: printInfo.gap.horizontal + "mm",
+              rowGap: printInfo.gap.vertical + "mm",
+              gridTemplateColumns:
+                "repeat(" + printInfo.grid.columns + ", 1fr)",
             }}
           >
-            <div
-              ref={previewRef}
-              className="print-grid-box"
-              style={{
-                columnGap: printInfo.gap.horizontal + "mm",
-                rowGap: printInfo.gap.vertical + "mm",
-                gridTemplateColumns:
-                  "repeat(" + printInfo.grid.columns + ", 1fr)",
-              }}
-            >
-              {passportGrid.map((_, index) => (
-                <PassportCard
-                  rotated={printInfo.rotated}
-                  passport={selectedPassport}
-                  key={index}
-                  style={{
-                    fontSize: 1 / (printInfo.grid.columns || 1) + "em",
-                  }}
-                />
-              ))}
-            </div>
+            {passportGrid.map((_, index) => (
+              <PassportCard
+                rotated={printInfo.rotated}
+                passport={selectedPassport}
+                key={index}
+                style={{
+                  fontSize: 1 / (printInfo.grid.columns || 1) + "em",
+                }}
+              />
+            ))}
           </div>
         </div>
       </form>

@@ -1,35 +1,24 @@
 /* Print */
 .print-sheet {
-  background-color: white;
-  aspect-ratio: 210/297;
-
-  overflow: hidden;
-  background-color: #eee;
-}
-.print-grid-box {
-  display: grid;
-  height: 100%;
-}
-.print-grid-box > * {
-  box-sizing: border-box;
   width: 100%;
+  max-height: 70vh;
+  background-color: #eee;
 
+  aspect-ratio: 210/297;
+  overflow: hidden;
+
+  display: grid;
+}
+.print-sheet > * {
+  width: 100%;
   margin: 0em;
 }
 
-@media print {
-  section:not(.printable, .printable *) {
-    display: none;
-  }
-  .print-sheet {
-    width: 210mm;
-    height: 297mm;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    border: none;
-  }
+.print-preview .preview-window {
+  width: 32em;
+}
+.print-preview .passport-card p {
+  width: 100%;
 }
 
 .print-form {
@@ -58,4 +47,18 @@
 #print-info-mark:hover #print-info-text {
   visibility: visible;
   background-color: #aaa;
+}
+@media print {
+  section:not(.printable, .printable *) {
+    display: none;
+  }
+  .print-sheet {
+    width: 210mm;
+    height: 297mm;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border: none;
+  }
 }

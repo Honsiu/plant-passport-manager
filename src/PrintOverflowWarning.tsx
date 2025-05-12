@@ -24,9 +24,9 @@ export default function PrintOverflowWarning({
   }, [printInfo]);
   return (
     isOverflown && (
-      <div>
-        <span>Warning! Your data doesn't fit the sheet, please check it.</span>
-      </div>
+      <p className="overflow-warning">
+        Warning! Your data doesn't fit the sheet.
+      </p>
     )
   );
 }
