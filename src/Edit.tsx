@@ -1,10 +1,10 @@
 import React, { JSX, useEffect, useState } from "react";
-import PassportCard from "./PassportCard";
+import Card from "./Card";
 import { passportType } from "./types";
-import "./styles/PassportPreview.css";
+import "./styles/Edit.css";
 import { splitB } from "./utils";
 
-export default function PassportEdit({
+export default function Edit({
   selectedPassport,
   setPassports,
   passpId,
@@ -199,7 +199,7 @@ export default function PassportEdit({
               Remove
             </button>
           </div>
-          <PassportCard passport={tempPassportInfo} />
+          <Card passport={tempPassportInfo} />
         </div>
       </form>
     </section>

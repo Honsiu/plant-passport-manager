@@ -1,10 +1,10 @@
 import { JSX, useEffect, useReducer, useRef, useState } from "react";
-import PassportCard from "./PassportCard";
+import Card from "./Card";
 import { passportType, printInfoType } from "./types";
-import "./styles/PrintPreview.css";
+import "./styles/Print.css";
 import { capitalizeString } from "./utils";
 
-export default function PassportPrint({
+export default function Print({
   selectedPassport,
   cancelPrint,
 }: {
@@ -169,7 +169,7 @@ export default function PassportPrint({
             }}
           >
             {passportGrid.map((_, index) => (
-              <PassportCard
+              <Card
                 rotated={printInfo.rotated}
                 passport={selectedPassport}
                 key={index}
