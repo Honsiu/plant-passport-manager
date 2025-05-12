@@ -25,7 +25,7 @@ export default function PassportCard({
       <div className="passport-heading">
         <img
           src={"./flag_black_white" + (rotated ? "_rotated" : "") + ".svg"}
-          className="flag"
+          className="flag rotated"
           alt="Flaga UE"
         />
         <span>Paszport roślin / Plant Passport</span>

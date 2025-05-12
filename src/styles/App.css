@@ -22,9 +22,11 @@ body {
   background-color: var(--bg-color);
 }
 main {
+  max-width: 80%;
   margin: 1em auto;
 }
 main > * {
+  width: fit-content;
   background-color: var(--primary-light);
   padding: 5em;
   border-radius: 2.5em;
@@ -33,12 +35,21 @@ main > * {
 fieldset {
   box-sizing: border-box;
   background-color: var(--primary-dark);
-
-  margin: 0em 5em 2em 0em;
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 2em;
   border: none;
   border-radius: 16px;
   padding: 0px;
 }
+fieldset > p {
+  margin: 1em;
+  text-wrap: nowrap;
+}
+fieldset > p > * {
+  margin: 0em 0.5em;
+}
+
 legend {
   font-size: 1.2em;
   font-weight: 500;
@@ -53,21 +64,18 @@ legend {
   border-top-right-radius: 16px;
   border-top-left-radius: 16px;
 }
-fieldset > p {
-  margin-left: 1em;
-}
-fieldset > p > * {
-  margin: 0em 0.5em;
-}
+
 .flex {
   display: flex;
+}
+.gap-5em {
+  gap: 5em;
 }
 .preview-window {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  width: fit-content;
+  width: min-content;
 
   margin: auto;
 }
@@ -82,11 +90,14 @@ fieldset > p > * {
   border-top-right-radius: 12px;
 }
 .preview-window .buttons > * {
+  flex-grow: 1;
+
   font-size: 1em;
   font-weight: 500;
-  flex-grow: 0.9;
-  background-color: aliceblue;
   color: var(--primary-dark);
+
+  background-color: aliceblue;
+
   border: 0.15em solid var(--primary-dark);
 
   transition: 0.4s;
@@ -106,4 +117,7 @@ div.radios {
   display: flex;
   justify-content: space-evenly;
   margin: 0.5em;
+}
+div.radios > * {
+  margin: 0em 1em;
 }

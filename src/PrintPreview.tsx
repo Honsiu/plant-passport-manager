@@ -60,7 +60,7 @@ export default function PrintPreview({
 
   return (
     <section className="printable">
-      <form className="flex">
+      <form className="flex gap-5em">
         <div className="print-form">
           {Object.keys(printInfo).map((key) => {
             if (key === "rotated") {

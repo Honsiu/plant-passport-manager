@@ -11,7 +11,7 @@ export const PassportSelect = ({
   passports: passportsType;
 }) => {
   return (
-    <div className="passport-select">
+    <section className="passport-select">
       {passports.map((passport, i) => {
         if (i === 0) {
           return (
@@ -51,6 +51,6 @@ export const PassportSelect = ({
           </div>
         );
       })}
-    </div>
+    </section>
   );
 };

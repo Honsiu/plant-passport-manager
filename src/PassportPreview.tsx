@@ -82,7 +82,7 @@ export default function PassportPreview({
     });
   };
   return (
-    <div className="passport-preview">
+    <section className="passport-preview">
       <form>
         <fieldset>
           <legend>Passport Info</legend>
@@ -204,7 +204,7 @@ export default function PassportPreview({
           <PassportCard passport={tempPassportInfo} />
         </div>
       </form>
-    </div>
+    </section>
   );
 
   function TemplateRadio({
