@@ -86,34 +86,36 @@ export default function Edit({
       <form>
         <fieldset>
           <legend>Passport Info</legend>
-          <p className="passport-info-input label">
-            Label
-            <input
-              required={true}
+          <div className="passport-info-input label">
+            <LabeledInput
+              className=""
+              id="label-input"
               placeholder={placeholders.label}
               maxLength={32}
-              value={tempPassportInfo.label}
               onChange={(e) => {
                 handleInputOnChange("label", e);
               }}
+              value={tempPassportInfo.label}
+              label="Label"
             />
-          </p>
-          <p className="passport-info-input a">
-            A
-            <input
-              required={true}
+          </div>
+          <div className="passport-info-input a">
+            <LabeledInput
+              className="passport-info-input a"
+              id="a-input"
+              label="A"
               placeholder={placeholders.a}
               maxLength={32}
               value={tempPassportInfo.a}
-              onChange={(e) => {
-                handleInputOnChange("a", e);
-              }}
+              onChange={(e) => handleInputOnChange("a", e)}
             />
-          </p>
-          <p className="passport-info-input b">
-            B
-            <input
-              required={true}
+          </div>
+
+          <div className="passport-info-input B">
+            <LabeledInput
+              className="passport-info-input b1"
+              id="b1-input"
+              label="B"
               placeholder={placeholders.b1}
               maxLength={2}
               value={b1}
@@ -124,50 +126,49 @@ export default function Edit({
                 });
               }}
             />
-            -
-            <input
-              required={true}
+            <span>-</span>
+            <LabeledInput
+              className="passport-info-input b2"
+              id="b2-input"
+              label=""
               placeholder={placeholders.b2}
               maxLength={30}
               value={b2}
               onChange={(e) => {
-                b: b1 + "-" + e.target.value,
-                  setTempPassportInfo({
-                    ...tempPassportInfo,
-                    b: b1 + "-" + e.target.value,
-                  });
+                setTempPassportInfo({
+                  ...tempPassportInfo,
+                  b: b1 + "-" + e.target.value,
+                });
               }}
             />
-          </p>
-          <p className="passport-info-input c">
-            C
-            <input
+          </div>
+          <div className="passport-info-input c">
+            <LabeledInput
+              className=""
+              id="c-input"
+              label="C"
               placeholder={placeholders.c}
               maxLength={32}
               value={tempPassportInfo.c}
-              onChange={(e) => {
-                handleInputOnChange("c", e);
-              }}
+              onChange={(e) => handleInputOnChange("c", e)}
             />
-            Or
+            <span>Or</span>
             <input
+              id="barcode-input"
               type="file"
               name="barcode-input"
               onChange={handleFileChange}
             />
-          </p>
-          <p className="passport-info-input d">
-            D
-            <input
-              required={true}
-              placeholder={placeholders.d}
-              maxLength={2}
-              value={tempPassportInfo.d}
-              onChange={(e) => {
-                handleInputOnChange("d", e);
-              }}
-            />
-          </p>
+          </div>
+          <LabeledInput
+            className="passport-info-input d"
+            id="d-input"
+            label="D"
+            placeholder={placeholders.d}
+            maxLength={2}
+            value={tempPassportInfo.d}
+            onChange={(e) => handleInputOnChange("d", e)}
+          />
           <EmptyInfoWarning passportInfo={tempPassportInfo} />
         </fieldset>
 
@@ -246,4 +247,34 @@ function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
       </p>
     );
   }
+}
+function LabeledInput({
+  id,
+  className,
+  label,
+  placeholder,
+  maxLength,
+  value,
+  onChange,
+}: {
+  id: string;
+  className: string;
+  label: string;
+  placeholder: string;
+  value: string;
+  maxLength: number;
+  onChange: (e: any) => void;
+}) {
+  return (
+    <span className={className}>
+      <label htmlFor={id}>{label}</label>
+      <input
+        id={id}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        value={value}
+        onChange={onChange}
+      />
+    </span>
+  );
 }
