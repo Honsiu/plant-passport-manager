@@ -1,10 +1,10 @@
 import "./styles/App.css";
-import PrintPreview from "./PrintPreview";
+import PassportPrint from "./PassportPrint";
+import PassportEdit from "./PassportEdit";
+import PassportSelect from "./PassportSelect";
 import { passportType } from "./types";
-import PassportPreview from "./PassportPreview";
 import { useEffect, useState } from "react";
 import { useStoredPassports } from "./useStoredPassports";
-import { PassportSelect } from "./PassportSelect";
 
 export default function App() {
   const [passportId, setPassportId] = useState<number>(0);
@@ -58,7 +58,7 @@ export default function App() {
       return (
         <main>
           <h2>Edit a passport</h2>
-          <PassportPreview
+          <PassportEdit
             selectedPassport={selectedPassport}
             setPassportId={setPassportId}
             setPassports={handleEditPassport}
@@ -71,7 +71,7 @@ export default function App() {
       return (
         <main>
           <h2>Print a passport</h2>
-          <PrintPreview
+          <PassportPrint
             selectedPassport={selectedPassport}
             cancelPrint={cancelActivity}
           />

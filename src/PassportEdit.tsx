@@ -4,7 +4,7 @@ import { passportType } from "./types";
 import "./styles/PassportPreview.css";
 import { splitB } from "./utils";
 
-export default function PassportPreview({
+export default function PassportEdit({
   selectedPassport,
   setPassports,
   passpId,

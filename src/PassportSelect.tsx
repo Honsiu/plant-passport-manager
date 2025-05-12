@@ -1,7 +1,7 @@
 import PassportCard from "./PassportCard";
 import { passportsType } from "./types";
 import "./styles/PassportSelect.css";
-export const PassportSelect = ({
+export default function PassportSelect({
   editPassport,
   printPassport,
   passports,
@@ -9,7 +9,7 @@ export const PassportSelect = ({
   editPassport: (i: number) => void;
   printPassport: (i: number) => void;
   passports: passportsType;
-}) => {
+}) {
   return (
     <section className="passport-select">
       <button
@@ -51,4 +51,4 @@ export const PassportSelect = ({
       })}
     </section>
   );
-};
+}

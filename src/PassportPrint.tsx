@@ -1,11 +1,10 @@
-import { JSX, useReducer, useRef } from "react";
+import { JSX, useEffect, useReducer, useRef, useState } from "react";
 import PassportCard from "./PassportCard";
 import { passportType, printInfoType } from "./types";
 import "./styles/PrintPreview.css";
-import PrintOverflowWarning from "./PrintOverflowWarning";
 import { capitalizeString } from "./utils";
 
-export default function PrintPreview({
+export default function PassportPrint({
   selectedPassport,
   cancelPrint,
 }: {
@@ -183,5 +182,35 @@ export default function PrintPreview({
         </div>
       </form>
     </section>
+  );
+}
+
+function PrintOverflowWarning({
+  previewRef,
+  printInfo,
+}: {
+  previewRef: React.RefObject<HTMLDivElement | null>;
+  printInfo: printInfoType;
+}) {
+  const [isOverflown, setIsOverflown] = useState<boolean | null>(null);
+
+  const checkIsOverflown = () => {
+    if (previewRef.current) {
+      return (
+        previewRef.current.scrollHeight > previewRef.current.clientHeight ||
+        previewRef.current.scrollWidth > previewRef.current.clientWidth
+      );
+    }
+    return false;
+  };
+  useEffect(() => {
+    setIsOverflown(checkIsOverflown);
+  }, [printInfo]);
+  return (
+    isOverflown && (
+      <p className="overflow-warning">
+        Warning! Your data doesn't fit the sheet.
+      </p>
+    )
   );
 }
