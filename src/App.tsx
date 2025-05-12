@@ -72,7 +72,6 @@ export default function App() {
             selectedPassport={selectedPassport}
             cancelPrint={cancelActivity}
           />
-          ;
         </main>
       );
   }
