@@ -29,3 +29,81 @@ main > * {
   padding: 5em;
   border-radius: 2.5em;
 }
+
+fieldset {
+  box-sizing: border-box;
+  background-color: var(--primary-dark);
+
+  margin: 0em 5em 2em 0em;
+  border: none;
+  border-radius: 16px;
+  padding: 0px;
+}
+legend {
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: center;
+
+  width: 100%;
+  background-color: var(--bg-color);
+  color: #4f794d;
+
+  margin: 0px;
+  padding: 0em;
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+}
+fieldset > p {
+  margin-left: 1em;
+}
+fieldset > p > * {
+  margin: 0em 0.5em;
+}
+.flex {
+  display: flex;
+}
+.preview-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: fit-content;
+
+  margin: auto;
+}
+.preview-window .buttons {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  background-color: aliceblue;
+
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.preview-window .buttons > * {
+  font-size: 1em;
+  font-weight: 500;
+  flex-grow: 0.9;
+  background-color: aliceblue;
+  color: var(--primary-dark);
+  border: 0.15em solid var(--primary-dark);
+
+  transition: 0.4s;
+}
+.preview-window .buttons > *:hover {
+  background-color: var(--primary-dark);
+  color: var(--bg-color);
+}
+.preview-window .buttons > *:first-of-type {
+  border-top-left-radius: 12px;
+}
+.preview-window .buttons > *:last-of-type {
+  border-top-right-radius: 12px;
+}
+
+div.radios {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0.5em;
+}

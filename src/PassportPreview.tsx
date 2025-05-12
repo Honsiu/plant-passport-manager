@@ -2,7 +2,7 @@ import React, { JSX, useEffect, useState } from "react";
 import PassportCard from "./PassportCard";
 import { passportType } from "./types";
 import "./PassportPreview.css";
-import splitB from "./splitB";
+import { splitB } from "./utils";
 
 export default function PassportPreview({
   selectedPassport,
@@ -175,7 +175,7 @@ export default function PassportPreview({
 
         <fieldset>
           <legend>Template</legend>
-          <div className="templates">
+          <div className="radios">
             {templates.map((value, i) => {
               return (
                 <TemplateRadio
@@ -189,8 +189,7 @@ export default function PassportPreview({
             })}
           </div>
         </fieldset>
-
-        <div className="passport-box">
+        <div className="preview-window">
           <div className="buttons">
             <button type="submit" onClick={handleUpdate}>
               Save
@@ -218,7 +217,7 @@ export default function PassportPreview({
     children: JSX.Element;
   }) {
     return (
-      <p className="passport-info-input">
+      <span className="passport-info-input">
         <label htmlFor={" template-" + num}>{children}</label>
         <input
           type="radio"
@@ -229,7 +228,7 @@ export default function PassportPreview({
             setTempPassportInfo({ ...tempPassportInfo, template: num });
           }}
         />
-      </p>
+      </span>
     );
   }
 }
