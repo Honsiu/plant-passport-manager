@@ -168,9 +168,7 @@ export default function PassportEdit({
               }}
             />
           </p>
-          <p className="warning-box">
-            <EmptyInfoWarning passportInfo={tempPassportInfo} />
-          </p>
+          <EmptyInfoWarning passportInfo={tempPassportInfo} />
         </fieldset>
 
         <fieldset>
@@ -242,6 +240,10 @@ function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
   passportInfo.c === "" ? emptyInfo.push("C") : emptyInfo;
   passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
   if (emptyInfo[0]) {
-    return <p>Please insert data for {emptyInfo.sort().join(", ")}</p>;
+    return (
+      <p className="warning-box">
+        Please insert data for {emptyInfo.sort().join(", ")}
+      </p>
+    );
   }
 }
