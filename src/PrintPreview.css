@@ -28,3 +28,31 @@
     border: none;
   }
 }
+
+.print-form {
+  position: relative;
+}
+
+/* Info mark */
+#print-info-mark {
+  top: 0em;
+  right: 0.5em;
+  font-size: 1em;
+  position: absolute;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 1.3em;
+  height: 1.3em;
+  text-align: center;
+}
+#print-info-mark #print-info-text {
+  position: absolute;
+  visibility: hidden;
+  background-color: white;
+  width: fit-content;
+  min-width: 8em;
+}
+#print-info-mark:hover #print-info-text {
+  visibility: visible;
+  background-color: #aaa;
+}
