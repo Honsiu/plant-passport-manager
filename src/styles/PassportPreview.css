@@ -1,0 +1,16 @@
+.passport-preview {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.passport-info-input.b input:first-of-type,
+.passport-info-input.d input {
+  width: 1.2em;
+}
+
+.passport-preview .warning-box {
+  text-align: center;
+  color: #f66;
+}

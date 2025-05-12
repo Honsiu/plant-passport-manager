@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import PrintPreview from "./PrintPreview";
 import { passportType } from "./types";
 import PassportPreview from "./PassportPreview";
@@ -46,6 +46,7 @@ export default function App() {
     case "select":
       return (
         <main>
+          <h2>Select a passport</h2>
           <PassportSelect
             passports={passports}
             editPassport={editPassport}
@@ -56,6 +57,7 @@ export default function App() {
     case "edit":
       return (
         <main>
+          <h2>Edit a passport</h2>
           <PassportPreview
             selectedPassport={selectedPassport}
             setPassportId={setPassportId}
@@ -68,11 +70,11 @@ export default function App() {
     case "print":
       return (
         <main>
+          <h2>Print a passport</h2>
           <PrintPreview
             selectedPassport={selectedPassport}
             cancelPrint={cancelActivity}
           />
-          ;
         </main>
       );
   }

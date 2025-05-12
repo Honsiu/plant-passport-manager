@@ -1,6 +1,6 @@
 import PassportCard from "./PassportCard";
 import { passportsType } from "./types";
-
+import "./styles/PassportSelect.css";
 export const PassportSelect = ({
   editPassport,
   printPassport,
@@ -11,43 +11,44 @@ export const PassportSelect = ({
   passports: passportsType;
 }) => {
   return (
-    <p>
+    <section className="passport-select">
+      <button
+        className="add-passport-button"
+        onClick={() => {
+          editPassport(0);
+        }}
+      >
+        <div className="v-pipe"></div>
+        <div className="h-pipe"></div>
+      </button>
       {passports.map((passport, i) => {
         if (i === 0) {
-          return (
-            <>
-              <button
-                onClick={() => {
-                  editPassport(i);
-                }}
-              >
-                Add new
-              </button>
-              <PassportCard passport={passport} key={i} />
-            </>
-          );
+          return;
         }
         return (
-          <span>
-            {passport.label}
-            <button
-              onClick={() => {
-                editPassport(i);
-              }}
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => {
-                printPassport(i);
-              }}
-            >
-              Print
-            </button>
-            <PassportCard passport={passport} key={i} />
-          </span>
+          <div className="passport-box" key={i}>
+            <p className="passport-label">{passport.label || "Passport"}</p>
+            <PassportCard passport={passport} key={i}>
+              <div className="buttons-container">
+                <button
+                  onClick={() => {
+                    editPassport(i);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => {
+                    printPassport(i);
+                  }}
+                >
+                  Print
+                </button>
+              </div>
+            </PassportCard>
+          </div>
         );
       })}
-    </p>
+    </section>
   );
 };
