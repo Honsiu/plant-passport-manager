@@ -1,4 +1,4 @@
-import React, { ChangeEvent, JSX, useEffect, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import Card from "./Card";
 import { passportType } from "./types";
 import "./styles/Edit.css";
