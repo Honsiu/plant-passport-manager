@@ -66,3 +66,12 @@
   justify-content: space-between;
   width: min-content;
 }
+
+.passport-card.rotated img {
+  height: 20%;
+  min-height: 8em;
+  width: min-content;
+  min-width: auto;
+
+  margin: 0.5em;
+}

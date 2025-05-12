@@ -1,11 +1,13 @@
-/* Print */
+.print-preview .preview-window {
+  width: 32em;
+}
 .print-sheet {
-  width: 100%;
-  max-height: 70vh;
-  background-color: #eee;
-
   aspect-ratio: 210/297;
+  width: 100%;
   overflow: hidden;
+
+  background-color: #eee;
+  box-sizing: border-box;
 
   display: grid;
 }
@@ -14,9 +16,6 @@
   margin: 0em;
 }
 
-.print-preview .preview-window {
-  width: 32em;
-}
 .print-preview .passport-card p {
   width: 100%;
 }
@@ -60,5 +59,6 @@
     left: 0;
     z-index: 1000;
     border: none;
+    background-color: white;
   }
 }
