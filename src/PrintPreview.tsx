@@ -1,9 +1,9 @@
 import { JSX, useReducer, useRef } from "react";
 import PassportCard from "./PassportCard";
 import { passportType, printInfoType } from "./types";
-import PrintForm from "./PrintForm";
 import "./PrintPreview.css";
 import PrintOverflowWarning from "./PrintOverflowWarning";
+import { capitalizeString } from "./utils";
 
 export default function PrintPreview({
   selectedPassport,
@@ -60,43 +60,121 @@ export default function PrintPreview({
 
   return (
     <section className="printable">
-      <PrintForm
-        printInfo={printInfo}
-        dispatchPrintInfo={dispatchPrintInfo}
-        cancelPrint={cancelPrint}
-      />
+      <div className="print-form">
+        {Object.keys(printInfo).map((key) => {
+          if (key === "rotated") {
+            return (
+              <fieldset key={key}>
+                <legend>{capitalizeString(key)} </legend>
+                <p>
+                  <label htmlFor={"passport-rotated-landscape"}>
+                    Landscape
+                  </label>
+                  <input
+                    defaultChecked={true}
+                    type="radio"
+                    id={"passport-rotated-landscape"}
+                    name="radio-rotated"
+                    onChange={() => {
+                      dispatchPrintInfo({
+                        type: "set" + capitalizeString(key),
+                        value: 0,
+                      });
+                    }}
+                  />
+                </p>
+                <p>
+                  <label htmlFor={"passport-rotated-portrait"}>Portrait</label>
+                  <input
+                    type="radio"
+                    id={"passport-rotated-portrait"}
+                    name="radio-rotated"
+                    onChange={() => {
+                      dispatchPrintInfo({
+                        type: "set" + capitalizeString(key),
+                        value: 1,
+                      });
+                    }}
+                  />
+                </p>
+              </fieldset>
+            );
+          }
+          return (
+            <fieldset key={key}>
+              <legend>{capitalizeString(key)} </legend>
+              {Object.keys(
+                printInfo[key as keyof printInfoType] as Record<string, number>
+              ).map((subKey: string) => {
+                return (
+                  <p key={subKey}>
+                    <label htmlFor={"passport-" + subKey}>
+                      {capitalizeString(subKey)}
+                    </label>
+                    <input
+                      type="number"
+                      max={50}
+                      id={"passport-" + subKey}
+                      onChange={(e) => {
+                        dispatchPrintInfo({
+                          type:
+                            "set" +
+                            capitalizeString(key) +
+                            capitalizeString(subKey),
+                          value: parseInt(e.target.value) || 0,
+                        });
+                      }}
+                    />
+                  </p>
+                );
+              })}
+            </fieldset>
+          );
+        })}
+        <button onClick={print}>Print</button>
+        <button onClick={cancelPrint}>Cancel</button>
+        <div id="print-info-mark">
+          i{" "}
+          <p id="print-info-text">
+            Set print scale to 100% and margins to none in printer dialog
+          </p>
+        </div>
+      </div>
       <PrintOverflowWarning previewRef={previewRef} printInfo={printInfo} />
-      <div
-        className="print-sheet"
-        style={{
-          padding: [
-            printInfo.margin.top % 200,
-            printInfo.margin.right % 200,
-            printInfo.margin.bottom % 200,
-            printInfo.margin.left % 200,
-            " ",
-          ].join("mm "),
-        }}
-      >
+      <div className="preview-window">
         <div
-          ref={previewRef}
-          className="print-grid-box"
+          className="print-sheet"
           style={{
-            columnGap: printInfo.gap.horizontal + "mm",
-            rowGap: printInfo.gap.vertical + "mm",
-            gridTemplateColumns: "repeat(" + printInfo.grid.columns + ", 1fr)",
+            padding: [
+              printInfo.margin.top % 200,
+              printInfo.margin.right % 200,
+              printInfo.margin.bottom % 200,
+              printInfo.margin.left % 200,
+              " ",
+            ].join("mm "),
           }}
         >
-          {passportGrid.map((_, index) => (
-            <PassportCard
-              rotated={printInfo.rotated}
-              passport={selectedPassport}
-              key={index}
-              style={{
-                fontSize: 1 / (printInfo.grid.columns || 1) + "em",
-              }}
-            />
-          ))}
+          <div
+            ref={previewRef}
+            className="print-grid-box"
+            style={{
+              columnGap: printInfo.gap.horizontal + "mm",
+              rowGap: printInfo.gap.vertical + "mm",
+              gridTemplateColumns:
+                "repeat(" + printInfo.grid.columns + ", 1fr)",
+            }}
+          >
+            {passportGrid.map((_, index) => (
+              <PassportCard
+                rotated={printInfo.rotated}
+                passport={selectedPassport}
+                key={index}
+                style={{
+                  fontSize: 1 / (printInfo.grid.columns || 1) + "em",
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
