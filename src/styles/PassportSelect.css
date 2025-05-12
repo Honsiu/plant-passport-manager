@@ -27,7 +27,8 @@
 
 .add-passport-button {
   position: relative;
-  font-size: 1em;
+  font-size: 0.5em;
+  justify-self: center;
   width: 10em;
   height: 10em;
   background-color: var(--bg-color);

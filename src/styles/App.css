@@ -23,6 +23,9 @@ body {
 }
 main {
   margin: 1em auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 main > h2 {
   font-size: 2.5em;

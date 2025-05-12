@@ -12,20 +12,18 @@ export const PassportSelect = ({
 }) => {
   return (
     <section className="passport-select">
+      <button
+        className="add-passport-button"
+        onClick={() => {
+          editPassport(0);
+        }}
+      >
+        <div className="v-pipe"></div>
+        <div className="h-pipe"></div>
+      </button>
       {passports.map((passport, i) => {
         if (i === 0) {
-          return (
-            <button
-              className="add-passport-button"
-              key={i}
-              onClick={() => {
-                editPassport(i);
-              }}
-            >
-              <div className="v-pipe"></div>
-              <div className="h-pipe"></div>
-            </button>
-          );
+          return;
         }
         return (
           <div className="passport-box" key={i}>
