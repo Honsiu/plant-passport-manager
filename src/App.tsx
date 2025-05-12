@@ -7,19 +7,19 @@ import { createContext, useEffect, useState } from "react";
 import { useStoredPassports } from "./useStoredPassports";
 
 export default function App() {
-  const [passportId, setPassportId] = useState(0);
   const [passports, dispatchPassports] = useStoredPassports();
-  const [selectedPassport, setDisplayedPassport] = useState(
-    passports[passportId]
+  const [passportIndex, setPassportIndex] = useState(0);
+  const [selectedPassport, setSelectedPassport] = useState(
+    passports[passportIndex]
   );
   useEffect(() => {
-    if (passportId >= passports.length) {
-      setPassportId(passports.length - 1);
-      setDisplayedPassport(passports[passportId - 1]);
+    if (passportIndex >= passports.length) {
+      setPassportIndex(passports.length - 1);
+      setSelectedPassport(passports[passportIndex - 1]);
     } else {
-      setDisplayedPassport(passports[passportId]);
+      setSelectedPassport(passports[passportIndex]);
     }
-  }, [passportId, passports, passports.length]);
+  }, [passportIndex, passports, passports.length]);
   const [activity, setActivity] = useState("select");
 
   const handleEditPassport = (action: {
@@ -32,11 +32,11 @@ export default function App() {
   };
 
   const editPassport = (i: number) => {
-    setPassportId(i);
+    setPassportIndex(i);
     setActivity("edit");
   };
   const printPassport = (i: number) => {
-    setPassportId(i);
+    setPassportIndex(i);
     setActivity("print");
   };
   const cancelActivity = () => {};
@@ -59,9 +59,9 @@ export default function App() {
         <h2>Edit a passport</h2>
         <Edit
           selectedPassport={selectedPassport}
-          setPassportId={setPassportId}
+          setPassportId={setPassportIndex}
           setPassports={handleEditPassport}
-          passpId={passportId}
+          passpId={passportIndex}
           cancelActivity={cancelActivity}
         />
       </main>

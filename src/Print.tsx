@@ -16,13 +16,12 @@ export default function Print({
     { type, value }: { type: string; value: number }
   ) => {
     const key = type
-      .replace(/^(setRotated|setGrid|setGap|setMargin)/, "")
+      .replace(/^(setOrientation|setGrid|setGap|setMargin)/, "")
       .toLowerCase();
-
-    if (type.startsWith("setRotated"))
+    if (type.startsWith("setOrientation"))
       return {
         ...state,
-        rotated: value,
+        orientation: value,
       };
 
     if (type.startsWith("setGrid"))
@@ -42,11 +41,11 @@ export default function Print({
         ...state,
         margin: { ...state.margin, [key]: value },
       };
-
     throw Error("Unknown action: " + type);
   };
+
   const [printInfo, dispatchPrintInfo] = useReducer(printReducer, {
-    rotated: 0,
+    orientation: 0,
     grid: { rows: 1, columns: 1 },
     gap: { horizontal: 0, vertical: 0 },
     margin: { top: 0, bottom: 0, left: 0, right: 0 },
@@ -62,7 +61,7 @@ export default function Print({
       <form className="flex gap-5em">
         <div className="print-form">
           {Object.keys(printInfo).map((key) => {
-            if (key === "rotated") {
+            if (key === "orientation") {
               return (
                 <fieldset key={key}>
                   <legend>{capitalizeString(key)} </legend>
@@ -139,12 +138,7 @@ export default function Print({
             );
           })}
           <PrintOverflowWarning previewRef={previewRef} printInfo={printInfo} />
-          <div id="print-info-mark">
-            i{" "}
-            <p id="print-info-text">
-              Set print scale to 100% and margins to none in printer dialog
-            </p>
-          </div>
+          <InfoMark />
         </div>
         <div className="preview-window">
           <div className="buttons">
@@ -170,7 +164,7 @@ export default function Print({
           >
             {passportGrid.map((_, index) => (
               <Card
-                rotated={printInfo.rotated}
+                rotated={printInfo.orientation}
                 passport={selectedPassport}
                 key={index}
                 style={{
@@ -182,6 +176,17 @@ export default function Print({
         </div>
       </form>
     </section>
+  );
+}
+
+function InfoMark() {
+  return (
+    <div id="print-info-mark">
+      i
+      <p id="print-info-text">
+        Set print scale to 100% and margins to none in printer dialog
+      </p>
+    </div>
   );
 }
 

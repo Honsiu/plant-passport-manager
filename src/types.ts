@@ -11,7 +11,7 @@ export type passportsType = passportType[];
 
 export type printInfoType = {
   // 0 means horizontal
-  rotated: number;
+  orientation: number;
   grid: {
     rows: number;
     columns: number;
