@@ -1,10 +1,10 @@
 import React, { JSX, useEffect, useState } from "react";
-import PassportCard from "./PassportCard";
+import Card from "./Card";
 import { passportType } from "./types";
-import "./styles/PassportPreview.css";
+import "./styles/Edit.css";
 import { splitB } from "./utils";
 
-export default function PassportPreview({
+export default function Edit({
   selectedPassport,
   setPassports,
   passpId,
@@ -24,13 +24,13 @@ export default function PassportPreview({
   setPassportId: React.Dispatch<React.SetStateAction<number>>;
   cancelActivity: () => void;
 }) {
-  const [tempPassportInfo, setTempPassportInfo] =
+  const [editedPassport, setEditedPassport] =
     useState<passportType>(selectedPassport);
   useEffect(() => {
-    setTempPassportInfo(selectedPassport);
+    setEditedPassport(selectedPassport);
   }, [selectedPassport]);
 
-  const [b1, b2] = splitB(tempPassportInfo.b || "");
+  const [b1, b2] = splitB(editedPassport.b || "");
   const templates = ["Narrow", "Wide", "Compact"];
   const placeholders = {
     label: "Passport Label",
@@ -41,39 +41,38 @@ export default function PassportPreview({
     d: "Origin ISO",
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBarcodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files) {
-      setTempPassportInfo({
-        ...tempPassportInfo,
+      setEditedPassport({
+        ...editedPassport,
         barcode: URL.createObjectURL(e.target.files[0]),
       });
     }
   };
 
-  const handleInputOnChange = (
+  const handleInputChange = (
     name: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setTempPassportInfo({ ...tempPassportInfo, [name]: e.target.value });
+    setEditedPassport({ ...editedPassport, [name]: e.target.value });
   };
 
   const handleCancel = () => {
-    setTempPassportInfo(selectedPassport);
+    setEditedPassport(selectedPassport);
     cancelActivity();
   };
+  const handleAdd = () => {
+    setPassports({
+      type: "add",
+      newPassp: editedPassport,
+    });
+  };
   const handleUpdate = () => {
-    if (passpId === 0) {
-      setPassports({
-        type: "add",
-        newPassp: tempPassportInfo,
-      });
-    } else {
-      setPassports({
-        type: "update",
-        passpId: passpId,
-        newPassp: tempPassportInfo,
-      });
-    }
+    setPassports({
+      type: "update",
+      passpId: passpId,
+      newPassp: editedPassport,
+    });
   };
   const handleRemove = () => {
     setPassports({
@@ -87,92 +86,92 @@ export default function PassportPreview({
         <fieldset>
           <legend>Passport Info</legend>
           <p className="passport-info-input label">
-            Label
-            <input
-              required={true}
+            <LabeledInput
+              className=""
+              id="label-input"
               placeholder={placeholders.label}
               maxLength={32}
-              value={tempPassportInfo.label}
               onChange={(e) => {
-                handleInputOnChange("label", e);
+                handleInputChange("label", e);
               }}
+              value={editedPassport.label}
+              label="Label"
             />
           </p>
           <p className="passport-info-input a">
-            A
-            <input
-              required={true}
+            <LabeledInput
+              className="passport-info-input a"
+              id="a-input"
+              label="A"
               placeholder={placeholders.a}
               maxLength={32}
-              value={tempPassportInfo.a}
-              onChange={(e) => {
-                handleInputOnChange("a", e);
-              }}
+              value={editedPassport.a}
+              onChange={(e) => handleInputChange("a", e)}
             />
           </p>
-          <p className="passport-info-input b">
-            B
-            <input
-              required={true}
+
+          <p className="passport-info-input B">
+            <LabeledInput
+              className="passport-info-input b1"
+              id="b1-input"
+              label="B"
               placeholder={placeholders.b1}
               maxLength={2}
               value={b1}
               onChange={(e) => {
-                setTempPassportInfo({
-                  ...tempPassportInfo,
+                setEditedPassport({
+                  ...editedPassport,
                   b: e.target.value + "-" + b2,
                 });
               }}
             />
-            -
-            <input
-              required={true}
+            <span>-</span>
+            <LabeledInput
+              className="passport-info-input b2"
+              id="b2-input"
+              label=""
               placeholder={placeholders.b2}
               maxLength={30}
               value={b2}
               onChange={(e) => {
-                b: b1 + "-" + e.target.value,
-                  setTempPassportInfo({
-                    ...tempPassportInfo,
-                    b: b1 + "-" + e.target.value,
-                  });
+                setEditedPassport({
+                  ...editedPassport,
+                  b: b1 + "-" + e.target.value,
+                });
               }}
             />
           </p>
           <p className="passport-info-input c">
-            C
-            <input
+            <LabeledInput
+              className=""
+              id="c-input"
+              label="C"
               placeholder={placeholders.c}
               maxLength={32}
-              value={tempPassportInfo.c}
-              onChange={(e) => {
-                handleInputOnChange("c", e);
-              }}
+              value={editedPassport.c}
+              onChange={(e) => handleInputChange("c", e)}
             />
-            Or
+            <span>Or</span>
             <input
+              id="barcode-input"
               type="file"
               name="barcode-input"
-              onChange={handleFileChange}
+              onChange={handleBarcodeChange}
             />
           </p>
           <p className="passport-info-input d">
-            D
-            <input
-              required={true}
+            <LabeledInput
+              className=""
+              id="d-input"
+              label="D"
               placeholder={placeholders.d}
               maxLength={2}
-              value={tempPassportInfo.d}
-              onChange={(e) => {
-                handleInputOnChange("d", e);
-              }}
+              value={editedPassport.d}
+              onChange={(e) => handleInputChange("d", e)}
             />
           </p>
-          <p className="warning-box">
-            <EmptyInfoWarning passportInfo={tempPassportInfo} />
-          </p>
+          <EmptyInfoWarning passportInfo={editedPassport} />
         </fieldset>
-
         <fieldset>
           <legend>Template</legend>
           <div className="radios">
@@ -180,7 +179,7 @@ export default function PassportPreview({
               return (
                 <TemplateRadio
                   key={i}
-                  template={tempPassportInfo.template}
+                  template={editedPassport.template}
                   num={i + 1}
                 >
                   <>{value}</>
@@ -189,19 +188,33 @@ export default function PassportPreview({
             })}
           </div>
         </fieldset>
+
         <div className="preview-window">
           <div className="buttons">
-            <button type="submit" onClick={handleUpdate}>
-              Save
-            </button>
-            <button type="submit" onClick={handleCancel}>
-              Cancel
-            </button>
-            <button type="submit" onClick={handleRemove}>
-              Remove
-            </button>
+            {passpId === 0 ? (
+              <>
+                <button type="submit" onClick={handleAdd}>
+                  Add
+                </button>
+                <button type="submit" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <button type="submit" onClick={handleUpdate}>
+                  Save
+                </button>
+                <button type="submit" onClick={handleCancel}>
+                  Cancel
+                </button>
+                <button type="submit" onClick={handleRemove}>
+                  Remove
+                </button>
+              </>
+            )}
           </div>
-          <PassportCard passport={tempPassportInfo} />
+          <Card passport={editedPassport} />
         </div>
       </form>
     </section>
@@ -225,7 +238,7 @@ export default function PassportPreview({
           id={"template-" + num}
           checked={template === num}
           onChange={() => {
-            setTempPassportInfo({ ...tempPassportInfo, template: num });
+            setEditedPassport({ ...editedPassport, template: num });
           }}
         />
       </span>
@@ -242,6 +255,40 @@ function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
   passportInfo.c === "" ? emptyInfo.push("C") : emptyInfo;
   passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
   if (emptyInfo[0]) {
-    return <p>Please insert data for {emptyInfo.sort().join(", ")}</p>;
+    return (
+      <p className="warning-box">
+        Please insert data for {emptyInfo.sort().join(", ")}
+      </p>
+    );
   }
+}
+function LabeledInput({
+  id,
+  className,
+  label,
+  placeholder,
+  maxLength,
+  value,
+  onChange,
+}: {
+  id: string;
+  className: string;
+  label: string;
+  placeholder: string;
+  value: string;
+  maxLength: number;
+  onChange: (e: any) => void;
+}) {
+  return (
+    <span className={className || ""}>
+      <label htmlFor={id}>{label}</label>
+      <input
+        id={id}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        value={value}
+        onChange={onChange}
+      />
+    </span>
+  );
 }

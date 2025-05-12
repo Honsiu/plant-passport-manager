@@ -1,11 +1,10 @@
-import { JSX, useReducer, useRef } from "react";
-import PassportCard from "./PassportCard";
+import { JSX, useEffect, useReducer, useRef, useState } from "react";
+import Card from "./Card";
 import { passportType, printInfoType } from "./types";
-import "./styles/PrintPreview.css";
-import PrintOverflowWarning from "./PrintOverflowWarning";
+import "./styles/Print.css";
 import { capitalizeString } from "./utils";
 
-export default function PrintPreview({
+export default function Print({
   selectedPassport,
   cancelPrint,
 }: {
@@ -17,13 +16,12 @@ export default function PrintPreview({
     { type, value }: { type: string; value: number }
   ) => {
     const key = type
-      .replace(/^(setRotated|setGrid|setGap|setMargin)/, "")
+      .replace(/^(setOrientation|setGrid|setGap|setMargin)/, "")
       .toLowerCase();
-
-    if (type.startsWith("setRotated"))
+    if (type.startsWith("setOrientation"))
       return {
         ...state,
-        rotated: value,
+        orientation: value,
       };
 
     if (type.startsWith("setGrid"))
@@ -43,11 +41,11 @@ export default function PrintPreview({
         ...state,
         margin: { ...state.margin, [key]: value },
       };
-
     throw Error("Unknown action: " + type);
   };
+
   const [printInfo, dispatchPrintInfo] = useReducer(printReducer, {
-    rotated: 0,
+    orientation: 0,
     grid: { rows: 1, columns: 1 },
     gap: { horizontal: 0, vertical: 0 },
     margin: { top: 0, bottom: 0, left: 0, right: 0 },
@@ -63,7 +61,7 @@ export default function PrintPreview({
       <form className="flex gap-5em">
         <div className="print-form">
           {Object.keys(printInfo).map((key) => {
-            if (key === "rotated") {
+            if (key === "orientation") {
               return (
                 <fieldset key={key}>
                   <legend>{capitalizeString(key)} </legend>
@@ -140,12 +138,7 @@ export default function PrintPreview({
             );
           })}
           <PrintOverflowWarning previewRef={previewRef} printInfo={printInfo} />
-          <div id="print-info-mark">
-            i{" "}
-            <p id="print-info-text">
-              Set print scale to 100% and margins to none in printer dialog
-            </p>
-          </div>
+          <InfoMark />
         </div>
         <div className="preview-window">
           <div className="buttons">
@@ -170,8 +163,8 @@ export default function PrintPreview({
             }}
           >
             {passportGrid.map((_, index) => (
-              <PassportCard
-                rotated={printInfo.rotated}
+              <Card
+                rotated={printInfo.orientation}
                 passport={selectedPassport}
                 key={index}
                 style={{
@@ -183,5 +176,46 @@ export default function PrintPreview({
         </div>
       </form>
     </section>
+  );
+}
+
+function InfoMark() {
+  return (
+    <div id="print-info-mark">
+      i
+      <p id="print-info-text">
+        Set print scale to 100% and margins to none in printer dialog
+      </p>
+    </div>
+  );
+}
+
+function PrintOverflowWarning({
+  previewRef,
+  printInfo,
+}: {
+  previewRef: React.RefObject<HTMLDivElement | null>;
+  printInfo: printInfoType;
+}) {
+  const [isOverflown, setIsOverflown] = useState<boolean | null>(null);
+
+  const checkIsOverflown = () => {
+    if (previewRef.current) {
+      return (
+        previewRef.current.scrollHeight > previewRef.current.clientHeight ||
+        previewRef.current.scrollWidth > previewRef.current.clientWidth
+      );
+    }
+    return false;
+  };
+  useEffect(() => {
+    setIsOverflown(checkIsOverflown);
+  }, [printInfo]);
+  return (
+    isOverflown && (
+      <p className="overflow-warning">
+        Warning! Your data doesn't fit the sheet.
+      </p>
+    )
   );
 }

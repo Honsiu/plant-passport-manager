@@ -1,8 +1,8 @@
 import { CSSProperties } from "react";
 import { passportType } from "./types";
-import "./styles/PassportCard.css";
+import "./styles/Card.css";
 
-export default function PassportCard({
+export default function Card({
   rotated,
   passport,
   style,

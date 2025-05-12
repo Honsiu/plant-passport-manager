@@ -1,7 +1,7 @@
-import PassportCard from "./PassportCard";
+import Card from "./Card";
 import { passportsType } from "./types";
-import "./styles/PassportSelect.css";
-export const PassportSelect = ({
+import "./styles/Select.css";
+export default function Select({
   editPassport,
   printPassport,
   passports,
@@ -9,7 +9,7 @@ export const PassportSelect = ({
   editPassport: (i: number) => void;
   printPassport: (i: number) => void;
   passports: passportsType;
-}) => {
+}) {
   return (
     <section className="passport-select">
       <button
@@ -28,7 +28,7 @@ export const PassportSelect = ({
         return (
           <div className="passport-box" key={i}>
             <p className="passport-label">{passport.label || "Passport"}</p>
-            <PassportCard passport={passport} key={i}>
+            <Card passport={passport} key={i}>
               <div className="buttons-container">
                 <button
                   onClick={() => {
@@ -45,10 +45,10 @@ export const PassportSelect = ({
                   Print
                 </button>
               </div>
-            </PassportCard>
+            </Card>
           </div>
         );
       })}
     </section>
   );
-};
+}
