@@ -1,7 +1,7 @@
 import React, { JSX, useEffect, useState } from "react";
 import PassportCard from "./PassportCard";
 import { passportType } from "./types";
-import "./PassportPreview.css";
+import "./styles/PassportPreview.css";
 import { splitB } from "./utils";
 
 export default function PassportPreview({

@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import PrintPreview from "./PrintPreview";
 import { passportType } from "./types";
 import PassportPreview from "./PassportPreview";

@@ -1,7 +1,7 @@
 import { JSX, useReducer, useRef } from "react";
 import PassportCard from "./PassportCard";
 import { passportType, printInfoType } from "./types";
-import "./PrintPreview.css";
+import "./styles/PrintPreview.css";
 import PrintOverflowWarning from "./PrintOverflowWarning";
 import { capitalizeString } from "./utils";
 

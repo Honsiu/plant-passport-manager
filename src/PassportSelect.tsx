@@ -1,6 +1,6 @@
 import PassportCard from "./PassportCard";
 import { passportsType } from "./types";
-import "./PassportSelect.css";
+import "./styles/PassportSelect.css";
 export const PassportSelect = ({
   editPassport,
   printPassport,
