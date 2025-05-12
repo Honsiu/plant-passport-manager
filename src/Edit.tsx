@@ -24,13 +24,13 @@ export default function Edit({
   setPassportId: React.Dispatch<React.SetStateAction<number>>;
   cancelActivity: () => void;
 }) {
-  const [tempPassportInfo, setTempPassportInfo] =
+  const [editedPassport, setEditedPassport] =
     useState<passportType>(selectedPassport);
   useEffect(() => {
-    setTempPassportInfo(selectedPassport);
+    setEditedPassport(selectedPassport);
   }, [selectedPassport]);
 
-  const [b1, b2] = splitB(tempPassportInfo.b || "");
+  const [b1, b2] = splitB(editedPassport.b || "");
   const templates = ["Narrow", "Wide", "Compact"];
   const placeholders = {
     label: "Passport Label",
@@ -41,39 +41,38 @@ export default function Edit({
     d: "Origin ISO",
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBarcodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files) {
-      setTempPassportInfo({
-        ...tempPassportInfo,
+      setEditedPassport({
+        ...editedPassport,
         barcode: URL.createObjectURL(e.target.files[0]),
       });
     }
   };
 
-  const handleInputOnChange = (
+  const handleInputChange = (
     name: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setTempPassportInfo({ ...tempPassportInfo, [name]: e.target.value });
+    setEditedPassport({ ...editedPassport, [name]: e.target.value });
   };
 
   const handleCancel = () => {
-    setTempPassportInfo(selectedPassport);
+    setEditedPassport(selectedPassport);
     cancelActivity();
   };
+  const handleAdd = () => {
+    setPassports({
+      type: "add",
+      newPassp: editedPassport,
+    });
+  };
   const handleUpdate = () => {
-    if (passpId === 0) {
-      setPassports({
-        type: "add",
-        newPassp: tempPassportInfo,
-      });
-    } else {
-      setPassports({
-        type: "update",
-        passpId: passpId,
-        newPassp: tempPassportInfo,
-      });
-    }
+    setPassports({
+      type: "update",
+      passpId: passpId,
+      newPassp: editedPassport,
+    });
   };
   const handleRemove = () => {
     setPassports({
@@ -93,9 +92,9 @@ export default function Edit({
               placeholder={placeholders.label}
               maxLength={32}
               onChange={(e) => {
-                handleInputOnChange("label", e);
+                handleInputChange("label", e);
               }}
-              value={tempPassportInfo.label}
+              value={editedPassport.label}
               label="Label"
             />
           </p>
@@ -106,8 +105,8 @@ export default function Edit({
               label="A"
               placeholder={placeholders.a}
               maxLength={32}
-              value={tempPassportInfo.a}
-              onChange={(e) => handleInputOnChange("a", e)}
+              value={editedPassport.a}
+              onChange={(e) => handleInputChange("a", e)}
             />
           </p>
 
@@ -120,8 +119,8 @@ export default function Edit({
               maxLength={2}
               value={b1}
               onChange={(e) => {
-                setTempPassportInfo({
-                  ...tempPassportInfo,
+                setEditedPassport({
+                  ...editedPassport,
                   b: e.target.value + "-" + b2,
                 });
               }}
@@ -135,8 +134,8 @@ export default function Edit({
               maxLength={30}
               value={b2}
               onChange={(e) => {
-                setTempPassportInfo({
-                  ...tempPassportInfo,
+                setEditedPassport({
+                  ...editedPassport,
                   b: b1 + "-" + e.target.value,
                 });
               }}
@@ -149,15 +148,15 @@ export default function Edit({
               label="C"
               placeholder={placeholders.c}
               maxLength={32}
-              value={tempPassportInfo.c}
-              onChange={(e) => handleInputOnChange("c", e)}
+              value={editedPassport.c}
+              onChange={(e) => handleInputChange("c", e)}
             />
             <span>Or</span>
             <input
               id="barcode-input"
               type="file"
               name="barcode-input"
-              onChange={handleFileChange}
+              onChange={handleBarcodeChange}
             />
           </p>
           <p className="passport-info-input d">
@@ -167,13 +166,12 @@ export default function Edit({
               label="D"
               placeholder={placeholders.d}
               maxLength={2}
-              value={tempPassportInfo.d}
-              onChange={(e) => handleInputOnChange("d", e)}
+              value={editedPassport.d}
+              onChange={(e) => handleInputChange("d", e)}
             />
           </p>
-          <EmptyInfoWarning passportInfo={tempPassportInfo} />
+          <EmptyInfoWarning passportInfo={editedPassport} />
         </fieldset>
-
         <fieldset>
           <legend>Template</legend>
           <div className="radios">
@@ -181,7 +179,7 @@ export default function Edit({
               return (
                 <TemplateRadio
                   key={i}
-                  template={tempPassportInfo.template}
+                  template={editedPassport.template}
                   num={i + 1}
                 >
                   <>{value}</>
@@ -190,19 +188,33 @@ export default function Edit({
             })}
           </div>
         </fieldset>
+
         <div className="preview-window">
           <div className="buttons">
-            <button type="submit" onClick={handleUpdate}>
-              Save
-            </button>
-            <button type="submit" onClick={handleCancel}>
-              Cancel
-            </button>
-            <button type="submit" onClick={handleRemove}>
-              Remove
-            </button>
+            {passpId === 0 ? (
+              <>
+                <button type="submit" onClick={handleAdd}>
+                  Add
+                </button>
+                <button type="submit" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <button type="submit" onClick={handleUpdate}>
+                  Save
+                </button>
+                <button type="submit" onClick={handleCancel}>
+                  Cancel
+                </button>
+                <button type="submit" onClick={handleRemove}>
+                  Remove
+                </button>
+              </>
+            )}
           </div>
-          <Card passport={tempPassportInfo} />
+          <Card passport={editedPassport} />
         </div>
       </form>
     </section>
@@ -226,7 +238,7 @@ export default function Edit({
           id={"template-" + num}
           checked={template === num}
           onChange={() => {
-            setTempPassportInfo({ ...tempPassportInfo, template: num });
+            setEditedPassport({ ...editedPassport, template: num });
           }}
         />
       </span>
