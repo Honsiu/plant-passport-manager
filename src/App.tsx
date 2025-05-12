@@ -3,13 +3,13 @@ import Print from "./Print";
 import Edit from "./Edit";
 import PassportSelect from "./Select";
 import { passportType } from "./types";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useStoredPassports } from "./useStoredPassports";
 
 export default function App() {
-  const [passportId, setPassportId] = useState<number>(0);
+  const [passportId, setPassportId] = useState(0);
   const [passports, dispatchPassports] = useStoredPassports();
-  const [selectedPassport, setDisplayedPassport] = useState<passportType>(
+  const [selectedPassport, setDisplayedPassport] = useState(
     passports[passportId]
   );
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function App() {
       setDisplayedPassport(passports[passportId]);
     }
   }, [passportId, passports, passports.length]);
-  const [activity, setActivity] = useState<string>("select");
+  const [activity, setActivity] = useState("select");
 
   const handleEditPassport = (action: {
     type: string;
@@ -39,43 +39,43 @@ export default function App() {
     setPassportId(i);
     setActivity("print");
   };
-  const cancelActivity = () => {
-    setActivity("select");
-  };
-  switch (activity) {
-    case "select":
-      return (
-        <main>
-          <h2>Select a passport</h2>
-          <PassportSelect
-            passports={passports}
-            editPassport={editPassport}
-            printPassport={printPassport}
-          />
-        </main>
-      );
-    case "edit":
-      return (
-        <main>
-          <h2>Edit a passport</h2>
-          <Edit
-            selectedPassport={selectedPassport}
-            setPassportId={setPassportId}
-            setPassports={handleEditPassport}
-            passpId={passportId}
-            cancelActivity={cancelActivity}
-          />
-        </main>
-      );
-    case "print":
-      return (
-        <main>
-          <h2>Print a passport</h2>
-          <Print
-            selectedPassport={selectedPassport}
-            cancelPrint={cancelActivity}
-          />
-        </main>
-      );
+  const cancelActivity = () => {};
+  const PassportsContext = createContext(passports);
+  if (activity === "select") {
+    return (
+      <main>
+        <h2>Select a passport</h2>
+        <PassportSelect
+          passports={passports}
+          editPassport={editPassport}
+          printPassport={printPassport}
+        />
+      </main>
+    );
+  }
+  if (activity === "edit") {
+    return (
+      <main>
+        <h2>Edit a passport</h2>
+        <Edit
+          selectedPassport={selectedPassport}
+          setPassportId={setPassportId}
+          setPassports={handleEditPassport}
+          passpId={passportId}
+          cancelActivity={cancelActivity}
+        />
+      </main>
+    );
+  }
+  if (activity === "print") {
+    return (
+      <main>
+        <h2>Print a passport</h2>
+        <Print
+          selectedPassport={selectedPassport}
+          cancelPrint={cancelActivity}
+        />
+      </main>
+    );
   }
 }

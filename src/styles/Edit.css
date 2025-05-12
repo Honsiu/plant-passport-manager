@@ -5,9 +5,9 @@
   align-items: center;
 }
 
-.passport-info-input.b input:first-of-type,
-.passport-info-input.d input {
-  width: 1.2em;
+.passport-info-input.d input,
+.passport-info-input.b1 input {
+  width: 7em;
 }
 
 .passport-preview .warning-box {

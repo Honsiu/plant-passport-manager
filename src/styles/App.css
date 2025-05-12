@@ -62,7 +62,7 @@ fieldset > p {
   margin: 1em;
   text-wrap: nowrap;
 }
-fieldset > p > * {
+input {
   margin: 0em 0.5em;
 }
 legend {

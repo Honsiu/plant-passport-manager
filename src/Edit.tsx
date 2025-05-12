@@ -86,7 +86,7 @@ export default function Edit({
       <form>
         <fieldset>
           <legend>Passport Info</legend>
-          <div className="passport-info-input label">
+          <p className="passport-info-input label">
             <LabeledInput
               className=""
               id="label-input"
@@ -98,8 +98,8 @@ export default function Edit({
               value={tempPassportInfo.label}
               label="Label"
             />
-          </div>
-          <div className="passport-info-input a">
+          </p>
+          <p className="passport-info-input a">
             <LabeledInput
               className="passport-info-input a"
               id="a-input"
@@ -109,9 +109,9 @@ export default function Edit({
               value={tempPassportInfo.a}
               onChange={(e) => handleInputOnChange("a", e)}
             />
-          </div>
+          </p>
 
-          <div className="passport-info-input B">
+          <p className="passport-info-input B">
             <LabeledInput
               className="passport-info-input b1"
               id="b1-input"
@@ -141,8 +141,8 @@ export default function Edit({
                 });
               }}
             />
-          </div>
-          <div className="passport-info-input c">
+          </p>
+          <p className="passport-info-input c">
             <LabeledInput
               className=""
               id="c-input"
@@ -159,16 +159,18 @@ export default function Edit({
               name="barcode-input"
               onChange={handleFileChange}
             />
-          </div>
-          <LabeledInput
-            className="passport-info-input d"
-            id="d-input"
-            label="D"
-            placeholder={placeholders.d}
-            maxLength={2}
-            value={tempPassportInfo.d}
-            onChange={(e) => handleInputOnChange("d", e)}
-          />
+          </p>
+          <p className="passport-info-input d">
+            <LabeledInput
+              className=""
+              id="d-input"
+              label="D"
+              placeholder={placeholders.d}
+              maxLength={2}
+              value={tempPassportInfo.d}
+              onChange={(e) => handleInputOnChange("d", e)}
+            />
+          </p>
           <EmptyInfoWarning passportInfo={tempPassportInfo} />
         </fieldset>
 
@@ -266,7 +268,7 @@ function LabeledInput({
   onChange: (e: any) => void;
 }) {
   return (
-    <span className={className}>
+    <span className={className || ""}>
       <label htmlFor={id}>{label}</label>
       <input
         id={id}
