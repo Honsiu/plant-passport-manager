@@ -20,7 +20,6 @@ export default function Print({
     left: 0,
     right: 0,
   });
-
   const [printAll, setPrintAll] = useState(true);
 
   const passportGrid: JSX.Element[][] = [...Array(grid.columns * grid.rows)];
@@ -271,7 +270,6 @@ function OverflowWarning({
   printSettings: React.DependencyList;
 }) {
   const [isOverflown, setIsOverflown] = useState<boolean | null>(null);
-
   const checkOverflow = () => {
     if (previewRef.current) {
       return (
@@ -281,6 +279,7 @@ function OverflowWarning({
     }
     return false;
   };
+
   useEffect(() => {
     setIsOverflown(checkOverflow);
   }, [printSettings]);

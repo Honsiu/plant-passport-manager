@@ -93,26 +93,26 @@
   top: 30%;
   height: 2em;
   animation: slide-up 0.5s alternate;
-  box-sizing: border-box;
 }
 
-.passport-select .passport-card:hover .buttons-container {
+.passport-card:hover .buttons-container {
   animation: slide-down 0.5s;
 }
 
 .buttons-container button {
-  box-sizing: content-box;
-  padding: 1em 2em;
+  font-size: 1.2em;
+
+  padding: 0.5em 1em;
   border: none;
+  border-radius: 0.75em;
   margin: 0.5em;
 
-  height: 100%;
   background-color: var(--primary-light);
-
-  text-align: center;
-  vertical-align: middle;
+  transition: 0.5s;
 }
-
+.buttons-container button:hover {
+  background-color: var(--primary-dark);
+}
 @keyframes slide-down {
   0% {
     opacity: 0;
