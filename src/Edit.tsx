@@ -41,14 +41,29 @@ export default function Edit({
     d: "Origin ISO",
   };
 
-  const handleBarcodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files) {
+  const [barcodeFile, setBarcodeFile] = useState<File | null>(null);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setBarcodeFile(e.target.files[0]);
+  };
+  const saveBarcode = async (file: File) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const base64 = reader.result;
       setEditedPassport({
         ...editedPassport,
-        barcode: URL.createObjectURL(e.target.files[0]),
+        barcode: base64 as string,
       });
-    }
+    };
+    reader.onerror = (error) => {
+      throw error;
+    };
   };
+  useEffect(() => {
+    if (barcodeFile) {
+      saveBarcode(barcodeFile);
+    }
+  }, [barcodeFile]);
 
   const handleInputChange = (
     name: string,
@@ -80,6 +95,7 @@ export default function Edit({
       passpId: passpId,
     });
   };
+
   return (
     <section className="passport-preview">
       <form>
@@ -152,12 +168,7 @@ export default function Edit({
               onChange={(e) => handleInputChange("c", e)}
             />
             <span>Or</span>
-            <input
-              id="barcode-input"
-              type="file"
-              name="barcode-input"
-              onChange={handleBarcodeChange}
-            />
+            <BarcodeInput handleFileChange={handleFileChange} />
           </p>
           <p className="passport-info-input d">
             <LabeledInput
@@ -292,3 +303,17 @@ function LabeledInput({
     </span>
   );
 }
+const BarcodeInput = ({
+  handleFileChange,
+}: {
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return (
+    <input
+      id="barcode-input"
+      type="file"
+      name="barcode-input"
+      onChange={handleFileChange}
+    />
+  );
+};
