@@ -36,7 +36,7 @@ export default function Card({
         <span className="passport-info">
           {"C " + passport.c}
           {passport.barcode && (
-            <img src={passport.barcode} className="passport-barcode" />
+            <img src={passport.barcode} className="barcode" />
           )}
         </span>
         <span className="passport-info">{"D " + passport.d}</span>
