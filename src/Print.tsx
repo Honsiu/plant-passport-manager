@@ -16,12 +16,17 @@ export default function Print({
     { type, value }: { type: string; value: number }
   ) => {
     const key = type
-      .replace(/^(setOrientation|setGrid|setGap|setMargin)/, "")
+      .replace(/^(setOrientation|setGrid|setGap|setMargin|setCount)/, "")
       .toLowerCase();
     if (type.startsWith("setOrientation"))
       return {
         ...state,
         orientation: value,
+      };
+    if (type.startsWith("setCount"))
+      return {
+        ...state,
+        count: value,
       };
 
     if (type.startsWith("setGrid"))
@@ -43,9 +48,10 @@ export default function Print({
       };
     throw Error("Unknown action: " + type);
   };
-
+  const [printAll, setPrintAll] = useState(true);
   const [printInfo, dispatchPrintInfo] = useReducer(printReducer, {
     orientation: 0,
+    count: 0,
     grid: { rows: 1, columns: 1 },
     gap: { horizontal: 0, vertical: 0 },
     margin: { top: 0, bottom: 0, left: 0, right: 0 },
@@ -103,6 +109,36 @@ export default function Print({
                 </fieldset>
               );
             }
+            if (key === "count") {
+              return (
+                <fieldset>
+                  <legend>How many to print?</legend>
+                  <p>
+                    <label htmlFor={"passport-all-input"}>All</label>
+                    <input
+                      type="checkbox"
+                      defaultChecked={true}
+                      id="print-all-input"
+                      onChange={(e) => {
+                        setPrintAll(e.target.checked);
+                      }}
+                    />
+                    <input
+                      disabled={printAll}
+                      type="number"
+                      max={printInfo.grid.columns * printInfo.grid.rows}
+                      id={"passport-how-many"}
+                      onChange={(e) => {
+                        dispatchPrintInfo({
+                          type: "setCount",
+                          value: parseInt(e.target.value) || 0,
+                        });
+                      }}
+                    />
+                  </p>
+                </fieldset>
+              );
+            }
             return (
               <fieldset key={key}>
                 <legend>{capitalizeString(key)} </legend>
@@ -127,7 +163,7 @@ export default function Print({
                               "set" +
                               capitalizeString(key) +
                               capitalizeString(subKey),
-                            value: parseInt(e.target.value) || 0,
+                            value: parseInt(e.target.value) || 1,
                           });
                         }}
                       />
@@ -160,18 +196,23 @@ export default function Print({
               rowGap: printInfo.gap.vertical + "mm",
               gridTemplateColumns:
                 "repeat(" + printInfo.grid.columns + ", 1fr)",
+              gridTemplateRows: "repeat(" + printInfo.grid.rows + ", 1fr)",
             }}
           >
-            {passportGrid.map((_, index) => (
-              <Card
-                rotated={printInfo.orientation}
-                passport={selectedPassport}
-                key={index}
-                style={{
-                  fontSize: 1 / (printInfo.grid.columns || 1) + "em",
-                }}
-              />
-            ))}
+            {passportGrid.map((_, index) => {
+              if (printAll || index < printInfo.count || printInfo.count <= 0) {
+                return (
+                  <Card
+                    rotated={printInfo.orientation}
+                    passport={selectedPassport}
+                    key={index}
+                    style={{
+                      fontSize: 1 / (printInfo.grid.columns || 1) + "em",
+                    }}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
       </form>
