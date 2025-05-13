@@ -3,7 +3,7 @@ import Print from "./Print";
 import Edit from "./Edit";
 import PassportSelect from "./Select";
 import { passportType } from "./types";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStoredPassports } from "./useStoredPassports";
 
 export default function App() {
@@ -40,7 +40,6 @@ export default function App() {
     setActivity("print");
   };
   const cancelActivity = () => {};
-  const PassportsContext = createContext(passports);
   if (activity === "select") {
     return (
       <main>
