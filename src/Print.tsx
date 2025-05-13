@@ -1,9 +1,28 @@
 import { JSX, useEffect, useReducer, useRef, useState } from "react";
 import Card from "./Card";
-import { passportType, printInfoType } from "./types";
+import { passportType } from "./types";
 import "./styles/Print.css";
 import { capitalizeString } from "./utils";
 
+type printSettings = {
+  // 0 means horizontal
+  orientation: number;
+  count: number;
+  grid: {
+    rows: number;
+    columns: number;
+  };
+  gap: {
+    horizontal: number;
+    vertical: number;
+  };
+  margin: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+};
 export default function Print({
   selectedPassport,
   cancelPrint,
@@ -12,7 +31,7 @@ export default function Print({
   cancelPrint: () => void;
 }) {
   const printReducer = (
-    state: printInfoType,
+    state: printSettings,
     { type, value }: { type: string; value: number }
   ) => {
     const key = type
@@ -49,7 +68,7 @@ export default function Print({
     throw Error("Unknown action: " + type);
   };
   const [printAll, setPrintAll] = useState(true);
-  const [printInfo, dispatchPrintInfo] = useReducer(printReducer, {
+  const [printSettings, dispatchprintSettings] = useReducer(printReducer, {
     orientation: 0,
     count: 0,
     grid: { rows: 1, columns: 1 },
@@ -57,7 +76,7 @@ export default function Print({
     margin: { top: 0, bottom: 0, left: 0, right: 0 },
   });
   const passportGrid: JSX.Element[][] = [
-    ...Array(printInfo.grid.columns * printInfo.grid.rows),
+    ...Array(printSettings.grid.columns * printSettings.grid.rows),
   ];
 
   const previewRef = useRef<HTMLDivElement>(null);
@@ -66,7 +85,7 @@ export default function Print({
     <section className="print-preview printable">
       <form className="flex gap-5em">
         <div className="print-form">
-          {Object.keys(printInfo).map((key) => {
+          {Object.keys(printSettings).map((key) => {
             if (key === "orientation") {
               return (
                 <fieldset key={key}>
@@ -82,7 +101,7 @@ export default function Print({
                         id={"passport-rotated-landscape"}
                         name="radio-rotated"
                         onChange={() => {
-                          dispatchPrintInfo({
+                          dispatchprintSettings({
                             type: "set" + capitalizeString(key),
                             value: 0,
                           });
@@ -98,7 +117,7 @@ export default function Print({
                         id={"passport-rotated-portrait"}
                         name="radio-rotated"
                         onChange={() => {
-                          dispatchPrintInfo({
+                          dispatchprintSettings({
                             type: "set" + capitalizeString(key),
                             value: 1,
                           });
@@ -126,10 +145,10 @@ export default function Print({
                     <input
                       disabled={printAll}
                       type="number"
-                      max={printInfo.grid.columns * printInfo.grid.rows}
+                      max={printSettings.grid.columns * printSettings.grid.rows}
                       id={"passport-how-many"}
                       onChange={(e) => {
-                        dispatchPrintInfo({
+                        dispatchprintSettings({
                           type: "setCount",
                           value: parseInt(e.target.value) || 0,
                         });
@@ -143,7 +162,7 @@ export default function Print({
               <fieldset key={key}>
                 <legend>{capitalizeString(key)} </legend>
                 {Object.keys(
-                  printInfo[key as keyof printInfoType] as Record<
+                  printSettings[key as keyof printSettings] as Record<
                     string,
                     number
                   >
@@ -158,12 +177,12 @@ export default function Print({
                         max={50}
                         id={"passport-" + subKey}
                         onChange={(e) => {
-                          dispatchPrintInfo({
+                          dispatchprintSettings({
                             type:
                               "set" +
                               capitalizeString(key) +
                               capitalizeString(subKey),
-                            value: parseInt(e.target.value) || 1,
+                            value: parseInt(e.target.value) || 0,
                           });
                         }}
                       />
@@ -173,7 +192,10 @@ export default function Print({
               </fieldset>
             );
           })}
-          <PrintOverflowWarning previewRef={previewRef} printInfo={printInfo} />
+          <OverflowWarning
+            previewRef={previewRef}
+            printSettings={printSettings}
+          />
           <InfoMark />
         </div>
         <div className="preview-window">
@@ -186,28 +208,32 @@ export default function Print({
             ref={previewRef}
             style={{
               padding: [
-                printInfo.margin.top % 297,
-                printInfo.margin.right % 210,
-                printInfo.margin.bottom % 297,
-                printInfo.margin.left % 210,
+                printSettings.margin.top,
+                printSettings.margin.right,
+                printSettings.margin.bottom,
+                printSettings.margin.left,
                 " ",
               ].join("mm "),
-              columnGap: printInfo.gap.horizontal + "mm",
-              rowGap: printInfo.gap.vertical + "mm",
+              columnGap: printSettings.gap.horizontal + "mm",
+              rowGap: printSettings.gap.vertical + "mm",
               gridTemplateColumns:
-                "repeat(" + printInfo.grid.columns + ", 1fr)",
-              gridTemplateRows: "repeat(" + printInfo.grid.rows + ", 1fr)",
+                "repeat(" + printSettings.grid.columns + ", 1fr)",
+              gridTemplateRows: "repeat(" + printSettings.grid.rows + ", 1fr)",
             }}
           >
             {passportGrid.map((_, index) => {
-              if (printAll || index < printInfo.count || printInfo.count <= 0) {
+              if (
+                printAll ||
+                index < printSettings.count ||
+                printSettings.count <= 0
+              ) {
                 return (
                   <Card
-                    rotated={printInfo.orientation}
+                    rotated={printSettings.orientation}
                     passport={selectedPassport}
                     key={index}
                     style={{
-                      fontSize: 1 / (printInfo.grid.columns || 1) + "em",
+                      fontSize: 1 / (printSettings.grid.columns || 1) + "em",
                     }}
                   />
                 );
@@ -231,16 +257,16 @@ function InfoMark() {
   );
 }
 
-function PrintOverflowWarning({
+function OverflowWarning({
   previewRef,
-  printInfo,
+  printSettings,
 }: {
   previewRef: React.RefObject<HTMLDivElement | null>;
-  printInfo: printInfoType;
+  printSettings: printSettings;
 }) {
   const [isOverflown, setIsOverflown] = useState<boolean | null>(null);
 
-  const checkIsOverflown = () => {
+  const checkOverflow = () => {
     if (previewRef.current) {
       return (
         previewRef.current.scrollHeight > previewRef.current.clientHeight ||
@@ -250,8 +276,8 @@ function PrintOverflowWarning({
     return false;
   };
   useEffect(() => {
-    setIsOverflown(checkIsOverflown);
-  }, [printInfo]);
+    setIsOverflown(checkOverflow);
+  }, [printSettings]);
   return (
     isOverflown && (
       <p className="overflow-warning">
