@@ -54,7 +54,7 @@
 .passport-info > * {
   vertical-align: top;
 }
-.passport-info .passport-barcode {
+.passport-info .barcode {
   max-height: 2em;
 }
 
@@ -67,7 +67,7 @@
   width: min-content;
 }
 
-.passport-card.rotated img {
+.passport-card.rotated img.flag {
   height: 20%;
   min-height: 8em;
   width: min-content;
