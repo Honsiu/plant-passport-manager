@@ -8,7 +8,7 @@ export default function Card({
   style,
   children,
 }: {
-  rotated?: number;
+  rotated?: boolean;
   passport: passportType;
   children?: any;
   style?: CSSProperties;
