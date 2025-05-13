@@ -8,22 +8,3 @@ export type passportType = {
   template: number;
 };
 export type passportsType = passportType[];
-
-export type printInfoType = {
-  // 0 means horizontal
-  orientation: number;
-  grid: {
-    rows: number;
-    columns: number;
-  };
-  gap: {
-    horizontal: number;
-    vertical: number;
-  };
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  };
-};
