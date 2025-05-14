@@ -270,19 +270,15 @@ function OverflowWarning({
   printSettings: React.DependencyList;
 }) {
   const [isOverflown, setIsOverflown] = useState<boolean | null>(null);
-  const checkOverflow = () => {
-    if (previewRef.current) {
-      return (
-        previewRef.current.scrollHeight > previewRef.current.clientHeight ||
-        previewRef.current.scrollWidth > previewRef.current.clientWidth
-      );
-    }
-    return false;
-  };
 
   useEffect(() => {
-    setIsOverflown(checkOverflow);
-  }, [printSettings]);
+    if (previewRef.current) {
+      setIsOverflown(
+        previewRef.current.scrollHeight > previewRef.current.clientHeight ||
+          previewRef.current.scrollWidth > previewRef.current.clientWidth
+      );
+    }
+  }, [printSettings, previewRef]);
   return (
     isOverflown && (
       <p className="overflow-warning">

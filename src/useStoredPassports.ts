@@ -19,17 +19,17 @@ const defaultPassport: passportType = {
   template: 1,
 };
 
-export const useStoredPassports = () => {
+export default function useStoredPassports() {
   const key = "passports";
   const [passports, dispatchPassports] = usePassports(
     getStorageValue(key, [defaultPassport])
   );
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(passports));
-  }, [passports, getStorageValue(key, [defaultPassport])]);
+  }, [key, passports]);
 
   return [passports, dispatchPassports] as ReturnType<typeof usePassports>;
-};
+}
 
 const usePassports = (defaultPassports: passportsType = [defaultPassport]) => {
   const reducePassports = (

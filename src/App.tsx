@@ -4,7 +4,7 @@ import Edit from "./Edit";
 import PassportSelect from "./Select";
 import { passportType } from "./types";
 import { useEffect, useState } from "react";
-import { useStoredPassports } from "./useStoredPassports";
+import useStoredPassports from "./useStoredPassports";
 
 export default function App() {
   const [passports, dispatchPassports] = useStoredPassports();

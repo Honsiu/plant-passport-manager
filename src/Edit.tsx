@@ -41,12 +41,11 @@ export default function Edit({
     d: "Origin ISO",
   };
 
-  const [barcodeFile, setBarcodeFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setBarcodeFile(e.target.files[0]);
+    if (e.target.files) saveBarcode(e.target.files[0]);
   };
   const saveBarcode = async (file: File) => {
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       const base64 = reader.result;
@@ -59,11 +58,6 @@ export default function Edit({
       throw error;
     };
   };
-  useEffect(() => {
-    if (barcodeFile) {
-      saveBarcode(barcodeFile);
-    }
-  }, [barcodeFile]);
 
   const handleInputChange = (
     name: string,
@@ -102,23 +96,23 @@ export default function Edit({
         <fieldset>
           <legend>Passport Info</legend>
           <p className="passport-info-input label">
-            <LabeledInput
+            <label htmlFor="label-input">Label</label>
+            <input
               className=""
               id="label-input"
               placeholder={placeholders.label}
               maxLength={32}
+              value={editedPassport.label}
               onChange={(e) => {
                 handleInputChange("label", e);
               }}
-              value={editedPassport.label}
-              label="Label"
             />
           </p>
           <p className="passport-info-input a">
-            <LabeledInput
+            <label htmlFor="a-input">A</label>
+            <input
               className="passport-info-input a"
               id="a-input"
-              label="A"
               placeholder={placeholders.a}
               maxLength={32}
               value={editedPassport.a}
@@ -127,10 +121,10 @@ export default function Edit({
           </p>
 
           <p className="passport-info-input B">
-            <LabeledInput
+            <label htmlFor="b1-input">B</label>
+            <input
               className="passport-info-input b1"
               id="b1-input"
-              label="B"
               placeholder={placeholders.b1}
               maxLength={2}
               value={b1}
@@ -142,10 +136,9 @@ export default function Edit({
               }}
             />
             <span>-</span>
-            <LabeledInput
+            <input
               className="passport-info-input b2"
               id="b2-input"
-              label=""
               placeholder={placeholders.b2}
               maxLength={30}
               value={b2}
@@ -158,23 +151,28 @@ export default function Edit({
             />
           </p>
           <p className="passport-info-input c">
-            <LabeledInput
+            <label htmlFor="c-input">C</label>
+            <input
               className=""
               id="c-input"
-              label="C"
               placeholder={placeholders.c}
               maxLength={32}
               value={editedPassport.c}
               onChange={(e) => handleInputChange("c", e)}
             />
             <span>Or</span>
-            <BarcodeInput handleFileChange={handleFileChange} />
+            <input
+              id="barcode-input"
+              type="file"
+              name="barcode-input"
+              onChange={handleFileChange}
+            />
           </p>
           <p className="passport-info-input d">
-            <LabeledInput
+            <label htmlFor="d-input">D</label>
+            <input
               className=""
               id="d-input"
-              label="D"
               placeholder={placeholders.d}
               maxLength={2}
               value={editedPassport.d}
@@ -259,12 +257,10 @@ export default function Edit({
 
 function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
   const emptyInfo: string[] = [];
-  passportInfo.a === "" ? emptyInfo.push("A") : emptyInfo;
-  !passportInfo.b || splitB(passportInfo.b).includes("")
-    ? emptyInfo.push("B")
-    : emptyInfo;
-  passportInfo.c === "" ? emptyInfo.push("C") : emptyInfo;
-  passportInfo.d === "" ? emptyInfo.push("D") : emptyInfo;
+  if (passportInfo.a === "") emptyInfo.push("A");
+  if (splitB(passportInfo.b).includes("")) emptyInfo.push("B");
+  if (passportInfo.c === "") emptyInfo.push("C");
+  if (passportInfo.d === "") emptyInfo.push("D");
   if (emptyInfo[0]) {
     return (
       <p className="warning-box">
@@ -273,47 +269,3 @@ function EmptyInfoWarning({ passportInfo }: { passportInfo: passportType }) {
     );
   }
 }
-function LabeledInput({
-  id,
-  className,
-  label,
-  placeholder,
-  maxLength,
-  value,
-  onChange,
-}: {
-  id: string;
-  className: string;
-  label: string;
-  placeholder: string;
-  value: string;
-  maxLength: number;
-  onChange: (e: any) => void;
-}) {
-  return (
-    <span className={className || ""}>
-      <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        value={value}
-        onChange={onChange}
-      />
-    </span>
-  );
-}
-const BarcodeInput = ({
-  handleFileChange,
-}: {
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) => {
-  return (
-    <input
-      id="barcode-input"
-      type="file"
-      name="barcode-input"
-      onChange={handleFileChange}
-    />
-  );
-};
