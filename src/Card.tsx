@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, JSX } from "react";
 import { passportType } from "./types";
 import "./styles/Card.css";
 
@@ -10,7 +10,7 @@ export default function Card({
 }: {
   rotated?: boolean;
   passport: passportType;
-  children?: any;
+  children?: JSX.Element;
   style?: CSSProperties;
 }) {
   return (
