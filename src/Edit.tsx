@@ -64,37 +64,36 @@ export default function Edit({
     setEditedPassport({ ...editedPassport, [name]: e.target.value });
   };
 
-  const [emptyInfo, setEmptyInfo] = useState<string[] | null>(null);
-  const [alreadyTried, setAlreadyTried] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const getEmptyInfo = () => {
     const empty = [];
     if (editedPassport.a === "") empty.push("A");
     if (splitB(editedPassport.b).includes("")) empty.push("B");
     if (editedPassport.c === "") empty.push("C");
     if (editedPassport.d === "") empty.push("D");
-    console.log(empty[0] ? empty : null);
     return empty[0] ? empty : null;
   };
-  useEffect(() => {
-    if (alreadyTried) setEmptyInfo(getEmptyInfo());
-  }, [alreadyTried, editedPassport]);
 
   const handleAdd = () => {
-    if (!alreadyTried) setAlreadyTried(true);
-    else if (!emptyInfo)
+    if (!getEmptyInfo())
       setPassports({
         type: "add",
         newPassp: editedPassport,
       });
+    else {
+      setShowWarning(true);
+    }
   };
   const handleUpdate = () => {
-    if (!alreadyTried) setAlreadyTried(true);
-    else if (!emptyInfo)
+    if (!getEmptyInfo())
       setPassports({
         type: "update",
         passpId: passpId,
         newPassp: editedPassport,
       });
+    else {
+      setShowWarning(true);
+    }
   };
   const handleRemove = () => {
     setPassports({
@@ -195,9 +194,9 @@ export default function Edit({
             onChange={(e) => handleInputChange("d", e)}
           />
         </p>
-        {emptyInfo && (
+        {showWarning && getEmptyInfo() && (
           <p className="warning-box">
-            Please insert data for {emptyInfo.join(", ")}
+            Please insert data for {getEmptyInfo()?.join(", ")}
           </p>
         )}
       </fieldset>
