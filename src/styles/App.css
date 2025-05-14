@@ -112,7 +112,7 @@ div.radios > * {
   flex-grow: 1;
 
   border: none;
-  transition: 0.4s;
+  transition: 0.15s;
 }
 .buttons-container button:hover {
   background-color: var(--bg-color);
