@@ -16,7 +16,7 @@
   height: 10em;
   background-color: var(--bg-color);
 
-  border: var(--primary-dark) 0.4em solid;
+  border: #222 0.4em solid;
   border-radius: 2em;
   padding: 0em;
 }
@@ -27,7 +27,7 @@
 .add-passport-button * {
   position: absolute;
 
-  background-color: var(--primary-dark);
+  background-color: #222;
   border-radius: 1em;
 }
 .add-passport-button .v-pipe {
