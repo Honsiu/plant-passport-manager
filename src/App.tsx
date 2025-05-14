@@ -20,7 +20,9 @@ export default function App() {
       setSelectedPassport(passports[passportIndex]);
     }
   }, [passportIndex, passports, passports.length]);
-  const [activity, setActivity] = useState("select");
+  const [activity, setActivity] = useState<"select" | "edit" | "print">(
+    "select"
+  );
 
   const handleEditPassport = (action: {
     type: string;
@@ -39,7 +41,9 @@ export default function App() {
     setPassportIndex(i);
     setActivity("print");
   };
-  const cancelActivity = () => {};
+  const cancelActivity = () => {
+    setActivity("select");
+  };
   if (activity === "select") {
     return (
       <main>

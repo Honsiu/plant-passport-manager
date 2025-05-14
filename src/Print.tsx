@@ -28,7 +28,7 @@ export default function Print({
 
   return (
     <section className="print-preview printable">
-      <form className="flex gap-5em">
+      <div className="flex gap-5em">
         <div className="print-form">
           <fieldset className="fieldset-orientation">
             <legend>Orientation</legend>
@@ -246,7 +246,7 @@ export default function Print({
             })}
           </div>
         </div>
-      </form>
+      </div>
     </section>
   );
 }
