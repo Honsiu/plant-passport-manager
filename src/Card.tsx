@@ -41,7 +41,7 @@ export default function Card({
         </span>
         <span className="passport-info">{"D " + passport.d}</span>
       </div>
-      <div className="buttons-background">{children}</div>
+      {children}
     </div>
   );
 }

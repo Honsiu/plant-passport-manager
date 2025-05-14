@@ -209,7 +209,7 @@ export default function Print({
           <InfoMark />
         </div>
         <div className="preview-window">
-          <div className="buttons">
+          <div className="buttons-container">
             <button onClick={print}>Print</button>
             <button onClick={cancelPrint}>Cancel</button>
           </div>
