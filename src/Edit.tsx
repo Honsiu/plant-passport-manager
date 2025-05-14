@@ -201,7 +201,7 @@ export default function Edit({
         </fieldset>
 
         <div className="preview-window">
-          <div className="buttons">
+          <div className="buttons-container">
             {passpId === 0 ? (
               <>
                 <button type="submit" onClick={handleAdd}>
